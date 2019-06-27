@@ -17,13 +17,13 @@ insert EZLJ_ERROR_VER,"./images/EZLJ_error_version.bin"
 //Those files are taken from US 1.0 version
 insert EZLJ_NES_MESSAGE_TABLE,"./text/ezlj_nes_message_table.bin"
 
-insert EZLJ_AUDIOBANK0,"./audio/audiobank.ura.0.bin" // 1.0
-//1.1 TODO
-insert EZLJ_AUDIOBANK2,"./audio/audiobank.ura.2.bin"     // 1.2
-insert EZLJ_AUDIOSEQ,"./audio/audioseq.ura.bin"
-insert EZLJ_AUDIOBANK_TABLE,"./audio/audiobank.ura.table.bin"
-insert EZLJ_AUDIOINST_TABLE,"./audio/audioinst.ura.table.bin"
-insert EZLJ_AUDIOSEQ_TABLE,"./audio/audioseq.ura.table.bin"
+insert EZLJ_AUDIOBANK0,"./audio/audiobank.dawn.0.bin" // 1.0
+//insert EZLJ_AUDIOBANK1,"./audio/audiobank.dawn.1.bin" //1.1 TODO
+insert EZLJ_AUDIOBANK2,"./audio/audiobank.dawn.2.bin" // 1.2
+insert EZLJ_AUDIOSEQ,"./audio/audioseq.dawn.bin"
+insert EZLJ_AUDIOBANK_TABLE,"./audio/audiobank.dawn.table.bin"
+insert EZLJ_AUDIOINST_TABLE,"./audio/audioinst.dawn.table.bin"
+insert EZLJ_AUDIOSEQ_TABLE,"./audio/audioseq.dawn.table.bin"
 
 seekDisk(0x00700000)
 insert EZLJ_SAVE_DATA,"EZLJ_DISK_Save.bin"

@@ -122,7 +122,7 @@ while {x} < 24 {
     db 0	//Disk Number 0
     db 0	//Does not use MFS
     db 0	//Disk Use
-    db "THISIS  "
+    db "THIS IS "
     db "NOT URA "
     db "01"
     db "WOAHHH"
