@@ -15,8 +15,10 @@ if {defined DEV} {
 
 if {defined USA} {
 	print "USA Region\n"
+	output "../EZLE_DawnDusk.ndd", create
 } else {
 	print "JPN Region\n"
+	output "../EZLJ_DawnDusk.ndd", create
 }
 
 if !{defined DISKTYPE} {
@@ -31,7 +33,6 @@ print "Disk Type - {DISKTYPE}\n"
 
 arch n64.cpu
 endian msb
-output "EZLJ_DawnDusk.ndd", create
 
 include "N64.INC"
 include "N64_GFX.INC"

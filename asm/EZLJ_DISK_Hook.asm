@@ -122,6 +122,7 @@ _ddhook_setup_dochanges:
 	nop
 	addiu a0,a0,0x10
 
+    //REPLACE THIS WITH FULL TABLE REPLACEMENT - TODO
 	sb 0,0x1781(a0) //Spawn to entrance 0 of new map
 	sb 0,0x1785(a0) //Spawn to entrance 0 of new map
 	sb 0,0x1789(a0) //Spawn to entrance 0 of new map
