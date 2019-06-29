@@ -26,6 +26,7 @@ insert EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin"
 
 //Code / Other
 insert EZLJ_ENTRANCE_TABLE,"../other/code_entrance_table.bin"
+insert EZLJ_ENTRANCE_CUTSCENE_TABLE,"../other/code_entrance_cutscene_table.bin"
 insert EZLJ_SAVE_DATA,"../other/default_save_test.bin"
 
 //Text
@@ -47,6 +48,12 @@ insert EZLJ_SCENE09_MAP05,"../scene/Red Ice Cavern Room 5.zmap"
 insert EZLJ_SCENE15,"../scene/Dusk Palace Chamber.zscene"
 insert EZLJ_SCENE15_MAP00,"../scene/Dusk Palace Chamber Room 0.zmap"
 
+insert EZLJ_SCENE2C,"../scene/Dawngrove House 1.zscene"
+insert EZLJ_SCENE2C_MAP00,"../scene/Dawngrove House 1 Room 0.zmap"
+
+insert EZLJ_SCENE2E,"../scene/Dawngrove Shop.zscene"
+insert EZLJ_SCENE2E_MAP00,"../scene/Dawngrove Shop Room 0.zmap"
+
 insert EZLJ_SCENE34,"../scene/Dawngrove Inn.zscene"
 insert EZLJ_SCENE34_MAP00,"../scene/Dawngrove Inn Room 0.zmap"
 insert EZLJ_SCENE34_MAP01,"../scene/Dawngrove Inn Room 1.zmap"
@@ -54,6 +61,9 @@ insert EZLJ_SCENE34_MAP02,"../scene/Dawngrove Inn Room 2.zmap"
 insert EZLJ_SCENE34_MAP03,"../scene/Dawngrove Inn Room 3.zmap"
 insert EZLJ_SCENE34_MAP04,"../scene/Dawngrove Inn Room 4.zmap"
 insert EZLJ_SCENE34_MAP05,"../scene/Dawngrove Inn Room 5.zmap"
+
+insert EZLJ_SCENE35,"../scene/Dawngrove House 2.zscene"
+insert EZLJ_SCENE35_MAP00,"../scene/Dawngrove House 2 Room 0.zmap"
 
 insert EZLJ_SCENE54,"../scene/Great Dusk Chasm.zscene"
 insert EZLJ_SCENE54_MAP00,"../scene/Great Dusk Chasm Room 0.zmap"
@@ -70,3 +80,6 @@ insert EZLJ_SCENE5B,"../scene/Dawngrove.zscene"
 insert EZLJ_SCENE5B_MAP00,"../scene/Dawngrove Room 0.zmap"
 insert EZLJ_SCENE5B_MAP01,"../scene/Dawngrove Room 1.zmap"
 insert EZLJ_SCENE5B_MAP02,"../scene/Dawngrove Room 2.zmap"
+
+insert EZLJ_SCENE60,"../scene/Cutscene Map.zscene"
+insert EZLJ_SCENE60_MAP00,"../scene/Cutscene Map Room 0.zmap"

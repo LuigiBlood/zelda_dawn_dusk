@@ -108,22 +108,42 @@ _ddhook_incompatible_loop:
 	nop
 
 _ddhook_setup_dochanges:
-	//Change Entrance Table Entry
+	//Load Entrance Table
 	//NTSC 1.0 - 800F9C90 (-51E0)
 	//NTSC 1.1 - 800F9E50 (-51E0)
 	//NTSC 1.2 - 800FA2E0 (-51D0)
 
-	b _ddhook_setup_savecontext
-	nop
+	li a0,(DDHOOK_ADDRTABLE)
+	lw a1,4(a0)
+	lw a0,0(a0)
+	ori at,0,2
 
 	subiu a0,a0,0x51E0
-	sltiu at,a1,2 //1 = under 2, 0 = equal to 2
-	bne at,0,_ddhook_setup_savecontext
+	bne at,a1,_ddhook_setup_dochanges_entranceload
 	nop
 	addiu a0,a0,0x10
 
+_ddhook_setup_dochanges_entranceload:
 	li a1,EZLJ_ENTRANCE_TABLE
 	li a2,EZLJ_ENTRANCE_TABLE.size
+
+    n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+
+_ddhook_setup_entrance_cutscene:
+	//Load Entrance Cutscene Table
+	//NTSC 1.0 - 800EFD04 (-F16C)
+	//NTSC 1.1 - 800EFEC4 (-F16C)
+	//NTSC 1.2 - 800F0344 (-F16C)
+
+	li a0,(DDHOOK_ADDRTABLE)
+	lw a0,0(a0)
+	ori a1,0,0xF16C
+	subu a0,a0,a1
+
+	li a1,EZLJ_ENTRANCE_CUTSCENE_TABLE
+	li a2,EZLJ_ENTRANCE_CUTSCENE_TABLE.size
 
     n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
 	jalr v0
@@ -150,7 +170,7 @@ _ddhook_setup_savecontext:
 	//sw a2,0(a1)
 
 	//No Cutscene
-	sw 0,8(a1)
+	//sw 0,8(a1)
 
 	addiu a0,a1,0x2E
 	li a1,EZLJ_SAVE_DATA
@@ -567,13 +587,17 @@ ddhook_sceneentry_data: {
 	n64dd_SceneEntry("Cave Passage",		EZLJ_SCENE07, 0x00000000, 0x00, 0x00, 0x07)
 	n64dd_SceneEntry("Red Ice Cavern",		EZLJ_SCENE09, 0x00000000, 0x00, 0x00, 0x09)
 	n64dd_SceneEntry("Dusk Palace Chamber",	EZLJ_SCENE15, 0x00000000, 0x00, 0x1D, 0x15)
+	n64dd_SceneEntry("Dawngrove House 1",	EZLJ_SCENE2C, 0x00000000, 0x00, 0x00, 0x2C)
+	n64dd_SceneEntry("Dawngrove Shop",		EZLJ_SCENE2E, 0x00000000, 0x00, 0x00, 0x2E)
 	n64dd_SceneEntry("Dawngrove Inn",		EZLJ_SCENE34, 0x00000000, 0x00, 0x00, 0x34)
+	n64dd_SceneEntry("Dawngrove House 2",	EZLJ_SCENE35, 0x00000000, 0x00, 0x00, 0x35)
 	n64dd_SceneEntry("Great Dusk Chasm",	EZLJ_SCENE54, 0x00000000, 0x00, 0x00, 0x54)
 	n64dd_SceneEntry("Dawngrove Village",	EZLJ_SCENE55, 0x00000000, 0x00, 0x09, 0x55)
 	n64dd_SceneEntry("Dusk Palace Gardens",	EZLJ_SCENE59, 0x00000000, 0x00, 0x2E, 0x59)
 	n64dd_SceneEntry("Dawngrove",			EZLJ_SCENE5B, 0x00000000, 0x00, 0x2E, 0x5B)
+	n64dd_SceneEntry("Cutscene Map",		EZLJ_SCENE60, 0x00000000, 0x00, 0x00, 0x60)
 }
-constant ddhook_sceneentry_count(8)
+constant ddhook_sceneentry_count(12)
 
 ddhook_end:
 
