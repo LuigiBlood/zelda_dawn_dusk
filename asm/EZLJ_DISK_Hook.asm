@@ -34,11 +34,11 @@ ddhook_list_start:
 	dw 0x00000000				//4C:
 	dw 0x00000000				//50:
 	dw 0 //(ddhook_removecutscene)	//54: Entrance Cutscene Replacement?
-	dw 0 //(ddhook_text_table)		//58: Message Table Replacement Setup
+	dw (ddhook_text_table)		//58: Message Table Replacement Setup
 	dw 0x00000000				//5C:
 	dw 0x00000000				//60: staff_message_data_static Load
 	dw 0x00000000				//64: jpn_message_data_static Load
-	dw 0 //(ddhook_textUSload)		//68: nes_message_data_static Load
+	dw (ddhook_textUSload)		//68: nes_message_data_static Load
 	dw 0x00000000				//6C: ???
 	dw 0x00000000				//70: DMA ROM to RAM Hook
 	dw 0x00000000				//74: ??? (Every Frame?)
@@ -147,7 +147,7 @@ _ddhook_setup_savecontext:
 	//Fire Temple - 77 - 0x165 (Cave Theme?)
 
 	li a2,0xDB
-	sw a2,0(a1)
+	//sw a2,0(a1)
 
 	//No Cutscene
 	sw 0,8(a1)
@@ -295,7 +295,7 @@ _ddhook_setup_finish:
 	nop
 	
 	//Load text data into RAM (avoid music stop)
-	//n64dd_DiskLoad(DDHOOK_TEXTDATA, EZLJ_NES_MESSAGE_DATA_STATIC, EZLJ_NES_MESSAGE_DATA_STATIC.size)
+	n64dd_DiskLoad(DDHOOK_TEXTDATA, EZLJ_NES_MESSAGE_DATA_STATIC, EZLJ_NES_MESSAGE_DATA_STATIC.size)
 	
 	lw ra,4(sp)
 	addiu sp,sp,0x10
@@ -437,7 +437,7 @@ ddhook_text_table: {
 	nop
 	
 	//Load Message Table to RAM
-	n64dd_DiskLoad(DDHOOK_TEXTTABLE, EZLJ_NES_MESSAGE_TABLE+4, 0x421C)
+	n64dd_DiskLoad(DDHOOK_TEXTTABLE, EZLJ_NES_MESSAGE_TABLE, EZLJ_NES_MESSAGE_TABLE.size)
 	
 	lw ra,0x10(sp)
 	addiu sp,sp,0x20
