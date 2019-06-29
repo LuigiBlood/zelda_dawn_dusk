@@ -13,36 +13,36 @@ ddhook_start:
 	db "ZELDA_DD"
 ddhook_list_start:
 	dw (ddhook_setup | {KSEG1})	//00: 64DD Hook
-	dw 0x00000000			//04: 64DD Unhook
-	dw 0x00000000			//08: Room Loading Hook
-	dw 0x00000000			//0C: Scene Loading (???)
-	dw 0x00000000			//10: "game_play" game state entrypoint
-	dw 0x00000000			//14: Collision related
-	dw 0x00000000			//18: ???
-	dw 0x00000000			//1C: 
-	dw 0x00000000			//20: 
-	dw 0x00000000			//24: 
-	dw 0x00000000			//28: map_i_static Replacement
-	dw 0x00000000			//2C: 
-	dw 0x00000000			//30: 
-	dw 0x00000000			//34:
-	dw 0x00000000			//38:
-	dw 0x00000000			//3C:
-	dw 0x00000000			//40: 
-	dw 0x00000000			//44: map_48x85_static Replacement
-	dw 0 //(ddhook_scenedetect_real)	//48: Scene Entry Replacement
-	dw 0x00000000			//4C:
-	dw 0x00000000			//50:
+	dw 0x00000000				//04: 64DD Unhook
+	dw 0x00000000				//08: Room Loading Hook
+	dw 0x00000000				//0C: Scene Loading (???)
+	dw 0x00000000				//10: "game_play" game state entrypoint
+	dw 0x00000000				//14: Collision related
+	dw 0x00000000				//18: ???
+	dw 0x00000000				//1C: 
+	dw 0x00000000				//20: 
+	dw 0x00000000				//24: 
+	dw 0x00000000				//28: map_i_static Replacement
+	dw 0x00000000				//2C: 
+	dw 0x00000000				//30: 
+	dw 0x00000000				//34:
+	dw 0x00000000				//38:
+	dw 0x00000000				//3C:
+	dw 0x00000000				//40: 
+	dw 0x00000000				//44: map_48x85_static Replacement
+	dw (ddhook_sceneload)		//48: Scene Entry Replacement
+	dw 0x00000000				//4C:
+	dw 0x00000000				//50:
 	dw 0 //(ddhook_removecutscene)	//54: Entrance Cutscene Replacement?
 	dw 0 //(ddhook_text_table)		//58: Message Table Replacement Setup
-	dw 0x00000000			//5C:
-	dw 0x00000000			//60: staff_message_data_static Load
-	dw 0x00000000			//64: jpn_message_data_static Load
+	dw 0x00000000				//5C:
+	dw 0x00000000				//60: staff_message_data_static Load
+	dw 0x00000000				//64: jpn_message_data_static Load
 	dw 0 //(ddhook_textUSload)		//68: nes_message_data_static Load
-	dw 0x00000000			//6C: ???
-	dw 0x00000000			//70: DMA ROM to RAM Hook
-	dw 0x00000000			//74: ??? (Every Frame?)
-	dw 0x00000000			//78: Set Cutscene Pointer (Intro Cutscenes)
+	dw 0x00000000				//6C: ???
+	dw 0x00000000				//70: DMA ROM to RAM Hook
+	dw 0x00000000				//74: ??? (Every Frame?)
+	dw 0x00000000				//78: Set Cutscene Pointer (Intro Cutscenes)
 ddhook_list_end:
 
 //64DD Hook Initialization Code
@@ -122,11 +122,12 @@ _ddhook_setup_dochanges:
 	nop
 	addiu a0,a0,0x10
 
-    //REPLACE THIS WITH FULL TABLE REPLACEMENT - TODO
-	sb 0,0x1781(a0) //Spawn to entrance 0 of new map
-	sb 0,0x1785(a0) //Spawn to entrance 0 of new map
-	sb 0,0x1789(a0) //Spawn to entrance 0 of new map
-	sb 0,0x178D(a0) //Spawn to entrance 0 of new map
+	li a1,EZLJ_ENTRANCE_TABLE
+	li a2,EZLJ_ENTRANCE_TABLE.size
+
+    n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
 
 _ddhook_setup_savecontext:
 	//Save Context Change
@@ -302,6 +303,7 @@ _ddhook_setup_finish:
 	nop
 }
 
+//Handle custom music loading (Hack)
 ddhook_loadmusic: {	//804102E0
 	addiu sp,sp,-0x20
 	sw ra,0x18(sp)
@@ -434,6 +436,7 @@ ddhook_text_table: {
 	jalr v0
 	nop
 	
+	//Load Message Table to RAM
 	n64dd_DiskLoad(DDHOOK_TEXTTABLE, EZLJ_NES_MESSAGE_TABLE+4, 0x421C)
 	
 	lw ra,0x10(sp)
@@ -443,7 +446,7 @@ ddhook_text_table: {
 }
 
 //Scene Entry Hook
-ddhook_scenedetect_real: {
+ddhook_sceneload: {
 	//Arguments:
 	//A0=Scene ID
 	//A1=p->Scene Table
@@ -451,35 +454,42 @@ ddhook_scenedetect_real: {
 	//Return:
 	//V0=p->Scene Entry
 	
-	//TODO: Proper Scene Listing and Disk Detection
-	
 	addiu sp,sp,-0x10
 
-	//Calculate Scene Entry Address
+	//Check if Scene ID is part of the List
+	//Uses the Disk byte in the Scene Entry as Scene ID
+	addiu at,0,ddhook_sceneentry_count
+	addiu a2,0,0
+	li v0, ddhook_sceneentry_data
+	-; lbu v1,0x12(v0)
+	beq a0,v1,_ddhook_sceneload_custom
+	nop
+	addiu v0,v0,0x14
+	addiu a2,a2,1
+	bne at,a2,-
+	nop
+
+_ddhook_sceneload_original:
+	//Calculate Scene Entry Address from original Scene List
 	addiu a3,0,0x14
 	multu a0,a3
 	mflo a2		//(0x14 * Scene ID)
 	addu v0,a2,a1
 
-	addiu a2,0,0x5B
-	bne a0,a2,+	//Scene 5B is Lost Woods
+	//Disable Room Loading Hook
+    li a0,ddhook_list_start
+	sw 0,8(a0)
+
+	b _ddhook_sceneload_return
 	nop
 
-	li a0,ddhook_list_start	
+_ddhook_sceneload_custom:
+	li a0,ddhook_list_start
 	li a1,ddhook_roomload
 	sw a1,8(a0)
-	
-	li v0, ddhook_sceneentry_data
-	nop
-	
-	b ++
-	nop
-	
-	//If if it's Scene 0, add Room Loading Hook
-     +; li a0,ddhook_list_start
-	sw 0,8(a0)
-	
-     +; addiu sp,sp,0x10
+
+_ddhook_sceneload_return:
+    addiu sp,sp,0x10
 	jr ra
 	nop
 }
@@ -507,7 +517,7 @@ ddhook_roomload: {
 	lw a2,0x18(sp)
 	
 	lw a0,0x0134(a1)	//load Room List Pointer
-	sll a3,a2,3		//Room ID * 8
+	sll a3,a2,3			//Room ID * 8
 	addu a2,a0,a3		//calculate offset from Room ID
 	lw a0,0x34(a1)		//A0=RAM Address
 	lw a3,0x4(a2)		//RoomEnd
@@ -527,7 +537,7 @@ ddhook_roomload: {
 	addiu a0,a0,0x50
 	lw a0,0(a0)		//OsMesgQueue pointer (osSendMesg A0)
 	li a1,0			//OSMesg (osSendMesg A1)
-	li a2,0			//DON'T BLOCK until response
+	li a2,0			//DO NOT BLOCK until response
 	
 	n64dd_LoadAddress(a3, {CZLJ_osSendMesg})
 	jalr a3			//osSendMesg, to let the engine know that the data is loaded and continue the game
@@ -554,8 +564,16 @@ ddhook_removecutscene: {
 
 //Scene Entries
 ddhook_sceneentry_data: {
-	n64dd_SceneEntry("TEST SCENE", EZLJ_CUSTOM_SCENE00, EZLJ_CUSTOM_SCENE00_END, 0x00000000, 0x00000000, 0x01, 0x13, 0x02)
+	n64dd_SceneEntry("Cave Passage",		EZLJ_SCENE07, 0x00000000, 0x00, 0x00, 0x07)
+	n64dd_SceneEntry("Red Ice Cavern",		EZLJ_SCENE09, 0x00000000, 0x00, 0x00, 0x09)
+	n64dd_SceneEntry("Dusk Palace Chamber",	EZLJ_SCENE15, 0x00000000, 0x00, 0x1D, 0x15)
+	n64dd_SceneEntry("Dawngrove Inn",		EZLJ_SCENE34, 0x00000000, 0x00, 0x00, 0x34)
+	n64dd_SceneEntry("Great Dusk Chasm",	EZLJ_SCENE54, 0x00000000, 0x00, 0x00, 0x54)
+	n64dd_SceneEntry("Dawngrove Village",	EZLJ_SCENE55, 0x00000000, 0x00, 0x09, 0x55)
+	n64dd_SceneEntry("Dusk Palace Gardens",	EZLJ_SCENE59, 0x00000000, 0x00, 0x2E, 0x59)
+	n64dd_SceneEntry("Dawngrove",			EZLJ_SCENE5B, 0x00000000, 0x00, 0x2E, 0x5B)
 }
+constant ddhook_sceneentry_count(8)
 
 ddhook_end:
 

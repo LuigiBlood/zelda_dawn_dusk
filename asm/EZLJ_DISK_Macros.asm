@@ -38,7 +38,13 @@ macro n64dd_DiskLoad(dest, source, size) {
 	nop
 }
 
-macro n64dd_SceneEntry(name, scenestart, sceneend, titlestart, titleend, unk0, renderinit, dd) {
-	dw ({scenestart}), ({sceneend}), ({titlestart}), ({titleend})
+macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
+	dw ({scenestart}), ({scenestart} + {scenestart}.size)
+	//dw ({titlestart}), ({titlestart} + {titlestart}.size)
+	dw ({titlestart}), ({titlestart})	//EDIT THIS OUT LATER FOR TESTING
 	db ({unk0}), ({renderinit}), ({dd}), 0x00
+}
+
+macro n64dd_RoomEntry(roomstart) {
+	dw ({roomstart}), ({roomstart} + {roomstart}.size)
 }
