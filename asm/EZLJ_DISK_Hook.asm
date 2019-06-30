@@ -40,7 +40,7 @@ ddhook_list_start:
 	dw 0x00000000				//64: jpn_message_data_static Load
 	dw (ddhook_textUSload)		//68: nes_message_data_static Load
 	dw 0x00000000				//6C: ???
-	dw 0x00000000				//70: DMA ROM to RAM Hook
+	dw (ddhook_romtoram)		//70: DMA ROM to RAM Hook
 	dw 0x00000000				//74: ??? (Every Frame?)
 	dw 0x00000000				//78: Set Cutscene Pointer (Intro Cutscenes)
 ddhook_list_end:
@@ -50,6 +50,8 @@ ddhook_setup: {
 	//Arguments:
 	//A0=p->Address Table
 	//800FEE70 (NTSC 1.0) - Address Table
+	//800FF030 (NTSC 1.1)
+	//800FF4B0 (NTSC 1.2)
 	//	+0x0 = n64dd_Func_801C7C1C (USEFUL! Disk read function)
 	//	+0x50 = osSendMesg
 	//	+0x88 = Save Context
@@ -76,20 +78,23 @@ ddhook_setup: {
 
 	//else it must be 1.2
 	addiu a1,0,2
-	sw a1,4(a3)	//1.2
+	sw a1,4(a3)		//1.2
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable2, ezlj_vertable2_end - ezlj_vertable2)
-	b _ddhook_setup_dochanges
+	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE2, EZLJ_FILE_TABLE2.size)
+	b _ddhook_setup_entrancetable
 	nop
 
- +;	sw 0,4(a3)	//1.0
+ +;	sw 0,4(a3)		//1.0
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable0, ezlj_vertable0_end - ezlj_vertable0)
-	b _ddhook_setup_dochanges
+	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE0, EZLJ_FILE_TABLE0.size)
+	b _ddhook_setup_entrancetable
 	nop
 
  +;	addiu a1,0,1	//1.1
 	sw a1,4(a3)
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable1, ezlj_vertable1_end - ezlj_vertable1)
-	b _ddhook_setup_dochanges
+	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE1, EZLJ_FILE_TABLE1.size)
+	b _ddhook_setup_entrancetable
 	nop
 
 _ddhook_incompatibleversion:
@@ -107,7 +112,7 @@ _ddhook_incompatible_loop:
 	j _ddhook_incompatible_loop
 	nop
 
-_ddhook_setup_dochanges:
+_ddhook_setup_entrancetable:
 	//Load Entrance Table
 	//NTSC 1.0 - 800F9C90 (-51E0)
 	//NTSC 1.1 - 800F9E50 (-51E0)
@@ -119,11 +124,11 @@ _ddhook_setup_dochanges:
 	ori at,0,2
 
 	subiu a0,a0,0x51E0
-	bne at,a1,_ddhook_setup_dochanges_entranceload
+	bne at,a1,_ddhook_setup_entranceload_disk
 	nop
 	addiu a0,a0,0x10
 
-_ddhook_setup_dochanges_entranceload:
+_ddhook_setup_entranceload_disk:
 	li a1,EZLJ_ENTRANCE_TABLE
 	li a2,EZLJ_ENTRANCE_TABLE.size
 
@@ -159,12 +164,6 @@ _ddhook_setup_savecontext:
 	
 	//Check if save is new
 	//TODO
-
-	//Ice Cavern - 86 - 0x88 (Red Ice Cavern)
-	//Kakariko Village - 2 - 0xDB (Dawngrove Village)
-	//Kokiri Forest - 5 - 0xEE (Great Dusk Chasm)
-	//Lost Woods - 11 - 0x120 (Dawngrove)
-	//Fire Temple - 77 - 0x165 (Cave Theme?)
 
 	li a2,0xDB
 	//sw a2,0(a1)
@@ -474,7 +473,8 @@ ddhook_sceneload: {
 	//Return:
 	//V0=p->Scene Entry
 	
-	addiu sp,sp,-0x10
+	addiu sp,sp,-0x20
+	sw ra,0x10(sp)
 
 	//Check if Scene ID is part of the List
 	//Uses the Disk byte in the Scene Entry as Scene ID
@@ -484,7 +484,7 @@ ddhook_sceneload: {
 	-; lbu v1,0x12(v0)
 	beq a0,v1,_ddhook_sceneload_custom
 	nop
-	addiu v0,v0,0x14
+	addiu v0,v0,0x1C
 	addiu a2,a2,1
 	bne at,a2,-
 	nop
@@ -504,12 +504,27 @@ _ddhook_sceneload_original:
 	nop
 
 _ddhook_sceneload_custom:
+	sw v0,0x14(sp)
+
+	//Setup Room Load Hook
 	li a0,ddhook_list_start
 	li a1,ddhook_roomload
 	sw a1,8(a0)
 
+	//Load Title Card
+	lw a0,8(v0)
+	lw a1,0x14(v0)
+	lw a2,0x18(v0)
+
+	n64dd_LoadAddress(a3, {CZLJ_DiskLoad})
+	jalr a3			//read from disk
+	nop
+
+	lw v0,0x14(sp)
+
 _ddhook_sceneload_return:
-    addiu sp,sp,0x10
+	lw ra,0x10(sp)
+    addiu sp,sp,0x20
 	jr ra
 	nop
 }
@@ -582,22 +597,171 @@ ddhook_removecutscene: {
 	nop
 }
 
+//ROM Loading Hook
+ddhook_romtoram: {
+	//Arguments:
+	//A0=osMesgQueue + 0x18 (?)
+	//A1=RAM Address
+	//A2=VROM Address
+	//A3=Size
+	//Return:
+	//V0=IsLoaded
+	addiu sp,sp,-0x40
+	sw ra,0x10(sp)
+	sw a0,0x14(sp)
+	sw a1,0x18(sp)
+	sw a2,0x1C(sp)
+	sw a3,0x20(sp)
+
+	//VROM Address Format:
+	//00000000+ = Load from ROM / Patch
+	//80000000+ = Load from RAM?
+	//C0000000+ = Load from Disk
+
+	//Check Format
+	lui v0,0xF000
+	and v1,a2,v0
+
+	//--VROM Format
+	beq v1,0,ddhook_romtoram_vrom
+	nop
+
+	//--RAM Format
+	lui v0,0x8000
+	beq v1,v0,ddhook_romtoram_ram
+	nop
+
+	//--Disk Format
+	lui v0,0xC000
+	beq v1,v0,ddhook_romtoram_disk
+	nop
+
+ddhook_romtoram_vrom:
+	//Check for File Replacements
+	li a0,DDHOOK_VFILETABLE
+	ori a1,0,EZLJ_FILE_COUNT
+	ori a3,0,0
+
+	//a2 < end
+	-; lw v0,4(a0)
+	bge a2,v0,+
+	nop
+
+	//a2 > Start
+	lw v0,0(a0)
+	blt a2,v0,+
+	nop
+	b ddhook_romtoram_vrom_replace
+	nop
+
+	//increment
+	+; addiu a3,a3,1
+	addiu a0,a0,0x10
+	blt a3,a1,-
+	nop
+
+	//Load from ROM
+	ori v0,0,0
+	b ddhook_romtoram_return
+	nop
+
+ddhook_romtoram_vrom_replace:
+	subu a1,a2,v0
+	lw a2,8(a0)
+	addu a1,a1,a2
+	lw a2,0x20(sp)
+	lw a0,0x18(sp)
+
+	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+
+	b ddhook_romtoram_success
+	nop
+
+ddhook_romtoram_ram:
+	//Load from RAM
+	addiu a0,a1,0
+	addiu a1,a2,0
+	addiu a2,a3,0
+
+	//Copy Data from RAM to where it wants
+	//A0 = Dest, A1 = Offset, A2 = Size, A3 = Used for copy
+	 -; lb a3,0(a1)
+	sb a3,0(a0)
+	addiu a0,a0,1
+	addiu a1,a1,1
+	subi a2,a2,1
+	bnez a2,-
+	nop
+
+	b ddhook_romtoram_success
+	nop
+
+ddhook_romtoram_disk:
+	//Load from Disk
+	addiu a0,a1,0
+	addiu a1,a2,0
+	addiu a2,a3,0
+
+	li a3,0x0FFFFFFF
+	and a1,a1,a3
+
+	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+
+ddhook_romtoram_success:
+	lw a0,0x14(sp)
+	subiu a0,a0,0x18	//go to osMesgQueue
+	ori a1,0,0
+	ori a2,0,0
+
+	n64dd_LoadAddress(a3, {CZLJ_osSendMesg})
+	jalr a3			//osSendMesg, to let the engine know that the data is loaded and continue the game
+	nop
+
+	ori v0,0,1
+
+ddhook_romtoram_return:
+	lw ra,0x10(sp)
+	lw a0,0x14(sp)
+	lw a1,0x18(sp)
+	lw a2,0x1C(sp)
+	lw a3,0x20(sp)
+	addiu sp,sp,0x40
+	jr ra
+	nop
+}
+
+//ROM Loading Hook, for loading from ROM, to patch later
+ddhook_romtoram_restore: {
+	li a3,ddhook_romtoram
+	li v0,ddhook_list_start
+	sw a3,0x70(v0)
+
+	ori v0,0,0
+
+	jr ra
+	nop
+}
+
 //Scene Entries
 ddhook_sceneentry_data: {
 	n64dd_SceneEntry("Cave Passage",		EZLJ_SCENE07, 0x00000000, 0x00, 0x00, 0x07)
-	n64dd_SceneEntry("Red Ice Cavern",		EZLJ_SCENE09, 0x00000000, 0x00, 0x00, 0x09)
+	n64dd_SceneEntry("Red Ice Cavern",		EZLJ_SCENE09, EZLJ_SCENENAME09, 0x00, 0x00, 0x09)
 	n64dd_SceneEntry("Dusk Palace Chamber",	EZLJ_SCENE15, 0x00000000, 0x00, 0x1D, 0x15)
 	n64dd_SceneEntry("Dawngrove House 1",	EZLJ_SCENE2C, 0x00000000, 0x00, 0x00, 0x2C)
 	n64dd_SceneEntry("Dawngrove Shop",		EZLJ_SCENE2E, 0x00000000, 0x00, 0x00, 0x2E)
 	n64dd_SceneEntry("Dawngrove Inn",		EZLJ_SCENE34, 0x00000000, 0x00, 0x00, 0x34)
 	n64dd_SceneEntry("Dawngrove House 2",	EZLJ_SCENE35, 0x00000000, 0x00, 0x00, 0x35)
-	n64dd_SceneEntry("Great Dusk Chasm",	EZLJ_SCENE54, 0x00000000, 0x00, 0x00, 0x54)
-	n64dd_SceneEntry("Dawngrove Village",	EZLJ_SCENE55, 0x00000000, 0x00, 0x09, 0x55)
-	n64dd_SceneEntry("Dusk Palace Gardens",	EZLJ_SCENE59, 0x00000000, 0x00, 0x2E, 0x59)
-	n64dd_SceneEntry("Dawngrove",			EZLJ_SCENE5B, 0x00000000, 0x00, 0x2E, 0x5B)
+	n64dd_SceneEntry("Great Dusk Chasm",	EZLJ_SCENE54, EZLJ_SCENENAME54, 0x00, 0x00, 0x54)
+	n64dd_SceneEntry("Dawngrove Village",	EZLJ_SCENE55, EZLJ_SCENENAME55, 0x00, 0x09, 0x55)
+	n64dd_SceneEntry("Dusk Palace Gardens",	EZLJ_SCENE59, EZLJ_SCENENAME59, 0x00, 0x2E, 0x59)
+	n64dd_SceneEntry("Dawngrove",			EZLJ_SCENE5B, EZLJ_SCENENAME5B, 0x00, 0x2E, 0x5B)
 	n64dd_SceneEntry("Cutscene Map",		EZLJ_SCENE60, 0x00000000, 0x00, 0x00, 0x60)
 }
-constant ddhook_sceneentry_count(12)
+//constant ddhook_sceneentry_count(12)
 
 ddhook_end:
 

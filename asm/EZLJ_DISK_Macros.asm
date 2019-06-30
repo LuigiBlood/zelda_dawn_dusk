@@ -38,13 +38,35 @@ macro n64dd_DiskLoad(dest, source, size) {
 	nop
 }
 
+variable ddhook_sceneentry_count(0)
 macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 	dw ({scenestart}), ({scenestart} + {scenestart}.size)
-	//dw ({titlestart}), ({titlestart} + {titlestart}.size)
-	dw ({titlestart}), ({titlestart})	//EDIT THIS OUT LATER FOR TESTING
+	if {titlestart} != 0 {
+		dw (DDHOOK_SCENETITLECARD), (DDHOOK_SCENETITLECARD + {titlestart}.size)
+	} else {
+		dw 0,0
+	}
 	db ({unk0}), ({renderinit}), ({dd}), 0x00
+
+	//Extra Info (Offset 0x18)
+	if {titlestart} != 0 {
+		dw ({titlestart}), ({titlestart}.size)
+	} else {
+		dw 0,0
+	}
+
+	evaluate ddhook_sceneentry_count(ddhook_sceneentry_count + 1)
 }
 
 macro n64dd_RoomEntry(roomstart) {
 	dw ({roomstart}), ({roomstart} + {roomstart}.size)
+}
+
+macro n64dd_FileEntry(vfilename, vfile, file) {
+	global variable {vfilename}({vfile})
+	scope {vfilename} {
+		variable size({vfile} + {file}.size)
+	}
+	dw ({vfilename}), ({vfilename}.size)
+	dw ({file}), ({file}.size)
 }

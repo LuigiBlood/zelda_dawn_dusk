@@ -25,13 +25,25 @@ insert EZLJ_AUDIOINST_TABLE,"../audio/audioinst.dawn.table.bin"
 insert EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin"
 
 //Code / Other
+include "EZLJ_DISK_FileData.asm"
+
 insert EZLJ_ENTRANCE_TABLE,"../other/code_entrance_table.bin"
 insert EZLJ_ENTRANCE_CUTSCENE_TABLE,"../other/code_entrance_cutscene_table.bin"
+
+insert EZLJ_MAP_GRAND_STATIC,"../images/map_grand_static.bin"
+
 insert EZLJ_SAVE_DATA,"../other/default_save_test.bin"
 
 //Text
 insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
 insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
+
+//Scene Title Card
+insert EZLJ_SCENENAME09,"../images/g_pn_0x09.bin"
+insert EZLJ_SCENENAME54,"../images/g_pn_0x54.bin"
+insert EZLJ_SCENENAME55,"../images/g_pn_0x55.bin"
+insert EZLJ_SCENENAME59,"../images/g_pn_0x59.bin"
+insert EZLJ_SCENENAME5B,"../images/g_pn_0x5B.bin"
 
 //Scenes / Rooms
 insert EZLJ_SCENE07,"../scene/Cave Passage.zscene"
