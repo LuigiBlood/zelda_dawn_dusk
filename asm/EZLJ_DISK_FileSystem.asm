@@ -31,6 +31,7 @@ insert EZLJ_ENTRANCE_TABLE,"../other/code_entrance_table.bin"
 insert EZLJ_ENTRANCE_CUTSCENE_TABLE,"../other/code_entrance_cutscene_table.bin"
 
 insert EZLJ_MAP_GRAND_STATIC,"../images/map_grand_static.bin"
+insert EZLJ_MAP_MINIMAP_TABLE,"../other/code_overworld_minimap_table.bin"
 
 insert EZLJ_SAVE_DATA,"../other/default_save_test.bin"
 

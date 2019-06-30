@@ -154,6 +154,23 @@ _ddhook_setup_entrance_cutscene:
 	jalr v0
 	nop
 
+_ddhook_setup_minimap_table:
+	//Load Minimap Table
+	//NTSC 1.0 - 800F6914 (-855C)
+	//NTSC 1.1 - 800F6AD4 (-855C)
+	//NTSC 1.2 - 800F6F54 (-855C)
+	li a0,(DDHOOK_ADDRTABLE)
+	lw a0,0(a0)
+	ori a1,0,0x855C
+	subu a0,a0,a1
+
+	li a1,EZLJ_MAP_MINIMAP_TABLE
+	li a2,EZLJ_MAP_MINIMAP_TABLE.size
+
+    n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+
 _ddhook_setup_savecontext:
 	//Save Context Change
 	n64dd_LoadAddress(a1, {CZLJ_SaveContext})
@@ -784,14 +801,21 @@ seekDisk(0x1080)
 ezlj_vertable0:
 	dw 0x80127E60	// Address to Audio Tables Pointers
 	dw 0x800B8250	// Address to osEPiStartDma Patch
+	dw 0x800F9C90	// Address to Entrance Table
+	dw 0x800EFD04	// Address to Entrance Cutscene Table
+	dw 0x800F72D8	// Address to Overworld Minimap Table
 ezlj_vertable0_end:
 
 ezlj_vertable1:
 	dw 0x80128020	// Address to Audio Tables Pointers
 	dw 0x800B8270	// Address to osEPiStartDma Patch
+	dw 0x800F9E50	// Address to Entrance Table
+	dw 0x800EFEC4	// Address to Entrance Cutscene Table
 ezlj_vertable1_end:
 
 ezlj_vertable2:
 	dw 0x80128730	// Address to Audio Tables Pointers
 	dw 0x800B88D0	// Address to osEPiStartDma Patch
+	dw 0x800FA2E0	// Address to Entrance Table
+	dw 0x800F0344	// Address to Entrance Cutscene Table
 ezlj_vertable2_end:
