@@ -124,12 +124,11 @@ _ddhook_setup_entrancetable:
 	ori at,0,2
 
 	subiu a0,a0,0x51E0
-	bne at,a1,_ddhook_setup_entranceload_disk
+	bne at,a1,+
 	nop
 	addiu a0,a0,0x10
 
-_ddhook_setup_entranceload_disk:
-	li a1,EZLJ_ENTRANCE_TABLE
+	+; li a1,EZLJ_ENTRANCE_TABLE
 	li a2,EZLJ_ENTRANCE_TABLE.size
 
     n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
@@ -170,6 +169,31 @@ _ddhook_setup_minimap_table:
     n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
 	jalr v0
 	nop
+
+_ddhook_setup_tunic_colors:
+	//Setup Tunic Colors
+	//NTSC 1.0 - 800F7AD8 (-7398)
+	//NTSC 1.1 - 800F7C98 (-7398)
+	//NTSC 1.2 - 800F8128 (-7388)
+
+	li a0,(DDHOOK_ADDRTABLE)
+	lw a1,4(a0)
+	lw a0,0(a0)
+	ori at,0,2
+
+	subiu a0,a0,0x51E0
+	bne at,a1,+
+	nop
+	addiu a0,a0,0x10
+
+	li a2,0x4C971446
+	sw a2,0(a0)
+	li a2,0x2640003C
+	sw a2,4(a0)
+
+_ddhook_setup_ovl_kaleido_scope:
+	//Handle ovl_kaleido_scope
+	
 
 _ddhook_setup_savecontext:
 	//Save Context Change
@@ -232,13 +256,13 @@ _ddhook_setup_music_seq:
 	//Update Pointers Audiobank Table
 	li a0,DDHOOK_AUDIOBANK
 	li a1,DDHOOK_AUDIOBANK_TABLE
-	sw a0,4(a1)	//Update Pointer
-	lhu a2,0(a1)	// Get amount of AudioBank stuff
+	sw a0,4(a1)		// Update Main Pointer
+	lhu a2,0(a1)	// Get amount of AudioBank entries
 
  -;	addiu a1,a1,0x10
 
 	lw a3,0(a1)
-	addu a3,a3,a0
+	addu a3,a3,a0	// Make Absolute Pointers for all entries
 	sw a3,0(a1)
 
 	addiu a2,a2,-1
@@ -248,20 +272,20 @@ _ddhook_setup_music_seq:
 	//Update Pointers Audioseq Table
 	li a0,DDHOOK_AUDIOSEQ
 	li a1,DDHOOK_AUDIOSEQ_TABLE
-	sw a0,4(a1)	//Update Pointer
-	lhu a2,0(a1)	// Get amount of AudioSeq stuff
+	sw a0,4(a1)		// Update Main Pointer
+	lhu a2,0(a1)	// Get amount of AudioSeq entries
 
  -;	addiu a1,a1,0x10
 
 	lw a3,0(a1)
-	addu a3,a3,a0
+	addu a3,a3,a0	// Make Absolute Pointers for all entries
 	sw a3,0(a1)
 
 	addiu a2,a2,-1
 	bne a2,0,-
 	nop
 
-	// Change Pointers Audio
+	// Change Audio Table Pointers
 	// VER - ADDRESS  - AUDIOSEQ, AUDIOBANK, AUDIOTABLE, AUDIOINST
 	// 1.0 - 80127E60 - 80113B70 80113740 80114260 801139B0
 	// 1.1 - 80128020 - 80113D30 80113900 80114420 80113B70
@@ -290,7 +314,7 @@ _ddhook_setup_music_seq:
 	lw a0,4(a0)
 	sync
 
-	//Copy osEPiStartDma call
+	//Copy osEPiStartDma call for regular DMA use
 	li a1,_ddhook_loadmusic_startdma
 	lw a2,0(a0)
 	sync
@@ -302,7 +326,7 @@ _ddhook_setup_music_seq:
 	sync
 	sw a2,8(a1)
 
-	//Inject custom function call
+	//Inject custom function call for Audio use
 	li a1,_ddhook_setup_musicdma
 	lw a2,0(a1)
 	sync
@@ -366,7 +390,7 @@ ddhook_loadmusic: {	//804102E0
 	bnez a2,-
 	nop
 
-	lw v0,0x14(sp)
+	lw v0,0x14(sp)	// Notify the game it is loaded
 	ori a0,v0,0
 	lw a0,4(a0)
 	ori a1,v0,0
@@ -381,7 +405,7 @@ ddhook_loadmusic: {	//804102E0
 	nop
 
 _ddhook_loadmusic_startdma:
-	//Original EPiStartDma code to load from ROM instead
+	//Original EPiStartDma code to load from ROM instead (copied from game in runtime)
 	lui t9,0x8010
 	lw t9,0x17E0(t9)
 	jalr t9
@@ -632,7 +656,8 @@ ddhook_romtoram: {
 
 	//VROM Address Format:
 	//00000000+ = Load from ROM / Patch
-	//80000000+ = Load from RAM?
+	//40000000+ = Force Load from ROM
+	//80000000+ = Load from RAM
 	//C0000000+ = Load from Disk
 
 	//Check Format
@@ -641,6 +666,11 @@ ddhook_romtoram: {
 
 	//--VROM Format
 	beq v1,0,ddhook_romtoram_vrom
+	nop
+
+	//--Force ROM Format
+	lui v0,0x4000
+	beq v1,v0,ddhook_romtoram_force_rom
 	nop
 
 	//--RAM Format
@@ -677,6 +707,7 @@ ddhook_romtoram_vrom:
 	blt a3,a1,-
 	nop
 
+ddhook_romtoram_force_rom:
 	//Load from ROM
 	ori v0,0,0
 	b ddhook_romtoram_return
