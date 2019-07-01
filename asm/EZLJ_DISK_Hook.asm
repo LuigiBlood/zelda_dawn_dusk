@@ -381,14 +381,7 @@ ddhook_loadmusic: {	//804102E0
 
 	//Copy Text Data from RAM to where it wants
 	//Avoid hang from loading from disk directly and stop the music
-	//A0 = Dest, A1 = Source, A2 = Size, A3 = Used for copy
-     -; lb a3,0(a1)
-	sb a3,0(a0)
-	addiu a0,a0,1
-	addiu a1,a1,1
-	subi a2,a2,1
-	bnez a2,-
-	nop
+    n64dd_CallRamCopy()
 
 	lw v0,0x14(sp)	// Notify the game it is loaded
 	ori a0,v0,0
@@ -447,13 +440,7 @@ ddhook_textUSload: {
 	
 	//Copy Text Data from RAM to where it wants
 	//Avoid hang from loading from disk directly and stop the music
-	//A0 = Dest, A1 = Offset, A2 = Size, A3 = Used for copy
-     -; lb a3,0(a1)
-	sb a3,0(a0)
-	addiu a0,a0,1
-	addiu a1,a1,1
-	subi a2,a2,1
-	bnez a2,-
+	n64dd_CallRamCopy()
 	
 	lw ra,8(sp)
 	addiu sp,sp,0x10
@@ -734,14 +721,7 @@ ddhook_romtoram_ram:
 	addiu a2,a3,0
 
 	//Copy Data from RAM to where it wants
-	//A0 = Dest, A1 = Offset, A2 = Size, A3 = Used for copy
-	 -; lb a3,0(a1)
-	sb a3,0(a0)
-	addiu a0,a0,1
-	addiu a1,a1,1
-	subi a2,a2,1
-	bnez a2,-
-	nop
+	n64dd_CallRamCopy()
 
 	b ddhook_romtoram_success
 	nop
