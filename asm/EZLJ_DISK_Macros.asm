@@ -21,6 +21,7 @@ define CZLJ_StaticContext(0x08)
 define CZLJ_osSendMesg(0x50)
 define CZLJ_osWritebackDCache(0x70)
 define CZLJ_SaveContext(0x88)
+define CZLJ_DMARomToRamMesg(0x8C)
 define CZLJ_DMARomToRam(0x90)
 define CZLJ_SegmentList(0x9C)
 
