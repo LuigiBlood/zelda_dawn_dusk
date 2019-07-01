@@ -694,8 +694,16 @@ ddhook_romtoram_vrom:
 	blt a3,a1,-
 	nop
 
-ddhook_romtoram_force_rom:
 	//Load from ROM
+	ori v0,0,0
+	b ddhook_romtoram_return
+	nop
+
+ddhook_romtoram_force_rom:
+	//Load from ROM (Force)
+	li v0,0x0FFFFFFF
+	and a2,a2,v0
+	sw a2,0x78(sp)
 	ori v0,0,0
 	b ddhook_romtoram_return
 	nop
@@ -827,21 +835,14 @@ seekDisk(0x1080)
 ezlj_vertable0:
 	dw 0x80127E60	// Address to Audio Tables Pointers
 	dw 0x800B8250	// Address to osEPiStartDma Patch
-	dw 0x800F9C90	// Address to Entrance Table
-	dw 0x800EFD04	// Address to Entrance Cutscene Table
-	dw 0x800F72D8	// Address to Overworld Minimap Table
 ezlj_vertable0_end:
 
 ezlj_vertable1:
 	dw 0x80128020	// Address to Audio Tables Pointers
 	dw 0x800B8270	// Address to osEPiStartDma Patch
-	dw 0x800F9E50	// Address to Entrance Table
-	dw 0x800EFEC4	// Address to Entrance Cutscene Table
 ezlj_vertable1_end:
 
 ezlj_vertable2:
 	dw 0x80128730	// Address to Audio Tables Pointers
 	dw 0x800B88D0	// Address to osEPiStartDma Patch
-	dw 0x800FA2E0	// Address to Entrance Table
-	dw 0x800F0344	// Address to Entrance Cutscene Table
 ezlj_vertable2_end:
