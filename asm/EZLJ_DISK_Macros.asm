@@ -51,6 +51,12 @@ macro n64dd_RomLoad(dest, source, size) {
 	nop
 }
 
+macro n64dd_CallRamCopy() {
+	li v0,ddhook_ramcopy
+	jalr v0
+	nop
+}
+
 variable ddhook_sceneentry_count(0)
 macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 	dw ({scenestart}), ({scenestart} + {scenestart}.size)

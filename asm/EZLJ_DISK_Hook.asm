@@ -186,7 +186,7 @@ _ddhook_setup_tunic_colors:
 	nop
 	addiu a0,a0,0x10
 
-	li a2,0x4C971446
+	+; li a2,0x4C971446
 	sw a2,0(a0)
 	li a2,0x2640003C
 	sw a2,4(a0)
@@ -789,6 +789,21 @@ ddhook_romtoram_restore: {
 	sw a3,0x70(v0)
 
 	ori v0,0,0
+
+	jr ra
+	nop
+}
+
+ddhook_ramcopy: {
+	//Copy Data from RAM to where it wants
+	//A0 = Dest, A1 = Offset, A2 = Size, A3 = Used for copy
+	 -; lb a3,0(a1)
+	sb a3,0(a0)
+	addiu a0,a0,1
+	addiu a1,a1,1
+	subi a2,a2,1
+	bnez a2,-
+	nop
 
 	jr ra
 	nop
