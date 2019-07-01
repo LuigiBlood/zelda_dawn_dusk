@@ -21,6 +21,7 @@ define CZLJ_StaticContext(0x08)
 define CZLJ_osSendMesg(0x50)
 define CZLJ_osWritebackDCache(0x70)
 define CZLJ_SaveContext(0x88)
+define CZLJ_DMARomToRam(0x90)
 define CZLJ_SegmentList(0x9C)
 
 macro n64dd_LoadAddress(register, offset) {
@@ -36,6 +37,16 @@ macro n64dd_DiskLoad(dest, source, size) {
 	li a1,{source}
 	li a2,{size}
 	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+}
+
+macro n64dd_RomLoad(dest, source, size) {
+	//801C7C1C - NTSC 1.0
+	li a0,{dest}
+	li a1,({source} + 0x40000000)	//Force ROM load
+	li a2,{size}
+	n64dd_LoadAddress(v0, {CZLJ_DMARomToRam})
 	jalr v0
 	nop
 }
