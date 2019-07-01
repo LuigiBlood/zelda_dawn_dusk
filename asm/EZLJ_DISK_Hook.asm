@@ -59,7 +59,7 @@ ddhook_setup: {
 	//	+0x1409 = Language (8011B9D9)
 	
 	addiu sp,sp,-0x10
-	sw ra,4(sp)
+	sw ra,0x10(sp)
 	
 	//Save Zelda Disk Address Table Address for later usage
 	li a3,(DDHOOK_ADDRTABLE)
@@ -117,6 +117,10 @@ _ddhook_setup_entrancetable:
 	//NTSC 1.0 - 800F9C90 (-51E0)
 	//NTSC 1.1 - 800F9E50 (-51E0)
 	//NTSC 1.2 - 800FA2E0 (-51D0)
+
+	//TODO
+	b _ddhook_setup_patch
+	nop
 
 	li a0,(DDHOOK_ADDRTABLE)
 	lw a1,4(a0)
@@ -191,9 +195,85 @@ _ddhook_setup_tunic_colors:
 	li a2,0x2640003C
 	sw a2,4(a0)
 
+_ddhook_setup_object_list:
+	//Patch Object List
+	//NTSC 1.0 - 800F8FF0 (-5E80)
+	//NTSC 1.1 - 800F91B0 (-5E80)
+	//NTSC 1.2 - 800F9640 (-5E70)
+	li a0,(DDHOOK_ADDRTABLE)
+	lw a1,4(a0)
+	lw a0,0(a0)
+	ori at,0,2
+
+	subiu a0,a0,0x5E80
+	bne at,a1,+
+	nop
+	addiu a0,a0,0x10
+
+	+; addiu a0,a0,8
+
+	ori a1,0,(0x15 * 8)
+	addu a1,a0,a1
+	li a2,(EZLJ_OBJECT_LINK_CHILD + 0xC0000000)
+	li a3,(EZLJ_OBJECT_LINK_CHILD + EZLJ_OBJECT_LINK_CHILD.size + 0xC0000000)
+	sw a2,0(a1)
+	sw a3,4(a1)
+
+_ddhook_setup_ovl_player_actor:
+	//Handle ovl_player_actor (1.0 hardcoded for testing)
+	//n64dd_RomLoad(DDHOOK_OVL_PLAYER_ACTOR,0xBCDB70,0x26560)
+	li a0,(0x800FE480 + 0x1C)
+	li a1,DDHOOK_OVL_PLAYER_ACTOR
+	li a2,(DDHOOK_OVL_PLAYER_ACTOR + 0x26560)
+	sw a1,4(a0)
+	sw a2,8(a0)
+
+	//808486BC - 808301C0
+	li a0,(DDHOOK_OVL_PLAYER_ACTOR + 0x184FC)
+	li a1,0x1000000B
+	sw a1,0(a0)
+
+	li a0,(DDHOOK_OVL_PLAYER_ACTOR + 0x2139C)
+	li a1,0x14804599
+	sw a1,0(a0)
+	li a1,0x00C61080
+	sw a1,4(a0)
+
+	li a0,(DDHOOK_OVL_PLAYER_ACTOR + 0x2253C)
+	li a1,0x0601D108
+	sw a1,0(a0)
+	li a1,0x0601C878
+	sw a1,4(a0)
+	li a1,0x0601CC68
+	sw a1,8(a0)
+	li a1,0x0601F290
+	sw a1,0xC(a0)
+	li a1,0x0601D9F8
+	sw a1,0x10(a0)
+	li a1,0x0601DF48
+	sw a1,0x14(a0)
+	li a1,0x0601E990
+	sw a1,0x18(a0)
+	li a1,0x0601D538
+	sw a1,0x1C(a0)
+
 _ddhook_setup_ovl_kaleido_scope:
 	//Handle ovl_kaleido_scope
-	
+
+_ddhook_setup_patch:
+	//assume 1.0 for now, load patch - A04104B4
+	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
+
+	li at,DDHOOK_PATCH
+    -; lw a0,0(at)		//Get Dest
+	beq a0,0,_ddhook_setup_savecontext	//If 0 then done
+	nop
+	lw a2,4(at)			//Get Size
+	addiu a1,at,8		//Get Source
+	addu at,a1,a2		//Prepare at for next patch
+	n64dd_CallRamCopy()	//Patch
+	b -					//Loop
+	nop
 
 _ddhook_setup_savecontext:
 	//Save Context Change
@@ -238,10 +318,6 @@ _ddhook_setup_music:
 	nop
 
 _ddhook_setup_music_bank0:
-	n64dd_DiskLoad(DDHOOK_AUDIOBANK, EZLJ_AUDIOBANK0, EZLJ_AUDIOBANK0.size)
-	b _ddhook_setup_music_seq
-	nop
-
 _ddhook_setup_music_bank1:
 	n64dd_DiskLoad(DDHOOK_AUDIOBANK, EZLJ_AUDIOBANK0, EZLJ_AUDIOBANK0.size)
 	b _ddhook_setup_music_seq
@@ -344,6 +420,7 @@ _ddhook_setup_music_seq:
 _ddhook_setup_musicdma:
 	li t9,ddhook_loadmusic
 	jalr ra,t9
+	nop
 
 
 _ddhook_setup_finish:
@@ -357,7 +434,7 @@ _ddhook_setup_finish:
 	//Load text data into RAM (avoid music stop)
 	n64dd_DiskLoad(DDHOOK_TEXTDATA, EZLJ_NES_MESSAGE_DATA_STATIC, EZLJ_NES_MESSAGE_DATA_STATIC.size)
 	
-	lw ra,4(sp)
+	lw ra,0x10(sp)
 	addiu sp,sp,0x10
 	jr ra
 	nop

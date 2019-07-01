@@ -24,22 +24,47 @@ insert EZLJ_AUDIOBANK_TABLE,"../audio/audiobank.dawn.table.bin"
 insert EZLJ_AUDIOINST_TABLE,"../audio/audioinst.dawn.table.bin"
 insert EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin"
 
-//Code / Other
+//Virtual File Table Replacement
 include "EZLJ_DISK_FileData.asm"
 
-insert EZLJ_ENTRANCE_TABLE,"../other/code_entrance_table.bin"
-insert EZLJ_ENTRANCE_CUTSCENE_TABLE,"../other/code_entrance_cutscene_table.bin"
+//Patch
+include "EZLJ_DISK_Patch0.asm"
 
+//Code (File)
+//insert EZLJ_ENTRANCE_TABLE,"../other/code_entrance_table.bin"
+//insert EZLJ_ENTRANCE_CUTSCENE_TABLE,"../other/code_entrance_cutscene_table.bin"
+//insert EZLJ_MAP_MINIMAP_TABLE,"../other/code_overworld_minimap_table.bin"
+
+//ovl_kaleido_scope (Pause Overlay)
+insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
+
+//Minimaps
 insert EZLJ_MAP_GRAND_STATIC,"../images/map_grand_static.bin"
-insert EZLJ_MAP_MINIMAP_TABLE,"../other/code_overworld_minimap_table.bin"
 
+//Default Save
 insert EZLJ_SAVE_DATA,"../other/default_save_test.bin"
 
 //Text
 insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
 insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
 
-//Scene Title Card
+//Objects
+insert EZLJ_OBJECT_LINK_CHILD,"../object/object_link_child.bin"
+
+insert EZLJ_OBJECT_BDOOR,"../object/object_bdoor.bin"
+insert EZLJ_OBJECT_FD2,"../object/object_fd2.bin"
+insert EZLJ_OBJECT_GI_BRACELET,"../object/object_gi_bracelet.bin"
+insert EZLJ_OBJECT_GI_CLOTHES,"../object/object_gi_clothes.bin"
+insert EZLJ_OBJECT_GI_SHIELD1,"../object/object_gi_shield_1.bin"
+insert EZLJ_OBJECT_GI_SHIELD2,"../object/object_gi_shield_2.bin"
+insert EZLJ_OBJECT_HIDAN_OBJECTS,"../object/object_hidan_objects.bin"
+insert EZLJ_OBJECT_ICE_OBJECTS,"../object/object_ice_objects.bin"
+insert EZLJ_OBJECT_MIZU_OBJECTS,"../object/object_mizu_objects.bin"
+insert EZLJ_OBJECT_PO_COMPOSER,"../object/object_po_composer.bin"
+insert EZLJ_OBJECT_SD,"../object/object_sd.bin"
+insert EZLJ_OBJECT_SPOT02_OBJECTS,"../object/object_spot02_objects.bin"
+
+//Scene Title Cards
 insert EZLJ_SCENENAME09,"../images/g_pn_0x09.bin"
 insert EZLJ_SCENENAME54,"../images/g_pn_0x54.bin"
 insert EZLJ_SCENENAME55,"../images/g_pn_0x55.bin"
