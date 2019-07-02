@@ -262,6 +262,9 @@ _ddhook_setup_ovl_kaleido_scope:
 
 _ddhook_setup_patch:
 	//assume 1.0 for now, load patch - A04104B4
+	n64dd_RomLoad(DDHOOK_OVL_PLAYER_ACTOR,0xBCDB70,0x26560)
+	n64dd_RomLoad(DDHOOK_OVL_EFFECT_SS_STICK,0xEAD0F0,0x3A0)
+	n64dd_RomLoad(DDHOOK_OVL_ITEM_SHIELD,0xDB1F40,0xA10)
 	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
 
 	li at,DDHOOK_PATCH
@@ -720,7 +723,7 @@ ddhook_romtoram: {
 
 	//VROM Address Format:
 	//00000000+ = Load from ROM / Patch
-	//40000000+ = Force Load from ROM
+	//40000000+ = Force Load from ROM (Does not decompress yet)
 	//80000000+ = Load from RAM
 	//C0000000+ = Load from Disk
 
@@ -833,6 +836,11 @@ ddhook_romtoram_success:
 	n64dd_LoadAddress(a3, {CZLJ_osSendMesg})
 	jalr a3			//osSendMesg, to let the engine know that the data is loaded and continue the game
 	nop
+
+	li v0,0x0FFFFFFF
+	lw a2,0x78(sp)
+	and a2,a2,v0
+	sw a2,0x78(sp)
 
 	ori v0,0,1
 

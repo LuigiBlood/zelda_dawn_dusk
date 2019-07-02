@@ -29,5 +29,98 @@ insert EZLJ_MAP_MINIMAP_TABLE,"../other/code_overworld_minimap_table.bin"
 dw 0x800F7AD8, 8
 dw 0x4C971446, 0x2640003C
 
+
+//Object List
+//Link (Child)
+dw (0x800F8FF0 + 8 + (0x15 * 8)), 8
+dw (EZLJ_OBJECT_LINK_CHILD + 0xC0000000), (EZLJ_OBJECT_LINK_CHILD + 0xC0000000 + EZLJ_OBJECT_LINK_CHILD.size)
+
+//Actor Overlay Table
+//ovl_Item_Shield
+dw (0x800E8530 + (0x10 * 0xEE)), 8
+dw (DDHOOK_OVL_ITEM_SHIELD), (DDHOOK_OVL_ITEM_SHIELD + 0xA10)
+
+//Pause/Player Overlay Table
+//ovl_player_actor
+dw (0x800FE480 + 0x1C + 4), 8
+dw (DDHOOK_OVL_PLAYER_ACTOR), (DDHOOK_OVL_PLAYER_ACTOR + 0x26560)
+
+//Particle Overlay Table
+//ovl_Effect_Ss_Stick
+dw (0x800E7C40 + (0x1C * 0x10)), 8
+dw (DDHOOK_OVL_EFFECT_SS_STICK), (DDHOOK_OVL_EFFECT_SS_STICK + 0x3A0)
+
+//Setup Link (Child) Optimized (by CrookedPoe)
+//-Repoint Display Lists
+//code
+dw (0x800110A0 + 0x6922C), 8, 0x3C0F0602, 0x25EFC208        //Goron Bracelet
+
+dw (0x800110A0 + 0x6A80C), 8, 0x3C0A0602, 0x254ABF30        //Deku Stick
+
+dw (0x800110A0 + 0xE671C + (0x10 * 0)), 4, 0x06017E90       //Right Fist
+dw (0x800110A0 + 0xE671C + (0x10 * 1)), 4, 0x0601F7B0       //Right Fist + Deku Shield
+dw (0x800110A0 + 0xE671C + (0x10 * 2)), 4, 0x06017E90       //Right Fist + Hylian Shield
+dw (0x800110A0 + 0xE671C + (0x10 * 3)), 4, 0x06017E90       //Right Fist + Mirror Shield
+dw (0x800110A0 + 0xE671C + (0x10 * 4)), 4, 0x0601F6F0       //Sheathed Sword
+dw (0x800110A0 + 0xE671C + (0x10 * 5)), 4, 0x0601F758       //Deku Shield + Sheathed Sword
+dw (0x800110A0 + 0xE671C + (0x10 * 6)), 4, 0x0601F738       //Hylian Shield + Sheathed Sword
+dw (0x800110A0 + 0xE671C + (0x10 * 7)), 4, 0x0601F6F0       //Mirror Shield + Sheathed Sword
+dw (0x800110A0 + 0xE671C + (0x10 * 8)), 4, 0                //?
+dw (0x800110A0 + 0xE671C + (0x10 * 9)), 4, 0x0601F718       //Deku Shield without Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 9) + 8), 4, 0x0601F718   //Deku Shield without Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 10)), 4, 0x060180A0      //Sword Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 11)), 4, 0x0601F768      //Deku Shield + Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 12)), 4, 0x0601F748      //Hylian Shield + Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 13)), 4, 0x060180A0      //Mirror Shield + Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 14)), 4, 0               //?
+dw (0x800110A0 + 0xE671C + (0x10 * 15)), 4, 0x0601F718      //Deku Shield without Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 15) + 8), 4, 0x0601F718  //Deku Shield without Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 16)), 4, 0x0601F790      //Left Fist + Biggoron Sword
+dw (0x800110A0 + 0xE671C + (0x10 * 17)), 4, 0x0601F790      //Left Fist + Broken Giant`s Knife
+dw (0x800110A0 + 0xE671C + (0x10 * 18)), 4, 0x06016090      //Left Hand
+dw (0x800110A0 + 0xE671C + (0x10 * 19)), 4, 0x06016458      //Left Fist
+dw (0x800110A0 + 0xE671C + (0x10 * 20)), 4, 0x0601F778      //Left Fist + Kokiri Sword
+dw (0x800110A0 + 0xE671C + (0x10 * 21)), 4, 0x0601F778      //Left Fist + Master Sword
+dw (0x800110A0 + 0xE671C + (0x10 * 22)), 4, 0x06017AD0      //Right Hand
+dw (0x800110A0 + 0xE671C + (0x10 * 23)), 4, 0x06017E90      //Right Fist
+dw (0x800110A0 + 0xE671C + (0x10 * 24)), 4, 0x0601F7C0      //Right Fist + Fairy Slingshot (and/or Fairy Bow?)
+dw (0x800110A0 + 0xE671C + (0x10 * 25)), 4, 0x0601F6F0      //Sheathed Sword
+dw (0x800110A0 + 0xE671C + (0x10 * 26)), 4, 0x060180A0      //Sword Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 27)), 4, 0x06011A80      //Waist
+dw (0x800110A0 + 0xE671C + (0x10 * 28)), 4, 0x0601F7C0      //Right Fist + Fairy Slingshot (and/or Fairy Bow?)
+dw (0x800110A0 + 0xE671C + (0x10 * 29)), 4, 0x0601F7D0      //Right Hand + Fairy Ocarina
+dw (0x800110A0 + 0xE671C + (0x10 * 30)), 4, 0x0601F7E0      //Right Hand + Ocarina of Time
+dw (0x800110A0 + 0xE671C + (0x10 * 31)), 4, 0x06017E90      //Right Fist + Hookshot
+dw (0x800110A0 + 0xE671C + (0x10 * 32)), 4, 0x06016458      //Left Fist + Megaton Hammer
+dw (0x800110A0 + 0xE671C + (0x10 * 33)), 4, 0x0601F7A0      //Left Fist + Boomerang
+dw (0x800110A0 + 0xE671C + (0x10 * 34)), 4, 0x06016EB8      //Outstretched Left Hand for Holding Bottles
+dw (0x800110A0 + 0xE671C + (0x10 * 35)), 4, 0               //FPS Left Forearm (Adult Link)
+dw (0x800110A0 + 0xE671C + (0x10 * 35) + 8), 4, 0           //FPS Left Hand (Adult Link)
+dw (0x800110A0 + 0xE671C + (0x10 * 36)), 4, 0x06017340      //Right Shoulder
+dw (0x800110A0 + 0xE671C + (0x10 * 36) + 8), 4, 0           //FPS Right Forearm (Adult Link)
+dw (0x800110A0 + 0xE671C + (0x10 * 37)), 4, 0x0601F7F0      //FPS Right Arm + Fairy Slingshot
+
+dw (0x800110A0 + 0xE671C + 0x410), 4, 0x060194A8            //Empty Bottle
+
+dw (0x800110A0 + 0xE6B74), 4, 0x0601C3C8                    //Fairy Slingshot String
+
+//ovl_player_actor
+dw (DDHOOK_OVL_PLAYER_ACTOR + 0x2253C), 0x20
+dw 0x0601D108, 0x0601C878, 0x0601CC68, 0x0601F290
+dw 0x0601D9F8, 0x0601DF48, 0x0601E990, 0x0601D538
+
+dw (DDHOOK_OVL_PLAYER_ACTOR + 0x184FC), 4
+dw 0x1000000B
+
+//dw (DDHOOK_OVL_PLAYER_ACTOR + 0x2139C), 8
+//dw 0x14804599, 0x00C61080
+
+//ovl_Effect_Ss_Stick
+dw (DDHOOK_OVL_EFFECT_SS_STICK + 0x334), 4, 0x0601BF30      //Deku Stick
+
+//ovl_Item_Shield
+dw (DDHOOK_OVL_ITEM_SHIELD + 0x7EC), 8                      //Deku Shield
+dw 0x35050602, 0x24A59D58
+
 dw 0
 EZLJ_PATCH0_END:
