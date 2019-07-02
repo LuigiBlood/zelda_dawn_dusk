@@ -49,6 +49,7 @@ insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
 insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
 
 //Objects
+insert EZLJ_GAMEPLAY_DANGEON_KEEP,"../object/gameplay_dangeon_keep.bin"
 insert EZLJ_OBJECT_LINK_CHILD,"../object/object_link_child.bin"
 
 insert EZLJ_OBJECT_BDOOR,"../object/object_bdoor.bin"

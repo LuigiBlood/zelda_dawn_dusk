@@ -31,7 +31,11 @@ dw 0x4C971446, 0x2640003C
 
 
 //Object List
-//Link (Child)
+//gameplay_dangeon_keep
+dw (0x800F8FF0 + 8 + (0x03 * 8)), 8
+dw (EZLJ_GAMEPLAY_DANGEON_KEEP + 0xC0000000), (EZLJ_GAMEPLAY_DANGEON_KEEP + 0xC0000000 + EZLJ_GAMEPLAY_DANGEON_KEEP.size)
+
+//object_link_child
 dw (0x800F8FF0 + 8 + (0x15 * 8)), 8
 dw (EZLJ_OBJECT_LINK_CHILD + 0xC0000000), (EZLJ_OBJECT_LINK_CHILD + 0xC0000000 + EZLJ_OBJECT_LINK_CHILD.size)
 
@@ -121,6 +125,9 @@ dw (DDHOOK_OVL_EFFECT_SS_STICK + 0x334), 4, 0x0601BF30      //Deku Stick
 //ovl_Item_Shield
 dw (DDHOOK_OVL_ITEM_SHIELD + 0x7EC), 8                      //Deku Shield
 dw 0x35050602, 0x24A59D58
+
+//Object gameplay_keep
+//TODO Just take original file and change Link`s hair 0x1A40 (DBG and 1.0)
 
 dw 0
 EZLJ_PATCH0_END:
