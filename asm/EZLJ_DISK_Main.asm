@@ -37,8 +37,8 @@ endian msb
 include "N64.INC"
 include "N64_GFX.INC"
 
-include "EZLJ_DISK_RAM.asm"
 include "EZLJ_DISK_Macros.asm"
+include "EZLJ_DISK_RAM.asm"
 include "EZLJ_DISK_System.asm"
 include "EZLJ_DISK_FileSystem.asm"
 include "EZLJ_DISK_FileSystemPatch.asm"

@@ -90,3 +90,21 @@ macro n64dd_FileEntry(vfilename, vfile, file) {
 	dw ({vfilename}), ({vfilename}.size)
 	dw ({file}), ({file}.size)
 }
+
+global define n64dd_RamAddress(0x80400000)
+macro n64dd_RamSetAddress(addr) {
+	global evaluate n64dd_RamAddress({addr})
+}
+
+macro n64dd_RamDefine(label, size) {
+	global variable {label}({n64dd_RamAddress})
+	scope {label} {
+		global variable size({size})
+		global variable end({n64dd_RamAddress}+{size})
+		global variable shi( ({n64dd_RamAddress} + (({n64dd_RamAddress} & 0x8000) * 2) >> 16) )
+		global variable slo( {n64dd_RamAddress} & 0xFFFF )
+		global variable ehi( (({n64dd_RamAddress}+{size}) + ((({n64dd_RamAddress}+{size}) & 0x8000) * 2) >> 16) )
+		global variable elo( ({n64dd_RamAddress}+{size}) & 0xFFFF )
+	}
+	global evaluate n64dd_RamAddress({n64dd_RamAddress}+{size})
+}
