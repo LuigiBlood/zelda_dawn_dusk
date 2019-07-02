@@ -36,7 +36,9 @@ include "EZLJ_DISK_Patch0.asm"
 //insert EZLJ_MAP_MINIMAP_TABLE,"../other/code_overworld_minimap_table.bin"
 
 //ovl_kaleido_scope (Pause Overlay)
-insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
+//insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
+insert EZLJ_ICON_ITEM_FIELD_STATIC,"../images/icon_item_field_static.bin"
+insert EZLJ_ICON_ITEM_NES_STATIC,"../images/icon_item_nes_static.bin"
 
 //Minimaps
 insert EZLJ_MAP_GRAND_STATIC,"../images/map_grand_static.bin"
