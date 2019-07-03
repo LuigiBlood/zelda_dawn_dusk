@@ -4,10 +4,8 @@
 //Uses ARM9 bass
 
 //RAM Usage
-n64dd_RamSetAddress(0x80410000)
+n64dd_RamSetAddress(0x80400000)
 n64dd_RamDefine(DDHOOK_RAM, 0x10000)		//MAIN DISK CODE
-
-n64dd_RamSetAddress(0x80420000)
 n64dd_RamDefine(DDHOOK_GPRAM, 0)
 	n64dd_RamDefine(DDHOOK_ADDRTABLE, 4)				//n64dd Function Table Pointer
 	n64dd_RamDefine(DDHOOK_VERSION, 4)					//VERSION
@@ -39,10 +37,13 @@ n64dd_RamDefine(DDHOOK_GPRAM, 0)
 	//Static
 	n64dd_RamDefine(DDHOOK_ICON_ITEM_FIELD_STATIC, EZLJ_ICON_ITEM_FIELD_STATIC.size)
 	n64dd_RamDefine(DDHOOK_ICON_ITEM_NES_STATIC, EZLJ_ICON_ITEM_NES_STATIC.size)
+	n64dd_RamDefine(DDHOOK_MAP_NAME_STATIC, 0x21800)
+	n64dd_RamDefine(DDHOOK_SPACE, 0x80000)				//FRAME BUFFER, avoid bug
+	n64dd_RamDefine(DDHOOK_ICON_ITEM_STATIC, 0x888A0)
 
 	//Scene Room Buffers
 	n64dd_RamDefine(DDHOOK_SCENE_ROOM_TABLE, 0x80)
-	n64dd_RamDefine(DDHOOK_SCENE_ROOM_DATA, 0x18620)
+	n64dd_RamDefine(DDHOOK_SCENE_ROOM_DATA, 0x18700)
 
 n64dd_RamSetAddress(0x80700000)
 	n64dd_RamDefine(DDHOOK_PATCH, 0x100000)
