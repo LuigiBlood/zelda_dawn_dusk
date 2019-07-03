@@ -15,7 +15,7 @@ ddhook_list_start:
 	dw (ddhook_setup | {KSEG1})	//00: 64DD Hook
 	dw 0x00000000				//04: 64DD Unhook
 	dw 0x00000000				//08: Room Loading Hook
-	dw 0x00000000				//0C: Scene Loading (???)
+	dw 0x00000000				//0C: Post-Scene Loading
 	dw 0x00000000				//10: "game_play" game state entrypoint
 	dw 0x00000000				//14: Collision related
 	dw 0x00000000				//18: ???
@@ -122,57 +122,17 @@ _ddhook_setup_entrancetable:
 	b _ddhook_setup_patch
 	nop
 
-	li a0,(DDHOOK_ADDRTABLE)
-	lw a1,4(a0)
-	lw a0,0(a0)
-	ori at,0,2
-
-	subiu a0,a0,0x51E0
-	bne at,a1,+
-	nop
-	addiu a0,a0,0x10
-
-	+; li a1,EZLJ_ENTRANCE_TABLE
-	li a2,EZLJ_ENTRANCE_TABLE.size
-
-    n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
-	jalr v0
-	nop
-
 _ddhook_setup_entrance_cutscene:
 	//Load Entrance Cutscene Table
 	//NTSC 1.0 - 800EFD04 (-F16C)
 	//NTSC 1.1 - 800EFEC4 (-F16C)
 	//NTSC 1.2 - 800F0344 (-F16C)
 
-	li a0,(DDHOOK_ADDRTABLE)
-	lw a0,0(a0)
-	ori a1,0,0xF16C
-	subu a0,a0,a1
-
-	li a1,EZLJ_ENTRANCE_CUTSCENE_TABLE
-	li a2,EZLJ_ENTRANCE_CUTSCENE_TABLE.size
-
-    n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
-	jalr v0
-	nop
-
 _ddhook_setup_minimap_table:
 	//Load Minimap Table
 	//NTSC 1.0 - 800F6914 (-855C)
 	//NTSC 1.1 - 800F6AD4 (-855C)
 	//NTSC 1.2 - 800F6F54 (-855C)
-	li a0,(DDHOOK_ADDRTABLE)
-	lw a0,0(a0)
-	ori a1,0,0x855C
-	subu a0,a0,a1
-
-	li a1,EZLJ_MAP_MINIMAP_TABLE
-	li a2,EZLJ_MAP_MINIMAP_TABLE.size
-
-    n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
-	jalr v0
-	nop
 
 _ddhook_setup_tunic_colors:
 	//Setup Tunic Colors
@@ -180,82 +140,11 @@ _ddhook_setup_tunic_colors:
 	//NTSC 1.1 - 800F7C98 (-7398)
 	//NTSC 1.2 - 800F8128 (-7388)
 
-	li a0,(DDHOOK_ADDRTABLE)
-	lw a1,4(a0)
-	lw a0,0(a0)
-	ori at,0,2
-
-	subiu a0,a0,0x51E0
-	bne at,a1,+
-	nop
-	addiu a0,a0,0x10
-
-	+; li a2,0x4C971446
-	sw a2,0(a0)
-	li a2,0x2640003C
-	sw a2,4(a0)
-
 _ddhook_setup_object_list:
 	//Patch Object List
 	//NTSC 1.0 - 800F8FF0 (-5E80)
 	//NTSC 1.1 - 800F91B0 (-5E80)
 	//NTSC 1.2 - 800F9640 (-5E70)
-	li a0,(DDHOOK_ADDRTABLE)
-	lw a1,4(a0)
-	lw a0,0(a0)
-	ori at,0,2
-
-	subiu a0,a0,0x5E80
-	bne at,a1,+
-	nop
-	addiu a0,a0,0x10
-
-	+; addiu a0,a0,8
-
-	ori a1,0,(0x15 * 8)
-	addu a1,a0,a1
-	li a2,(EZLJ_OBJECT_LINK_CHILD + 0xC0000000)
-	li a3,(EZLJ_OBJECT_LINK_CHILD + EZLJ_OBJECT_LINK_CHILD.size + 0xC0000000)
-	sw a2,0(a1)
-	sw a3,4(a1)
-
-_ddhook_setup_ovl_player_actor:
-	//Handle ovl_player_actor (1.0 hardcoded for testing)
-	//n64dd_RomLoad(DDHOOK_OVL_PLAYER_ACTOR,0xBCDB70,0x26560)
-	li a0,(0x800FE480 + 0x1C)
-	li a1,DDHOOK_OVL_PLAYER_ACTOR
-	li a2,(DDHOOK_OVL_PLAYER_ACTOR + 0x26560)
-	sw a1,4(a0)
-	sw a2,8(a0)
-
-	//808486BC - 808301C0
-	li a0,(DDHOOK_OVL_PLAYER_ACTOR + 0x184FC)
-	li a1,0x1000000B
-	sw a1,0(a0)
-
-	li a0,(DDHOOK_OVL_PLAYER_ACTOR + 0x2139C)
-	li a1,0x14804599
-	sw a1,0(a0)
-	li a1,0x00C61080
-	sw a1,4(a0)
-
-	li a0,(DDHOOK_OVL_PLAYER_ACTOR + 0x2253C)
-	li a1,0x0601D108
-	sw a1,0(a0)
-	li a1,0x0601C878
-	sw a1,4(a0)
-	li a1,0x0601CC68
-	sw a1,8(a0)
-	li a1,0x0601F290
-	sw a1,0xC(a0)
-	li a1,0x0601D9F8
-	sw a1,0x10(a0)
-	li a1,0x0601DF48
-	sw a1,0x14(a0)
-	li a1,0x0601E990
-	sw a1,0x18(a0)
-	li a1,0x0601D538
-	sw a1,0x1C(a0)
 
 _ddhook_setup_ovl_kaleido_scope:
 	//Handle ovl_kaleido_scope
@@ -266,8 +155,13 @@ _ddhook_setup_patch:
 	n64dd_RomLoad(DDHOOK_OVL_KALEIDO_SCOPE,0xBB11E0,0x1C990)
 	n64dd_RomLoad(DDHOOK_OVL_EFFECT_SS_STICK,0xEAD0F0,0x3A0)
 	n64dd_RomLoad(DDHOOK_OVL_ITEM_SHIELD,0xDB1F40,0xA10)
+
+	n64dd_DiskLoad(DDHOOK_GAMEPLAY_DANGEON_KEEP, EZLJ_GAMEPLAY_DANGEON_KEEP, EZLJ_GAMEPLAY_DANGEON_KEEP.size)
+	n64dd_DiskLoad(DDHOOK_OBJECT_LINK_CHILD, EZLJ_OBJECT_LINK_CHILD, EZLJ_OBJECT_LINK_CHILD.size)
+
 	n64dd_DiskLoad(DDHOOK_ICON_ITEM_FIELD_STATIC, EZLJ_ICON_ITEM_FIELD_STATIC, EZLJ_ICON_ITEM_FIELD_STATIC.size)
 	n64dd_DiskLoad(DDHOOK_ICON_ITEM_NES_STATIC, EZLJ_ICON_ITEM_NES_STATIC, EZLJ_ICON_ITEM_NES_STATIC.size)
+
 	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
 
 	li at,DDHOOK_PATCH
@@ -610,6 +504,7 @@ _ddhook_sceneload_original:
 	//Disable Room Loading Hook
     li a0,ddhook_list_start
 	sw 0,8(a0)
+	sw 0,0xC(a0)
 
 	b _ddhook_sceneload_return
 	nop
@@ -621,6 +516,8 @@ _ddhook_sceneload_custom:
 	li a0,ddhook_list_start
 	li a1,ddhook_roomload
 	sw a1,8(a0)
+	li a1,ddhook_postscene
+	sw a1,0xC(a0)
 
 	//Load Title Card
 	lw a0,8(v0)
@@ -636,6 +533,80 @@ _ddhook_sceneload_custom:
 _ddhook_sceneload_return:
 	lw ra,0x10(sp)
     addiu sp,sp,0x20
+	jr ra
+	nop
+}
+
+//Post-Scene Loading Hook
+ddhook_postscene: {
+	//Arguments:
+	//A0=p->Global Context
+
+	//Load Rooms into buffer
+	addiu sp,sp,-0x20
+	sw ra,0x20(sp)
+	sw a0,0x1C(sp)
+	
+	//Find Scene Room Command (0x04)
+	lw a0,0x00B0(a0)
+	addiu a1,a0,0
+	addiu a3,0,4
+
+	-; lbu a2,0(a1)
+	addiu a1,a1,8
+	bne a2,a3,-
+	nop
+
+	subiu a1,a1,8
+	lbu a2,1(a1)	//A2 = Get number of rooms
+	lw a3,4(a1)		//Get Room Segment Address
+	li v0,0x00FFFFFF
+	and a3,a3,v0	//Isolate relative Address
+	addu a1,a0,a3	//A1 = Get Room List Address
+
+	li a0,DDHOOK_SCENE_ROOM_DATA
+	addiu a3,0,0
+	sw a3,0x0C(sp)	//Current Room ID to load
+	sw a2,0x18(sp)	//Room Count
+	sw a1,0x14(sp)	//Room List Address
+	sw a0,0x10(sp)	//Current Room Buffer Address
+	
+	-; lw a2,4(a1)		//get End VROM
+	lw a1,0(a1)		//get Start VROM
+
+	subu a2,a2,a1	//get Size
+
+	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+
+	lw a1,0x14(sp)	//Room List Address
+	lw v0,0x0C(sp)	//Current Room ID
+	sll v0,v0,3		//Multiply by 8
+	addu a1,a1,v0
+	lw a2,4(a1)		//get End VROM
+	lw a1,0(a1)		//get Start VROM
+	subu a2,a2,a1	//get Size
+	lw a0,0x10(sp)
+	li a3,DDHOOK_SCENE_ROOM_TABLE
+	addu a3,a3,v0
+	sw a0,0(a3)		//Save Start RAM Address to Table
+	addu a0,a0,a2
+	sw a0,4(a3)		//Save End RAM Address to Table
+	sw a0,0x10(sp)
+
+	lw a3,0x0C(sp)	//Current Room ID
+	lw a2,0x18(sp)	//Room Count
+	addiu a3,a3,1	//ID++
+	sw a3,0x0C(sp)	//Current Room ID
+	lw a1,0x14(sp)	//Room List Address
+	sll v0,a3,3		//Multiply by 8
+	addu a1,a1,v0
+	bne a3,a2,-		//if not equal then continue to load rooms
+	nop
+
+	lw ra,0x20(sp)
+	addiu sp,sp,0x20
 	jr ra
 	nop
 }
@@ -661,23 +632,16 @@ ddhook_roomload: {
 	
 	lw a1,0x14(sp)
 	lw a2,0x18(sp)
+
+	lw a0,0x34(a1)		//A0=RAM Address Dest
+	li a1,DDHOOK_SCENE_ROOM_TABLE
+	sll a2,a2,3
+	addu a1,a1,a2
+	lw a2,4(a1)
+	lw a1,0(a1)			//A1=Source
+	subu a2,a2,a1		//A2=Size
 	
-	lw a0,0x0134(a1)	//load Room List Pointer
-	sll a3,a2,3			//Room ID * 8
-	addu a2,a0,a3		//calculate offset from Room ID
-	lw a0,0x34(a1)		//A0=RAM Address
-	lw a3,0x4(a2)		//RoomEnd
-	lw a1,0x0(a2)		//RoomStart (A1=VROM Address)
-	subu a2,a3,a1		//A2=Size
-	
-	lw a3,0x14(sp)
-	sw a1,0x38(a3)		//Store VROM Address
-	sw a0,0x3C(a3)		//Store RAM Address
-	sw a2,0x40(a3)		//Store Size 
-	
-	n64dd_LoadAddress(a3, {CZLJ_DiskLoad})
-	jalr a3			//read from disk
-	nop
+	n64dd_CallRamCopy()
 	
 	lw a0,0x14(sp)
 	addiu a0,a0,0x50

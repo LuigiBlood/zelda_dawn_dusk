@@ -31,13 +31,13 @@ dw 0x4C971446, 0x2640003C
 
 
 //Object List
-//gameplay_dangeon_keep - TODO: move to RAM
+//gameplay_dangeon_keep
 dw (0x800F8FF0 + 8 + (0x03 * 8)), 8
-dw (EZLJ_GAMEPLAY_DANGEON_KEEP + 0xC0000000), (EZLJ_GAMEPLAY_DANGEON_KEEP + 0xC0000000 + EZLJ_GAMEPLAY_DANGEON_KEEP.size)
+dw DDHOOK_GAMEPLAY_DANGEON_KEEP, DDHOOK_GAMEPLAY_DANGEON_KEEP.end
 
-//object_link_child - TODO: move to RAM
+//object_link_child
 dw (0x800F8FF0 + 8 + (0x15 * 8)), 8
-dw (EZLJ_OBJECT_LINK_CHILD + 0xC0000000), (EZLJ_OBJECT_LINK_CHILD + 0xC0000000 + EZLJ_OBJECT_LINK_CHILD.size)
+dw DDHOOK_OBJECT_LINK_CHILD, DDHOOK_OBJECT_LINK_CHILD.end
 
 //Actor Overlay Table
 //ovl_Item_Shield
