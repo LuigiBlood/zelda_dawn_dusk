@@ -40,6 +40,7 @@ n64dd_RamDefine(DDHOOK_GPRAM, 0)
 	n64dd_RamDefine(DDHOOK_MAP_NAME_STATIC, 0x21800)
 	n64dd_RamDefine(DDHOOK_SPACE, 0x80000)				//FRAME BUFFER, avoid bug
 	n64dd_RamDefine(DDHOOK_ICON_ITEM_STATIC, 0x888A0)
+	n64dd_RamDefine(DDHOOK_ITEM_NAME_STATIC, 0x1EC00)
 
 	//Scene Room Buffers
 	n64dd_RamDefine(DDHOOK_SCENE_ROOM_TABLE, 0x80)
