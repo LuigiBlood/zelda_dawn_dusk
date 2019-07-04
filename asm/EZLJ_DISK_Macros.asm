@@ -58,6 +58,16 @@ macro n64dd_CallRamCopy() {
 	nop
 }
 
+macro n64dd_RamFill(dest, fillbyte, size) {
+	li a0,{dest}
+	ori a1,{fillbyte}
+	li a2,{size}
+
+	li v0,ddhook_ramfill
+	jalr v0
+	nop
+}
+
 variable ddhook_sceneentry_count(0)
 macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 	dw ({scenestart}), ({scenestart} + {scenestart}.size)

@@ -160,6 +160,9 @@ _ddhook_setup_patch:
 	n64dd_RomLoad(DDHOOK_MAP_NAME_STATIC,0x8BE000,0x21800)
 	n64dd_RomLoad(DDHOOK_ITEM_NAME_STATIC,0x880000 + 0x1EC00,0x1EC00)
 
+	n64dd_RomLoad(DDHOOK_ICON_ITEM_24_STATIC,0x846000,0xB400)
+	n64dd_RamFill(DDHOOK_ICON_ITEM_24_STATIC+0x6300,0,0x900)	//Patch out that boss icon
+
 	n64dd_DiskLoad(DDHOOK_GAMEPLAY_DANGEON_KEEP, EZLJ_GAMEPLAY_DANGEON_KEEP, EZLJ_GAMEPLAY_DANGEON_KEEP.size)
 	n64dd_DiskLoad(DDHOOK_OBJECT_LINK_CHILD, EZLJ_OBJECT_LINK_CHILD, EZLJ_OBJECT_LINK_CHILD.size)
 
@@ -845,6 +848,19 @@ ddhook_ramcopy: {
 	sb a3,0(a0)
 	addiu a0,a0,1
 	addiu a1,a1,1
+	subi a2,a2,1
+	bnez a2,-
+	nop
+
+	jr ra
+	nop
+}
+
+ddhook_ramfill: {
+	//Copy Data from RAM to where it wants
+	//A0 = Dest, A1 = Fill Byte, A2 = Size
+	 -; sb a1,0(a0)
+	addiu a0,a0,1
 	subi a2,a2,1
 	bnez a2,-
 	nop

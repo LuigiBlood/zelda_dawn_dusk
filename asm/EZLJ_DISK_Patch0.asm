@@ -21,9 +21,17 @@ insert EZLJ_ENTRANCE_TABLE,"../other/code_entrance_table.bin"
 dw 0x800EFD04, EZLJ_ENTRANCE_CUTSCENE_TABLE.size
 insert EZLJ_ENTRANCE_CUTSCENE_TABLE,"../other/code_entrance_cutscene_table.bin"
 
-//Minimap Table
-dw 0x800F6914, EZLJ_MAP_MINIMAP_TABLE.size
-insert EZLJ_MAP_MINIMAP_TABLE,"../other/code_overworld_minimap_table.bin"
+//Minimap Tables
+dw 0x800F6854, EZLJ_MAP_MINIMAP_TABLE_LENGTH.size
+insert EZLJ_MAP_MINIMAP_TABLE_LENGTH,"../other/code_overworld_minimap_table_length.bin"
+dw 0x800F6884, EZLJ_MAP_MINIMAP_TABLE_OFFSET.size
+insert EZLJ_MAP_MINIMAP_TABLE_OFFSET,"../other/code_overworld_minimap_table_offset.bin"
+dw 0x800F6914, EZLJ_MAP_MINIMAP_TABLE_COMPASS.size
+insert EZLJ_MAP_MINIMAP_TABLE_COMPASS,"../other/code_overworld_minimap_table_compass.bin"
+dw 0x800F6A38, EZLJ_MAP_MINIMAP_TABLE_WIDTH.size
+insert EZLJ_MAP_MINIMAP_TABLE_WIDTH,"../other/code_overworld_minimap_table_width.bin"
+dw 0x800F6A68, EZLJ_MAP_MINIMAP_TABLE_HEIGHT.size
+insert EZLJ_MAP_MINIMAP_TABLE_HEIGHT,"../other/code_overworld_minimap_table_height.bin"
 
 //Tunic Colors
 dw 0x800F7AD8, 8
@@ -217,6 +225,21 @@ dw (DDHOOK_ITEM_NAME_STATIC + 0x11000), EZLJ_ITEM_NAME_STATIC_BOOTS1.size
 insert EZLJ_ITEM_NAME_STATIC_BOOTS1,"../images/item_name_static/item_name_static_boots1_11000.bin"
 dw (DDHOOK_ITEM_NAME_STATIC + 0x14000), EZLJ_ITEM_NAME_STATIC_BRACELET.size
 insert EZLJ_ITEM_NAME_STATIC_BRACELET,"../images/item_name_static/item_name_static_bracelet_14000.bin"
+
+//icon_item_24_static
+dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x12EE0), 0x4
+dw (0x3C050000 + DDHOOK_ICON_ITEM_24_STATIC.shi)
+dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x12EEC), 0x4
+dw (0x3C190000 + DDHOOK_ICON_ITEM_24_STATIC.ehi)
+dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x12EF4), 0x8
+dw (0x27390000 + DDHOOK_ICON_ITEM_24_STATIC.elo), (0x24A50000 + DDHOOK_ICON_ITEM_24_STATIC.slo)
+
+dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x14494), 0x4
+dw (0x3C050000 + DDHOOK_ICON_ITEM_24_STATIC.shi)
+dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x144A0), 0x4
+dw (0x3C180000 + DDHOOK_ICON_ITEM_24_STATIC.ehi)
+dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x144A8), 0x8
+dw (0x27180000 + DDHOOK_ICON_ITEM_24_STATIC.elo), (0x24A50000 + DDHOOK_ICON_ITEM_24_STATIC.slo)
 
 dw 0
 EZLJ_PATCH0_END:
