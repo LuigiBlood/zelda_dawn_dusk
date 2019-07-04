@@ -137,14 +137,6 @@ dw 0x35050602, 0x24A59D58
 dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x165B4), EZLJ_ITEM_USABILITY_TABLE.size
 insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
 
-//icon_item_field_static
-
-//icon_item_nes_static
-
-//map_name_static
-dw (DDHOOK_MAP_NAME_STATIC + 0x5800), EZLJ_MAP_NAME_STATIC_DAWN.size
-insert EZLJ_MAP_NAME_STATIC_DAWN,"../images/map_name_static_landdawndusk_5800.bin"
-
 //icon_item_static
 dw (DDHOOK_ICON_ITEM_STATIC + 0x3E000), EZLJ_ICON_ITEM_STATIC_SHIELD1.size
 insert EZLJ_ICON_ITEM_STATIC_SHIELD1,"../images/icon_item_static/icon_item_static_shield1_3E000.bin"
@@ -156,31 +148,6 @@ dw (DDHOOK_ICON_ITEM_STATIC + 0x42000), EZLJ_ICON_ITEM_STATIC_TUNIC2.size
 insert EZLJ_ICON_ITEM_STATIC_TUNIC2,"../images/icon_item_static/icon_item_static_tunic2_42000.bin"
 dw (DDHOOK_ICON_ITEM_STATIC + 0x50000), EZLJ_ICON_ITEM_STATIC_BRACELET.size
 insert EZLJ_ICON_ITEM_STATIC_BRACELET,"../images/icon_item_static/icon_item_static_bracelet_50000.bin"
-
-//item_name_static
-dw (DDHOOK_OVL_KALEIDO_SCOPE + 0xF6A0), 0x4
-dw 0x24630000       //Ignore Japanese Item Names (english is forced) and halve the file size by half
-
-dw (DDHOOK_ITEM_NAME_STATIC + 0x1800), EZLJ_ITEM_NAME_STATIC_SLINGSHOT.size
-insert EZLJ_ITEM_NAME_STATIC_SLINGSHOT,"../images/item_name_static/item_name_static_slingshot_1800.bin"
-dw (DDHOOK_ITEM_NAME_STATIC + 0x4400), EZLJ_ITEM_NAME_STATIC_HAMMER.size
-insert EZLJ_ITEM_NAME_STATIC_HAMMER,"../images/item_name_static/item_name_static_hammer_4400.bin"
-dw (DDHOOK_ITEM_NAME_STATIC + 0xEC00), EZLJ_ITEM_NAME_STATIC_SWORD1.size
-insert EZLJ_ITEM_NAME_STATIC_SWORD1,"../images/item_name_static/item_name_static_sword1_EC00.bin"
-dw (DDHOOK_ITEM_NAME_STATIC + 0xF800), EZLJ_ITEM_NAME_STATIC_SHIELD1.size
-insert EZLJ_ITEM_NAME_STATIC_SHIELD1,"../images/item_name_static/item_name_static_shield1_F800.bin"
-dw (DDHOOK_ITEM_NAME_STATIC + 0xFC00), EZLJ_ITEM_NAME_STATIC_SHIELD2.size
-insert EZLJ_ITEM_NAME_STATIC_SHIELD2,"../images/item_name_static/item_name_static_shield2_FC00.bin"
-dw (DDHOOK_ITEM_NAME_STATIC + 0x10400), EZLJ_ITEM_NAME_STATIC_TUNIC1.size
-insert EZLJ_ITEM_NAME_STATIC_TUNIC1,"../images/item_name_static/item_name_static_tunic1_10400.bin"
-dw (DDHOOK_ITEM_NAME_STATIC + 0x10800), EZLJ_ITEM_NAME_STATIC_TUNIC2.size
-insert EZLJ_ITEM_NAME_STATIC_TUNIC2,"../images/item_name_static/item_name_static_tunic2_10800.bin"
-dw (DDHOOK_ITEM_NAME_STATIC + 0x11000), EZLJ_ITEM_NAME_STATIC_BOOTS1.size
-insert EZLJ_ITEM_NAME_STATIC_BOOTS1,"../images/item_name_static/item_name_static_boots1_11000.bin"
-dw (DDHOOK_ITEM_NAME_STATIC + 0x14000), EZLJ_ITEM_NAME_STATIC_BRACELET.size
-insert EZLJ_ITEM_NAME_STATIC_BRACELET,"../images/item_name_static/item_name_static_bracelet_14000.bin"
-
-//icon_item_24_static
 
 dw 0
 EZLJ_PATCH0_END:

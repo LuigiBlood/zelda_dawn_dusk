@@ -103,12 +103,8 @@ macro n64dd_RoomEntry(roomstart) {
 	dw ({roomstart}), ({roomstart} + {roomstart}.size)
 }
 
-macro n64dd_FileEntry(vfilename, vfile, vrom, size) {
-	global variable {vfilename}({vfile})
-	scope {vfilename} {
-		variable size({size})
-	}
-	dw ({vfilename}), ({vfilename}+{size})
+macro n64dd_FileEntry(vfile, vrom, size) {
+	dw ({vfile}), ({vfile}+{size})
 	dw ({vrom}), ({size})
 }
 

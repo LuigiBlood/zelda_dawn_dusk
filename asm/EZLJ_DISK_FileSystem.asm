@@ -37,11 +37,34 @@ include "EZLJ_DISK_Patch0.asm"
 
 //ovl_kaleido_scope (Pause Overlay)
 //insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
+
+//For precaution with 64DD Disk loading on real hardware, all these files will be loaded contiguous to RAM in one go.
+EZLJ_DISK_FS_STATIC_START:
+insert EZLJ_GAMEPLAY_DANGEON_KEEP,"../object/gameplay_dangeon_keep.bin"
+insert EZLJ_OBJECT_LINK_CHILD,"../object/object_link_child.bin"
+
 insert EZLJ_ICON_ITEM_FIELD_STATIC,"../images/icon_item_field_static.bin"
 insert EZLJ_ICON_ITEM_NES_STATIC,"../images/icon_item_nes_static.bin"
 
-//Minimaps
+insert EZLJ_MAP_NAME_STATIC_LAND,"../images/map_name_static/map_name_static_landdawndusk_5800.bin"
+insert EZLJ_MAP_NAME_STATIC_DAWN,"../images/map_name_static/map_name_static_dawnside.bin"
+insert EZLJ_MAP_NAME_STATIC_DUSK,"../images/map_name_static/map_name_static_duskside.bin"
+
 insert EZLJ_MAP_GRAND_STATIC,"../images/map_grand_static.bin"
+
+insert EZLJ_ITEM_NAME_STATIC_SLINGSHOT,"../images/item_name_static/item_name_static_slingshot_1800.bin"
+insert EZLJ_ITEM_NAME_STATIC_HAMMER,"../images/item_name_static/item_name_static_hammer_4400.bin"
+insert EZLJ_ITEM_NAME_STATIC_SWORD1,"../images/item_name_static/item_name_static_sword1_EC00.bin"
+insert EZLJ_ITEM_NAME_STATIC_SHIELD1,"../images/item_name_static/item_name_static_shield1_F800.bin"
+insert EZLJ_ITEM_NAME_STATIC_SHIELD2,"../images/item_name_static/item_name_static_shield2_FC00.bin"
+insert EZLJ_ITEM_NAME_STATIC_TUNIC1,"../images/item_name_static/item_name_static_tunic1_10400.bin"
+insert EZLJ_ITEM_NAME_STATIC_TUNIC2,"../images/item_name_static/item_name_static_tunic2_10800.bin"
+insert EZLJ_ITEM_NAME_STATIC_BOOTS1,"../images/item_name_static/item_name_static_boots1_11000.bin"
+insert EZLJ_ITEM_NAME_STATIC_BRACELET,"../images/item_name_static/item_name_static_bracelet_14000.bin"
+
+EZLJ_DISK_FS_STATIC_END:
+constant EZLJ_DISK_FS_STATIC_SIZE(EZLJ_DISK_FS_STATIC_END-EZLJ_DISK_FS_STATIC_START)
+//Minimaps
 
 //Default Save
 insert EZLJ_SAVE_DATA,"../other/default_save_test.bin"
@@ -49,10 +72,6 @@ insert EZLJ_SAVE_DATA,"../other/default_save_test.bin"
 //Text
 insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
 insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
-
-//Objects
-insert EZLJ_GAMEPLAY_DANGEON_KEEP,"../object/gameplay_dangeon_keep.bin"
-insert EZLJ_OBJECT_LINK_CHILD,"../object/object_link_child.bin"
 
 insert EZLJ_OBJECT_BDOOR,"../object/object_bdoor.bin"
 insert EZLJ_OBJECT_FD2,"../object/object_fd2.bin"
