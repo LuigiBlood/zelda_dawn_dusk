@@ -52,6 +52,17 @@ macro n64dd_RomLoad(dest, source, size) {
 	nop
 }
 
+macro n64dd_ForceRomEnable() {
+	addiu v0,0,1
+	li a0,DDHOOK_FORCEROM
+	sw v0,0(a0)
+}
+
+macro n64dd_ForceRomDisable() {
+	li a0,DDHOOK_FORCEROM
+	sw 0,0(a0)
+}
+
 macro n64dd_CallRamCopy() {
 	li v0,ddhook_ramcopy
 	jalr v0
@@ -92,13 +103,13 @@ macro n64dd_RoomEntry(roomstart) {
 	dw ({roomstart}), ({roomstart} + {roomstart}.size)
 }
 
-macro n64dd_FileEntry(vfilename, vfile, file) {
+macro n64dd_FileEntry(vfilename, vfile, vrom, size) {
 	global variable {vfilename}({vfile})
 	scope {vfilename} {
-		variable size({vfile} + {file}.size)
+		variable size({size})
 	}
-	dw ({vfilename}), ({vfilename}.size)
-	dw ({file}), ({file}.size)
+	dw ({vfilename}), ({vfilename}+{size})
+	dw ({vrom}), ({size})
 }
 
 global define n64dd_RamAddress(0x80400000)

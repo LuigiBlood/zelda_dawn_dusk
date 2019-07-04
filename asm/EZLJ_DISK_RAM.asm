@@ -8,6 +8,7 @@ n64dd_RamSetAddress(0x80400000)
 n64dd_RamDefine(DDHOOK_RAM, 0x10000)		//MAIN DISK CODE
 n64dd_RamDefine(DDHOOK_GPRAM, 0)
 	n64dd_RamDefine(DDHOOK_ADDRTABLE, 4)				//n64dd Function Table Pointer
+	n64dd_RamDefine(DDHOOK_FORCEROM, 4)					//Force ROM Load Flag
 	n64dd_RamDefine(DDHOOK_VERSION, 4)					//VERSION
 	n64dd_RamDefine(DDHOOK_VERSIONTABLE, 8)				//VERSION SPECIFIC DATA
 

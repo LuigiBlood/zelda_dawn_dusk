@@ -43,26 +43,14 @@ dw 0x4C971446, 0x2640003C
 
 
 //---Object List
-//gameplay_dangeon_keep
-dw (0x800F8FF0 + 8 + (0x03 * 8)), 8
-dw DDHOOK_GAMEPLAY_DANGEON_KEEP, DDHOOK_GAMEPLAY_DANGEON_KEEP.end
-
-//object_link_child
-dw (0x800F8FF0 + 8 + (0x15 * 8)), 8
-dw DDHOOK_OBJECT_LINK_CHILD, DDHOOK_OBJECT_LINK_CHILD.end
+//exemple in case of use
+//dw (0x800F8FF0 + 8 + (id * 8)), 8
+//dw start, end
 
 //---Actor Overlay Table
 //ovl_Item_Shield
 dw (0x800E8530 + (0x10 * 0xEE)), 8
 dw (DDHOOK_OVL_ITEM_SHIELD), (DDHOOK_OVL_ITEM_SHIELD + 0xA10)
-
-//---Pause/Player Overlay Table
-//ovl_kaleido_scope
-dw (0x800FE480 + 4), 8
-dw (DDHOOK_OVL_KALEIDO_SCOPE), (DDHOOK_OVL_KALEIDO_SCOPE + 0x1C990)
-//ovl_player_actor
-dw (0x800FE480 + 0x1C + 4), 8
-dw (DDHOOK_OVL_PLAYER_ACTOR), (DDHOOK_OVL_PLAYER_ACTOR + 0x26560)
 
 //---Particle Overlay Table
 //ovl_Effect_Ss_Stick

@@ -151,6 +151,7 @@ _ddhook_setup_ovl_kaleido_scope:
 
 _ddhook_setup_patch:
 	//assume 1.0 for now, load patch - A04104B4
+	n64dd_ForceRomEnable()
 	n64dd_RomLoad(DDHOOK_OVL_PLAYER_ACTOR,0xBCDB70,0x26560)
 	n64dd_RomLoad(DDHOOK_OVL_KALEIDO_SCOPE,0xBB11E0,0x1C990)
 	n64dd_RomLoad(DDHOOK_OVL_EFFECT_SS_STICK,0xEAD0F0,0x3A0)
@@ -170,6 +171,7 @@ _ddhook_setup_patch:
 	n64dd_DiskLoad(DDHOOK_ICON_ITEM_NES_STATIC, EZLJ_ICON_ITEM_NES_STATIC, EZLJ_ICON_ITEM_NES_STATIC.size)
 
 	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
+	n64dd_ForceRomDisable()
 
 	li at,DDHOOK_PATCH
     -; lw a0,0(at)		//Get Dest
@@ -725,6 +727,12 @@ ddhook_romtoram: {
 	nop
 
 ddhook_romtoram_vrom:
+	//Check for Force ROM flag
+	li a0,DDHOOK_FORCEROM
+	lw a0,0(a0)
+	bnez a0,ddhook_romtoram_vrom_romload
+	nop
+
 	//Check for File Replacements
 	li a0,DDHOOK_VFILETABLE
 	ori a1,0,EZLJ_FILE_COUNT
@@ -748,6 +756,7 @@ ddhook_romtoram_vrom:
 	blt a3,a1,-
 	nop
 
+ddhook_romtoram_vrom_romload:
 	//Load from ROM
 	ori v0,0,0
 	b ddhook_romtoram_return
@@ -765,14 +774,28 @@ ddhook_romtoram_force_rom:
 ddhook_romtoram_vrom_replace:
 	subu a1,a2,v0
 	lw a2,8(a0)
-	addu a1,a1,a2
-	lw a2,0x20(sp)
-	lw a0,0x18(sp)
+	addu a1,a1,a2	//A1 = Source
+	lw a2,0x20(sp)	//A2 = Size
+	lw a0,0x18(sp)	//A0 = Dest
 
+	//Check if source is RAM
+	lui v0,0xF000
+	and a3,a1,v0
+	bnez a3,ddhook_romtoram_vrom_replace_ram
+	nop
+
+ddhook_romtoram_vrom_replace_disk:
+	//Load from Disk
 	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
 	jalr v0
 	nop
 
+	b ddhook_romtoram_success
+	nop
+
+ddhook_romtoram_vrom_replace_ram:
+	//Copy from RAM Address
+	n64dd_CallRamCopy()
 	b ddhook_romtoram_success
 	nop
 
