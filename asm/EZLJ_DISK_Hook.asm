@@ -214,7 +214,6 @@ _ddhook_setup_music:
 	//Check version and load the appropriate audiobank
 	li a0,DDHOOK_VERSION
 	lw a0,0(a0)
-	sync
 
 	ori at,0,1
 	beq a0,at,_ddhook_setup_music_bank1
@@ -275,7 +274,6 @@ _ddhook_setup_music_seq:
 
 	li a0,DDHOOK_VERSIONTABLE
 	lw a0,0(a0)
-	sync
 
 	li a1,DDHOOK_AUDIOBANK_TABLE
 	li a2,DDHOOK_AUDIOSEQ_TABLE
@@ -294,30 +292,23 @@ _ddhook_setup_music_seq:
 
 	li a0,DDHOOK_VERSIONTABLE
 	lw a0,4(a0)
-	sync
 
 	//Copy osEPiStartDma call for regular DMA use
 	li a1,_ddhook_loadmusic_startdma
 	lw a2,0(a0)
-	sync
 	sw a2,0(a1)
 	lw a2,4(a0)
-	sync
 	sw a2,4(a1)
 	lw a2,8(a0)
-	sync
 	sw a2,8(a1)
 
 	//Inject custom function call for Audio use
 	li a1,_ddhook_setup_musicdma
 	lw a2,0(a1)
-	sync
 	sw a2,0(a0)
 	lw a2,4(a1)
-	sync
 	sw a2,4(a0)
 	lw a2,8(a1)
-	sync
 	sw a2,8(a0)
 
 	b _ddhook_setup_finish
@@ -415,7 +406,6 @@ ddhook_textUSload: {
 	nop
 	
 	lw a0,4(sp)
-	
 	lw a2,4(a0) 		//A2 = Size
 	lw a1,0(a0)		//A1 = Offset
 	li a3,DDHOOK_TEXTDATA	//A3 = DDHOOK_TEXTDATA
@@ -494,6 +484,7 @@ ddhook_sceneload: {
 	addiu a2,0,0
 	li v0, ddhook_sceneentry_data
 	-; lbu v1,0x12(v0)
+
 	beq a0,v1,_ddhook_sceneload_custom
 	nop
 	addiu v0,v0,0x1C
@@ -539,7 +530,6 @@ _ddhook_sceneload_custom:
 	lw a0,8(v0)
 	lw a1,0x14(v0)
 	lw a2,0x18(v0)
-
 	n64dd_LoadAddress(a3, {CZLJ_DiskLoad})
 	jalr a3			//read from disk
 	nop
@@ -593,7 +583,6 @@ ddhook_postscene: {
 	
 	-; lw a2,4(a1)		//get End VROM
 	lw a1,0(a1)		//get Start VROM
-
 	subu a2,a2,a1	//get Size
 
 	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
@@ -614,7 +603,6 @@ ddhook_postscene: {
 	addu a0,a0,a2
 	sw a0,4(a3)		//Save End RAM Address to Table
 	sw a0,0x10(sp)
-
 	lw a3,0x0C(sp)	//Current Room ID
 	lw a2,0x18(sp)	//Room Count
 	addiu a3,a3,1	//ID++
@@ -652,7 +640,6 @@ ddhook_roomload: {
 	
 	lw a1,0x14(sp)
 	lw a2,0x18(sp)
-
 	lw a0,0x34(a1)		//A0=RAM Address Dest
 	li a1,DDHOOK_SCENE_ROOM_TABLE
 	sll a2,a2,3
