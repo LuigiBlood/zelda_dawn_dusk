@@ -170,7 +170,10 @@ _ddhook_setup_patch:
 	n64dd_DiskLoad(DDHOOK_ICON_ITEM_FIELD_STATIC, EZLJ_ICON_ITEM_FIELD_STATIC, EZLJ_ICON_ITEM_FIELD_STATIC.size)
 	n64dd_DiskLoad(DDHOOK_ICON_ITEM_NES_STATIC, EZLJ_ICON_ITEM_NES_STATIC, EZLJ_ICON_ITEM_NES_STATIC.size)
 
+	n64dd_DiskLoad(DDHOOK_MAP_GRAND_STATIC, EZLJ_MAP_GRAND_STATIC, EZLJ_MAP_GRAND_STATIC.size)
+
 	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
+
 	n64dd_ForceRomDisable()
 
 	li at,DDHOOK_PATCH
@@ -340,6 +343,8 @@ _ddhook_setup_finish:
 	jalr v0
 	nop
 	
+	//Load Message Table to RAM
+	n64dd_DiskLoad(DDHOOK_TEXTTABLE, EZLJ_NES_MESSAGE_TABLE, EZLJ_NES_MESSAGE_TABLE.size)
 	//Load text data into RAM (avoid music stop)
 	n64dd_DiskLoad(DDHOOK_TEXTDATA, EZLJ_NES_MESSAGE_DATA_STATIC, EZLJ_NES_MESSAGE_DATA_STATIC.size)
 	
@@ -469,9 +474,6 @@ ddhook_text_table: {
 	jalr v0
 	nop
 	
-	//Load Message Table to RAM
-	n64dd_DiskLoad(DDHOOK_TEXTTABLE, EZLJ_NES_MESSAGE_TABLE, EZLJ_NES_MESSAGE_TABLE.size)
-	
 	lw ra,0x10(sp)
 	addiu sp,sp,0x20
 	jr ra
@@ -488,7 +490,9 @@ ddhook_sceneload: {
 	//V0=p->Scene Entry
 	
 	addiu sp,sp,-0x20
-	sw ra,0x10(sp)
+	sw ra,0x20(sp)
+	sw a0,0x1C(sp)
+	sw a1,0x18(sp)
 
 	//Check if Scene ID is part of the List
 	//Uses the Disk byte in the Scene Entry as Scene ID
@@ -521,6 +525,15 @@ _ddhook_sceneload_original:
 _ddhook_sceneload_custom:
 	sw v0,0x14(sp)
 
+	//Check Current Scene ID to avoid reloading things when a scene is reloaded (like when you have fallen)
+	li a0,ddhook_list_start
+	sw 0,0xC(a0)
+	lw a0,0x1C(sp)
+	li a1,DDHOOK_CURRENTSCENEID
+	lw a1,0(a1)
+	beq a0,a1,+
+	nop
+
 	//Setup Room Load Hook
 	li a0,ddhook_list_start
 	li a1,ddhook_roomload
@@ -537,10 +550,14 @@ _ddhook_sceneload_custom:
 	jalr a3			//read from disk
 	nop
 
-	lw v0,0x14(sp)
+	+; lw v0,0x14(sp)
 
 _ddhook_sceneload_return:
-	lw ra,0x10(sp)
+	lw a0,0x1C(sp)
+	li a1,DDHOOK_CURRENTSCENEID
+	sw a0,0(a1)
+
+	lw ra,0x20(sp)
     addiu sp,sp,0x20
 	jr ra
 	nop
