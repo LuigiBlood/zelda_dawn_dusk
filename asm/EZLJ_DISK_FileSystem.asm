@@ -15,6 +15,9 @@ seekDisk(0x4D08)
 insert EZLJ_ERROR_IPL,"../images/EZLJ_error_IPL.bin"
 insert EZLJ_ERROR_VER,"../images/EZLJ_error_version.bin"
 
+//Default Save Data
+insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Context offset 0x002E
+
 //Audio
 insert EZLJ_AUDIOBANK0,"../audio/audiobank.dawn.0.bin" // 1.0
 //insert EZLJ_AUDIOBANK1,"../audio/audiobank.dawn.1.bin" //1.1 TODO
@@ -29,14 +32,6 @@ include "EZLJ_DISK_FileData.asm"
 
 //Patch
 include "EZLJ_DISK_Patch0.asm"
-
-//Code (File)
-//insert EZLJ_ENTRANCE_TABLE,"../other/code_entrance_table.bin"
-//insert EZLJ_ENTRANCE_CUTSCENE_TABLE,"../other/code_entrance_cutscene_table.bin"
-//insert EZLJ_MAP_MINIMAP_TABLE,"../other/code_overworld_minimap_table.bin"
-
-//ovl_kaleido_scope (Pause Overlay)
-//insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
 
 //For precaution with 64DD Disk loading on real hardware, all these files will be loaded contiguous to RAM in one go.
 EZLJ_DISK_FS_STATIC_START:
@@ -65,9 +60,6 @@ insert EZLJ_ITEM_NAME_STATIC_BRACELET,"../images/item_name_static/item_name_stat
 EZLJ_DISK_FS_STATIC_END:
 constant EZLJ_DISK_FS_STATIC_SIZE(EZLJ_DISK_FS_STATIC_END-EZLJ_DISK_FS_STATIC_START)
 //Minimaps
-
-//Default Save
-insert EZLJ_SAVE_DATA,"../other/default_save_test.bin"
 
 //Text
 insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"

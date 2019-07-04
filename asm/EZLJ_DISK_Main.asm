@@ -37,6 +37,9 @@ endian msb
 include "N64.INC"
 include "N64_GFX.INC"
 
+//CHANGE THIS WHEN YOU ARE MAKING ANOTHER DISK (must NOT be 0)
+constant EZLJ_SAVE_ID(0x4441574E)
+
 include "EZLJ_DISK_Macros.asm"
 include "EZLJ_DISK_RAM.asm"
 include "EZLJ_DISK_System.asm"
