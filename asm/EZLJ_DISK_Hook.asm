@@ -688,11 +688,12 @@ ddhook_romtoram: {
 	//A1=RAM Address
 	//A2=VROM Address
 	//A3=Size
+	//T7=osMesgQueue
 	//Return:
 	//V0=IsLoaded
 	addiu sp,sp,-0x40
 	sw ra,0x10(sp)
-	sw a0,0x14(sp)
+	sw t7,0x14(sp)
 	sw a1,0x18(sp)
 	sw a2,0x1C(sp)
 	sw a3,0x20(sp)
@@ -825,8 +826,7 @@ ddhook_romtoram_disk:
 	nop
 
 ddhook_romtoram_success:
-	lw a0,0x14(sp)
-	subiu a0,a0,0x18	//go to osMesgQueue
+	lw a0,0x14(sp)		//go to osMesgQueue (hacky trick using t7, check if 1.2 works)
 	ori a1,0,0
 	ori a2,0,0
 
