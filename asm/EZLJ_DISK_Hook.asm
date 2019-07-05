@@ -65,7 +65,77 @@ ddhook_setup: {
 	li a3,(DDHOOK_ADDRTABLE)
 	sw a0,0(a3)
 
+_ddhook_setup_savecontext:
+	//Save Context Change
+	n64dd_LoadAddress(a1, {CZLJ_SaveContext})
+	ori a2,0,1
+	sb a2,0x1409(a1)	//Set the game into English (1)
+	sw 0,0x135C(a1)		//Set Game Mode to Normal Gameplay
+	//(Map Select does not reset it when disk is present, seems to be a bug)
+	
+	//Check if save is new (uses unused bytes of Save Context)
+	li a2,EZLJ_SAVE_ID
+	ori v0,0,0
+	lb a3,0x47(a1)
+	or v0,v0,a3
+	sll v0,v0,8
+	lb a3,0x51(a1)
+	or v0,v0,a3
+	sll v0,v0,8
+	lb a3,0x5B(a1)
+	or v0,v0,a3
+	sll v0,v0,8
+	lb a3,0x65(a1)
+	or v0,v0,a3
+	//If it is all zero, it is a new save.
+	beqz v0,_ddhook_setup_savecontext_newsave
+	nop
+	//If it is not identical but also not zero, then it is a save of another disk mod, do not do anything.
+	bne a2,v0,_ddhook_setup_savecontext_wrongsave
+	nop
+	//Else it is all good, do not modify save.
+	b _ddhook_setup_savecontext_skip
+	nop
+
+_ddhook_setup_savecontext_wrongsave:
+	lui a0,VI_BASE
+	lw a0,VI_ORIGIN(a0)
+	li a1,{KSEG1}
+	addu a0,a0,a1
+	li a1,EZLJ_ERROR_SAV
+	li a2,EZLJ_ERROR_SAV.size
+	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+_ddhook_setup_savecontext_wrongsave_loop:
+	b _ddhook_setup_savecontext_wrongsave_loop
+	nop
+
+_ddhook_setup_savecontext_newsave:
+	addiu a0,a1,0x2E
+	li a1,EZLJ_SAVE_DATA
+	addiu a2,0,EZLJ_SAVE_DATA.size
+
+	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+
+	//Put Save Disk ID
+	n64dd_LoadAddress(a0, {CZLJ_SaveContext})
+	li a1,EZLJ_SAVE_ID
+	sb a1,0x65(a0)
+	srl a1,a1,8
+	sb a1,0x5B(a0)
+	srl a1,a1,8
+	sb a1,0x51(a0)
+	srl a1,a1,8
+	sb a1,0x47(a0)
+
+_ddhook_setup_savecontext_skip:
 	//Version Detection
+	li a3,(DDHOOK_ADDRTABLE)
+	lw a0,0(a3)
+
 	//1.0 test
 	li a1,0x800FEE70
 	beq a0,a1,+
@@ -172,7 +242,7 @@ _ddhook_setup_patch:
 
 	li at,DDHOOK_PATCH
     -; lw a0,0(at)		//Get Dest
-	beq a0,0,_ddhook_setup_savecontext	//If 0 then done
+	beq a0,0,_ddhook_setup_music	//If 0 then done
 	nop
 	lw a2,4(at)			//Get Size
 	addiu a1,at,8		//Get Source
@@ -180,62 +250,6 @@ _ddhook_setup_patch:
 	n64dd_CallRamCopy()	//Patch
 	b -					//Loop
 	nop
-
-_ddhook_setup_savecontext:
-	//Save Context Change
-	n64dd_LoadAddress(a1, {CZLJ_SaveContext})
-	ori a2,0,1
-	sb a2,0x1409(a1)	//Set the game into English (1)
-	sw 0,0x135C(a1)		//Set Game Mode to Normal Gameplay
-	//(Map Select does not reset it when disk is present, seems to be a bug)
-	
-	//Check if save is new (uses unused bytes of Save Context)
-	li a2,EZLJ_SAVE_ID
-	ori v0,0,0
-	lb a3,0x47(a1)
-	or v0,v0,a3
-	sll v0,v0,8
-	lb a3,0x51(a1)
-	or v0,v0,a3
-	sll v0,v0,8
-	lb a3,0x5B(a1)
-	or v0,v0,a3
-	sll v0,v0,8
-	lb a3,0x65(a1)
-	or v0,v0,a3
-	//If it is all zero, it is a new save.
-	beqz v0,_ddhook_setup_savecontext_newsave
-	nop
-	//If it is not identical but also not zero, then it is a save of another disk mod, do not do anything.
-	bne a2,v0,_ddhook_setup_savecontext_wrongsave
-	nop
-	//Else it is all good, do not modify save.
-	b _ddhook_setup_music
-	nop
-
-_ddhook_setup_savecontext_wrongsave:
-	b _ddhook_setup_savecontext_wrongsave
-	nop
-
-_ddhook_setup_savecontext_newsave:
-	addiu a0,a1,0x2E
-	li a1,EZLJ_SAVE_DATA
-	addiu a2,0,EZLJ_SAVE_DATA.size
-
-	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
-	jalr v0
-	nop
-
-	//Put Save Disk ID
-	n64dd_LoadAddress(a0, {CZLJ_SaveContext})
-	li a1,EZLJ_SAVE_ID
-	sb a1,0x65(a0)
-	srl a1,a1,8
-	sb a1,0x5B(a0)
-	srl a1,a1,8
-	sb a1,0x51(a0)
-	srl a1,a1,8
-	sb a1,0x47(a0)
 
 _ddhook_setup_music:
 	n64dd_DiskLoad(DDHOOK_AUDIOBANK_TABLE, EZLJ_AUDIOBANK_TABLE, EZLJ_AUDIOBANK_TABLE.size)

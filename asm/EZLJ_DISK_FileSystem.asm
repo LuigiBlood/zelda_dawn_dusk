@@ -12,8 +12,9 @@ base 0
 
 seekDisk(0x4D08)
 //Error Screens (Hardcoded, do not move them)
-insert EZLJ_ERROR_IPL,"../images/EZLJ_error_IPL.bin"
-insert EZLJ_ERROR_VER,"../images/EZLJ_error_version.bin"
+insert EZLJ_ERROR_IPL,"../images/error_screens/EZLJ_error_IPL.bin"
+insert EZLJ_ERROR_VER,"../images/error_screens/EZLJ_error_version.bin"
+insert EZLJ_ERROR_SAV,"../images/error_screens/EZLJ_error_save.bin"
 
 //Default Save Data
 insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Context offset 0x002E
@@ -79,11 +80,11 @@ insert EZLJ_OBJECT_SD,"../object/object_sd.bin"
 insert EZLJ_OBJECT_SPOT02_OBJECTS,"../object/object_spot02_objects.bin"
 
 //Scene Title Cards
-insert EZLJ_SCENENAME09,"../images/g_pn_0x09.bin"
-insert EZLJ_SCENENAME54,"../images/g_pn_0x54.bin"
-insert EZLJ_SCENENAME55,"../images/g_pn_0x55.bin"
-insert EZLJ_SCENENAME59,"../images/g_pn_0x59.bin"
-insert EZLJ_SCENENAME5B,"../images/g_pn_0x5B.bin"
+insert EZLJ_SCENENAME09,"../images/g_pn/g_pn_0x09.bin"
+insert EZLJ_SCENENAME54,"../images/g_pn/g_pn_0x54.bin"
+insert EZLJ_SCENENAME55,"../images/g_pn/g_pn_0x55.bin"
+insert EZLJ_SCENENAME59,"../images/g_pn/g_pn_0x59.bin"
+insert EZLJ_SCENENAME5B,"../images/g_pn/g_pn_0x5B.bin"
 
 //Scenes / Rooms
 insert EZLJ_SCENE07,"../scene/Cave Passage.zscene"
