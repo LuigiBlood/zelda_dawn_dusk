@@ -107,7 +107,7 @@ dw (0x800110A0 + 0xE671C + (0x10 * 36)), 4, 0x06017340      //Right Shoulder
 dw (0x800110A0 + 0xE671C + (0x10 * 36) + 8), 4, 0           //FPS Right Forearm (Adult Link)
 dw (0x800110A0 + 0xE671C + (0x10 * 37)), 4, 0x0601F7F0      //FPS Right Arm + Fairy Slingshot
 
-dw (0x800110A0 + 0xE671C + 0x410), 4, 0x060194A8            //Empty Bottle
+dw (0x800110A0 + 0xE6B2C), 4, 0x060194A8                    //Empty Bottle
 
 dw (0x800110A0 + 0xE6B74), 4, 0x0601C3C8                    //Fairy Slingshot String
 
@@ -119,8 +119,8 @@ dw 0x0601D9F8, 0x0601DF48, 0x0601E990, 0x0601D538
 dw (DDHOOK_OVL_PLAYER_ACTOR + 0x184FC), 4
 dw 0x1000000B
 
-dw (DDHOOK_OVL_PLAYER_ACTOR + 0x2139C), 8
-dw 0x14804599, 0x00C61080
+//dw (DDHOOK_OVL_PLAYER_ACTOR + 0x2139C), 8
+//dw 0x14804599, 0x00C61080
 
 //ovl_Effect_Ss_Stick
 dw (DDHOOK_OVL_EFFECT_SS_STICK + 0x334), 4, 0x0601BF30      //Deku Stick
@@ -136,6 +136,25 @@ dw 0x35050602, 0x24A59D58
 //Item Usability / Highlight Tables
 dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x165B4), EZLJ_ITEM_USABILITY_TABLE.size
 insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
+
+//---ovl_player_actor
+//Stuff in code
+//dw (0x800110A0 + 0xDED90 + 0x3F4), 4
+//dw 0x06000A88
+
+//dw (0x800110A0 + 0xDED90 + 0x610), 4
+//dw 0x06001238
+
+//Ruto`s Letter GI hack
+//dw (0x800110A0 + 0xDED90 + (0x24*0x44)), 0xC
+//dw 0x800582C0, 0x06000AE0, 0x00000000
+
+//Ruto`s Letter GI to Empty Bottle GI (Very hacky because Empty Bottle GI crashes the game)
+dw (DDHOOK_OVL_PLAYER_ACTOR + 0x21324 + (0x0E*6)), 0x8
+dw 0x14804542, 0x010B1580
+
+dw (DDHOOK_OVL_PLAYER_ACTOR + 0x21324 + (0x14*6)), 0x8
+dw 0x14804542, 0x010B1080
 
 //icon_item_static
 dw (DDHOOK_ICON_ITEM_STATIC + 0x3E000), EZLJ_ICON_ITEM_STATIC_SHIELD1.size
