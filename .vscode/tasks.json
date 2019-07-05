@@ -22,6 +22,7 @@
                 "isDefault": true
             },
             "problemMatcher": {
+                "owner": "bass",
                 "fileLocation": ["relative", "${workspaceRoot}"],
                 "pattern": [
                     {
@@ -33,76 +34,6 @@
                         "regexp": "^\\s*(.*):(\\d+):(\\d+):\\s+(.*)$",
                         "file": 1,
                         "line": 2,
-                        "column": 3,
-                        "code": 4,
-                        "loop": true
-                    }
-                ]
-            }
-        },
-        {
-            "label": "Build (Retail USA Disk)",
-            "type": "shell",
-            "command": "_build_USA.bat",
-            "problemMatcher": {
-                "fileLocation": ["relative", "${workspaceRoot}"],
-                "pattern": [
-                    {
-                        "regexp": "^(warning|error):\\s+(.*)$",
-                        "severity": 1,
-                        "message": 2,
-                    },
-                    {
-                        "regexp": "^\\s*(.*):(\\d+):(\\d+):\\s+(.*)$",
-                        "file": 1,
-                        "line": 2,
-                        "column": 3,
-                        "code": 4,
-                        "loop": true
-                    }
-                ]
-            }
-        },
-        {
-            "label": "Build (Development JPN Disk)",
-            "type": "shell",
-            "command": "_build_JPN_DEV.bat",
-            "problemMatcher": {
-                "fileLocation": ["relative", "${workspaceRoot}"],
-                "pattern": [
-                    {
-                        "regexp": "^(warning|error):\\s+(.*)$",
-                        "severity": 1,
-                        "message": 2,
-                    },
-                    {
-                        "regexp": "^\\s*(.*):(\\d+):(\\d+):\\s+(.*)$",
-                        "file": 1,
-                        "line": 2,
-                        "column": 3,
-                        "code": 4,
-                        "loop": true
-                    }
-                ]
-            }
-        },
-        {
-            "label": "Build (Development USA Disk)",
-            "type": "shell",
-            "command": "_build_USA_DEV.bat",
-            "problemMatcher": {
-                "fileLocation": ["relative", "${workspaceRoot}"],
-                "pattern": [
-                    {
-                        "regexp": "^(warning|error):\\s+(.*)$",
-                        "severity": 1,
-                        "message": 2,
-                    },
-                    {
-                        "regexp": "^\\s*(.*):(\\d+):(\\d+):\\s+(.*)$",
-                        "file": 1,
-                        "line": 2,
-                        "column": 3,
                         "code": 4,
                         "loop": true
                     }
