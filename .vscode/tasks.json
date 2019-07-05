@@ -1,0 +1,121 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "windows": {
+        "options": {
+            "shell": {
+                "executable": "cmd.exe",
+                "args": [
+                    "/d", "/c"
+                ]
+            }
+        }
+    },
+    "tasks": [
+        {
+            "label": "Build (Retail JPN Disk)",
+            "type": "shell",
+            "command": "_build_JPN.bat",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": [
+                    {
+                        "regexp": "^(warning|error):\\s+(.*)$",
+                        "severity": 1,
+                        "message": 2,
+                    },
+                    {
+                        "regexp": "^\\s*(.*):(\\d+):(\\d+):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "code": 4,
+                        "loop": true
+                    }
+                ]
+            }
+        },
+        {
+            "label": "Build (Retail USA Disk)",
+            "type": "shell",
+            "command": "_build_USA.bat",
+            "problemMatcher": {
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": [
+                    {
+                        "regexp": "^(warning|error):\\s+(.*)$",
+                        "severity": 1,
+                        "message": 2,
+                    },
+                    {
+                        "regexp": "^\\s*(.*):(\\d+):(\\d+):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "code": 4,
+                        "loop": true
+                    }
+                ]
+            }
+        },
+        {
+            "label": "Build (Development JPN Disk)",
+            "type": "shell",
+            "command": "_build_JPN_DEV.bat",
+            "problemMatcher": {
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": [
+                    {
+                        "regexp": "^(warning|error):\\s+(.*)$",
+                        "severity": 1,
+                        "message": 2,
+                    },
+                    {
+                        "regexp": "^\\s*(.*):(\\d+):(\\d+):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "code": 4,
+                        "loop": true
+                    }
+                ]
+            }
+        },
+        {
+            "label": "Build (Development USA Disk)",
+            "type": "shell",
+            "command": "_build_USA_DEV.bat",
+            "problemMatcher": {
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": [
+                    {
+                        "regexp": "^(warning|error):\\s+(.*)$",
+                        "severity": 1,
+                        "message": 2,
+                    },
+                    {
+                        "regexp": "^\\s*(.*):(\\d+):(\\d+):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "code": 4,
+                        "loop": true
+                    }
+                ]
+            }
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "_clean.bat",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            }
+        }
+    ]
+}
