@@ -1,0 +1,2 @@
+- Empty Bottle GI crashing the game, cannot fix it via other ways.
+- Music not having the correct instruments
