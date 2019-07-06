@@ -124,4 +124,7 @@ macro n64dd_RamDefine(label, size) {
 		global variable elo( ({n64dd_RamAddress}+{size}) & 0xFFFF )
 	}
 	global evaluate n64dd_RamAddress({n64dd_RamAddress}+{size})
+	if ({n64dd_RamAddress} >= 0x80800000) {
+		error "RamDefine goes over the RAM limit."
+	}
 }
