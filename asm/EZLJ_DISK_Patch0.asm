@@ -98,7 +98,7 @@ dw (0x800110A0 + 0xE671C + (0x10 * 28)), 4, 0x0601F7C0      //Right Fist + Fairy
 dw (0x800110A0 + 0xE671C + (0x10 * 29)), 4, 0x0601F7D0      //Right Hand + Fairy Ocarina
 dw (0x800110A0 + 0xE671C + (0x10 * 30)), 4, 0x0601F7E0      //Right Hand + Ocarina of Time
 dw (0x800110A0 + 0xE671C + (0x10 * 31)), 4, 0x06017E90      //Right Fist + Hookshot
-dw (0x800110A0 + 0xE671C + (0x10 * 32)), 4, 0x06016458      //Left Fist + Megaton Hammer
+dw (0x800110A0 + 0xE671C + (0x10 * 32)), 4, 0x06022100      //Left Fist + Megaton Hammer
 dw (0x800110A0 + 0xE671C + (0x10 * 33)), 4, 0x0601F7A0      //Left Fist + Boomerang
 dw (0x800110A0 + 0xE671C + (0x10 * 34)), 4, 0x06016EB8      //Outstretched Left Hand for Holding Bottles
 dw (0x800110A0 + 0xE671C + (0x10 * 35)), 4, 0               //FPS Left Forearm (Adult Link)
@@ -116,9 +116,6 @@ dw (DDHOOK_OVL_PLAYER_ACTOR + 0x2253C), 0x20
 dw 0x0601D108, 0x0601C878, 0x0601CC68, 0x0601F290
 dw 0x0601D9F8, 0x0601DF48, 0x0601E990, 0x0601D538
 
-dw (DDHOOK_OVL_PLAYER_ACTOR + 0x184FC), 4
-dw 0x1000000B
-
 //dw (DDHOOK_OVL_PLAYER_ACTOR + 0x2139C), 8
 //dw 0x14804599, 0x00C61080
 
@@ -129,6 +126,10 @@ dw (DDHOOK_OVL_EFFECT_SS_STICK + 0x334), 4, 0x0601BF30      //Deku Stick
 dw (DDHOOK_OVL_ITEM_SHIELD + 0x7EC), 8                      //Deku Shield
 dw 0x3C050602, 0x24A59D58
 
+//---Enable Megaton Hammer rendering for Child Link
+dw (DDHOOK_OVL_PLAYER_ACTOR + 0x184FC), 4
+dw 0x1000000B
+
 //---Object gameplay_keep
 //TODO Just take original file and change Link`s hair 0x1A40 (DBG and 1.0)
 
@@ -137,7 +138,7 @@ dw 0x3C050602, 0x24A59D58
 dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x165B4), EZLJ_ITEM_USABILITY_TABLE.size
 insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
 
-//---ovl_player_actor
+//---Get Item
 //Wooden Shield GI
 dw (0x800110A0 + 0xDED90 + (0x24*0x1C) + 4), 4
 dw 0x06000A88
