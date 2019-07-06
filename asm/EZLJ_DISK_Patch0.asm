@@ -127,7 +127,7 @@ dw (DDHOOK_OVL_EFFECT_SS_STICK + 0x334), 4, 0x0601BF30      //Deku Stick
 
 //ovl_Item_Shield
 dw (DDHOOK_OVL_ITEM_SHIELD + 0x7EC), 8                      //Deku Shield
-dw 0x35050602, 0x24A59D58
+dw 0x3C050602, 0x24A59D58
 
 //---Object gameplay_keep
 //TODO Just take original file and change Link`s hair 0x1A40 (DBG and 1.0)
@@ -138,12 +138,13 @@ dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x165B4), EZLJ_ITEM_USABILITY_TABLE.size
 insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
 
 //---ovl_player_actor
-//Stuff in code
-//dw (0x800110A0 + 0xDED90 + 0x3F4), 4
-//dw 0x06000A88
+//Wooden Shield GI
+dw (0x800110A0 + 0xDED90 + (0x24*0x1C) + 4), 4
+dw 0x06000A88
 
-//dw (0x800110A0 + 0xDED90 + 0x610), 4
-//dw 0x06001238
+//Metal Shield GI
+dw (0x800110A0 + 0xDED90 + (0x24*0x2B) + 4), 4
+dw 0x06001238
 
 //Ruto`s Letter GI hack
 //dw (0x800110A0 + 0xDED90 + (0x24*0x44)), 0xC
