@@ -232,6 +232,8 @@ _ddhook_setup_patch:
 	n64dd_RomLoad(DDHOOK_ICON_ITEM_24_STATIC,0x846000,0xB400)
 	n64dd_RamFill(DDHOOK_ICON_ITEM_24_STATIC+0x6300,0,0x900)	//Patch out that boss icon
 
+	n64dd_RomLoad(DDHOOK_OVL_EN_OSSAN,0xC6C5E0,0x65E0)
+
 	//Load all files contiguous to RAM
 	n64dd_DiskLoad(DDHOOK_STATIC_START, EZLJ_DISK_FS_STATIC_START, EZLJ_DISK_FS_STATIC_SIZE)
 
