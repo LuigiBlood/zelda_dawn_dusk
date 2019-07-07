@@ -79,6 +79,12 @@ macro n64dd_RamFill(dest, fillbyte, size) {
 	nop
 }
 
+macro n64dd_CallRamFill() {
+	li v0,ddhook_ramfill
+	jalr v0
+	nop
+}
+
 variable ddhook_sceneentry_count(0)
 macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 	dw ({scenestart}), ({scenestart} + {scenestart}.size)

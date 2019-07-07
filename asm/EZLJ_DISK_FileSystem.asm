@@ -60,7 +60,7 @@ insert EZLJ_ITEM_NAME_STATIC_BRACELET,"../images/item_name_static/item_name_stat
 
 insert EZLJ_OBJECT_GI_BRACELET,"../object/object_gi_bracelet.bin"
 insert EZLJ_OBJECT_GI_CLOTHES,"../object/object_gi_clothes.bin"
-insert EZLJ_OBJECT_GI_SHIELD1,"../object/object_gi_shield_1.bin"
+insert EZLJ_OBJECT_GI_SHIELD1,"../object/object_gi_shield_1.bin"    //TODO: fix rendering
 insert EZLJ_OBJECT_GI_SHIELD2,"../object/object_gi_shield_2.bin"    //TODO: fix rendering
 
 EZLJ_DISK_FS_STATIC_END:

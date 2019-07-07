@@ -230,9 +230,11 @@ _ddhook_setup_patch:
 	n64dd_RomLoad(DDHOOK_ICON_ITEM_STATIC,0x7BD000,0x888A0)
 
 	n64dd_RomLoad(DDHOOK_ICON_ITEM_24_STATIC,0x846000,0xB400)
-	n64dd_RamFill(DDHOOK_ICON_ITEM_24_STATIC+0x6300,0,0x900)	//Patch out that boss icon
+	//n64dd_RamFill(DDHOOK_ICON_ITEM_24_STATIC+0x6300,0,0x900)	//Patch out that boss icon
 
 	n64dd_RomLoad(DDHOOK_OVL_EN_OSSAN,0xC6C5E0,0x65E0)
+
+	n64dd_RomLoad(DDHOOK_OBJECT_PO_COMPOSER,0x191C000,0x6FA0)
 
 	//Load all files contiguous to RAM
 	n64dd_DiskLoad(DDHOOK_STATIC_START, EZLJ_DISK_FS_STATIC_START, EZLJ_DISK_FS_STATIC_SIZE)
@@ -248,9 +250,24 @@ _ddhook_setup_patch:
 	nop
 	lw a2,4(at)			//Get Size
 	addiu a1,at,8		//Get Source
+	//Check type
+	sra v0,a2,28
+	bne v0,0,+
+	nop
+
+	//Type 0: Copy
 	addu at,a1,a2		//Prepare at for next patch
 	n64dd_CallRamCopy()	//Patch
 	b -					//Loop
+	nop
+
+	//Type 1: Fill
+	+; li a3,0x0FFFFFFF
+	and a2,a2,a3
+	addiu at,a1,4		//Prepare at for next patch
+	lw a1,0(a1)
+	n64dd_CallRamFill()	//Patch
+	b -
 	nop
 
 _ddhook_setup_music:
@@ -721,24 +738,26 @@ ddhook_removecutscene: {
 	//Return:
 	//V0=Is Loaded?
 	
-	addiu v0,0,1
-	jr ra
-	nop
+	//addiu v0,0,1
+	//jr ra
+	//nop
 }
 
 //ROM Loading Hook
 ddhook_romtoram: {
 	//Arguments:
-	//A0=osMesgQueue + 0x18 (?)
+	//A0=z64_getfile_t* struct (see https://github.com/glankk/oot-notes/blob/master/alloc.txt#L172)
 	//A1=RAM Address
 	//A2=VROM Address
 	//A3=Size
-	//T7=osMesgQueue
+	//SP+10=zero
+	//SP+14=notify_mq (osMesgQueue)
+	//SP+18=notify_msg
 	//Return:
 	//V0=IsLoaded
-	addiu sp,sp,-0x40
+	addiu sp,sp,-0x20
 	sw ra,0x10(sp)
-	sw t7,0x14(sp)
+	sw a0,0x14(sp)
 	sw a1,0x18(sp)
 	sw a2,0x1C(sp)
 	sw a3,0x20(sp)
@@ -871,18 +890,25 @@ ddhook_romtoram_disk:
 	nop
 
 ddhook_romtoram_success:
-	lw a0,0x14(sp)		//go to osMesgQueue (hacky trick using t7, check if 1.2 works)
-	ori a1,0,0
+	lw a0,0x14(sp)	//Update z64_getfile_t to notify object loading
+	lw a1,0x1C(sp)	//vrom_addr
+	sw a1,0(a0)
+	lw a1,0x18(sp)	//ram_addr
+	sw a1,4(a0)
+	lw a1,0x20(sp)	//size
+	sw a1,8(a0)
+	lw a1,0x34(sp)	//notify_mq
+	sw a1,0x18(a0)
+	lw a1,0x38(sp)	//notify_msg
+	sw a1,0x1C(a0)
+
+	lw a0,0x34(sp)	//notify_mq
+	lw a1,0x38(sp)	//notify_msg
 	ori a2,0,0
 
 	n64dd_LoadAddress(a3, {CZLJ_osSendMesg})
 	jalr a3			//osSendMesg, to let the engine know that the data is loaded and continue the game
 	nop
-
-	li v0,0x0FFFFFFF
-	lw a2,0x78(sp)
-	and a2,a2,v0
-	sw a2,0x78(sp)
 
 	ori v0,0,1
 
@@ -892,21 +918,21 @@ ddhook_romtoram_return:
 	lw a1,0x18(sp)
 	lw a2,0x1C(sp)
 	lw a3,0x20(sp)
-	addiu sp,sp,0x40
+	addiu sp,sp,0x20
 	jr ra
 	nop
 }
 
 //ROM Loading Hook, for loading from ROM, to patch later
 ddhook_romtoram_restore: {
-	li a3,ddhook_romtoram
-	li v0,ddhook_list_start
-	sw a3,0x70(v0)
+	//li a3,ddhook_romtoram
+	//li v0,ddhook_list_start
+	//sw a3,0x70(v0)
 
-	ori v0,0,0
+	//ori v0,0,0
 
-	jr ra
-	nop
+	//jr ra
+	//nop
 }
 
 ddhook_ramcopy: {
@@ -956,7 +982,7 @@ ddhook_sceneentry_data: {
 
 ddhook_end:
 
-if (origin() >= (0x785C8 + 0x1060)) {
+if (origin() > (0x785C8 + 0x1060)) {
   print (origin() - 0x785C8)
   error "\n\nFATAL ERROR: MAIN DISK CODE IS TOO LARGE.\nPlease reduce it and load the rest during 64DD Hook Initialization Code.\n"
 }

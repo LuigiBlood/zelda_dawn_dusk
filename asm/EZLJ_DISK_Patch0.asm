@@ -7,9 +7,11 @@
 //Load everything into memory first, then patch memory
 
 //Format:
-//rrrrrrrr ssssssss dddddddd ...
-//r = RAM address, s = Size in bytes (aligned to 4), d = Data (size)
+//rrrrrrrr Tsssssss dddddddd ...
+//r = RAM address, T = Type, s = Size in bytes (aligned to 4), d = Data (size)
 //repeat until r = 0
+//T = 0, then copy (rrrrrrrr 0sssssss dddddddd ...)
+//T = 1, then fill (rrrrrrrr 1sssssss 000000dd) 
 
 EZLJ_PATCH0:
 //---code (File)
@@ -158,7 +160,7 @@ dw 0x14804542, 0x010B1580
 dw (DDHOOK_OVL_PLAYER_ACTOR + 0x21324 + (0x14*6)), 0x8
 dw 0x14804542, 0x010B1080
 
-//icon_item_static
+//---icon_item_static
 dw (DDHOOK_ICON_ITEM_STATIC + 0x3E000), EZLJ_ICON_ITEM_STATIC_SHIELD1.size
 insert EZLJ_ICON_ITEM_STATIC_SHIELD1,"../images/icon_item_static/icon_item_static_shield1_3E000.bin"
 dw (DDHOOK_ICON_ITEM_STATIC + 0x3F000), EZLJ_ICON_ITEM_STATIC_SHIELD2.size
@@ -170,12 +172,33 @@ insert EZLJ_ICON_ITEM_STATIC_TUNIC2,"../images/icon_item_static/icon_item_static
 dw (DDHOOK_ICON_ITEM_STATIC + 0x50000), EZLJ_ICON_ITEM_STATIC_BRACELET.size
 insert EZLJ_ICON_ITEM_STATIC_BRACELET,"../images/icon_item_static/icon_item_static_bracelet_50000.bin"
 
+//---icon_item_24_static
+dw (DDHOOK_ICON_ITEM_24_STATIC + 0x6300), 0x10000900    //Patch out that boss icon
+dw 0
+
 //---ovl_En_Ossan (Goron Shop)
 dw (DDHOOK_OVL_EN_OSSAN + 0x5AF0), 0x3C
 dw 0x000D0032, 0x0034FFEC, 0x00000032, 0x004CFFEC
 dw 0x00040050, 0x0034FFFD, 0x00050050, 0x004CFFFD
 dw 0x001DFFCE, 0x0034FFEC, 0x0008FFCE, 0x004CFFEC
 dw 0x0009FFB0, 0x0034FFFD, 0x002BFFB0
+
+//---object_po_composer
+dw (DDHOOK_OBJECT_PO_COMPOSER + 0x2D18), 0x10000028
+dw 0
+dw (DDHOOK_OBJECT_PO_COMPOSER + 0x4458), 0x10000010
+dw 0
+dw (DDHOOK_OBJECT_PO_COMPOSER + 0x4478), 0x10000018
+dw 0
+
+dw (DDHOOK_OBJECT_PO_COMPOSER + 0x56E0), EZLJ_OBJECT_PO_COMPOSER_TEX0.size
+insert EZLJ_OBJECT_PO_COMPOSER_TEX0,"../object/object_po_composer/object_po_composer_tex_56E0.bin"
+
+dw (DDHOOK_OBJECT_PO_COMPOSER + 0x68E0), EZLJ_OBJECT_PO_COMPOSER_TEX1.size
+insert EZLJ_OBJECT_PO_COMPOSER_TEX1,"../object/object_po_composer/object_po_composer_tex_68E0.bin"
+
+dw (DDHOOK_OBJECT_PO_COMPOSER + 0x6CE0), 0x10000200
+dw 0
 
 dw 0
 EZLJ_PATCH0_END:
