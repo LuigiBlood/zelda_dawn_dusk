@@ -1,3 +1,2 @@
-- Empty Bottle GI crashing the game, cannot fix it via other ways.
-- Wooden / Metal Shield GI not rendering
+- Metal Shield GI not rendering
 - Music not having the correct instruments

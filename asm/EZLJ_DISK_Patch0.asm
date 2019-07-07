@@ -145,20 +145,17 @@ insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"
 dw (0x800110A0 + 0xDED90 + (0x24*0x1C) + 4), 4
 dw 0x06000A88
 
-//Metal Shield GI
+//Metal Shield GI (is not rendering)
 dw (0x800110A0 + 0xDED90 + (0x24*0x2B) + 4), 4
 dw 0x06001238
 
 //Ruto`s Letter GI hack
-//dw (0x800110A0 + 0xDED90 + (0x24*0x44)), 0xC
-//dw 0x800582C0, 0x06000AE0, 0x00000000
+dw (0x800110A0 + 0xDED90 + (0x24*0x44)), 0xC
+dw 0x800582C0, 0x06000AE0, 0x00000000
 
-//Ruto`s Letter GI to Empty Bottle GI (Very hacky because Empty Bottle GI crashes the game)
-dw (DDHOOK_OVL_PLAYER_ACTOR + 0x21324 + (0x0E*6)), 0x8
-dw 0x14804542, 0x010B1580
-
+//Ruto`s Letter GI to Empty Bottle GI
 dw (DDHOOK_OVL_PLAYER_ACTOR + 0x21324 + (0x14*6)), 0x8
-dw 0x14804542, 0x010B1080
+dw 0x14800142, 0x00C61080
 
 //---icon_item_static
 dw (DDHOOK_ICON_ITEM_STATIC + 0x3E000), EZLJ_ICON_ITEM_STATIC_SHIELD1.size
