@@ -71,11 +71,8 @@ constant EZLJ_DISK_FS_STATIC_SIZE(EZLJ_DISK_FS_STATIC_END-EZLJ_DISK_FS_STATIC_ST
 insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
 insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
 
-insert EZLJ_OBJECT_BDOOR,"../object/object_bdoor.bin"
 insert EZLJ_OBJECT_FD2,"../object/object_fd2.bin"
-insert EZLJ_OBJECT_HIDAN_OBJECTS,"../object/object_hidan_objects.bin"
 insert EZLJ_OBJECT_ICE_OBJECTS,"../object/object_ice_objects.bin"
-insert EZLJ_OBJECT_MIZU_OBJECTS,"../object/object_mizu_objects.bin"
 insert EZLJ_OBJECT_SD,"../object/object_sd.bin"
 insert EZLJ_OBJECT_SPOT02_OBJECTS,"../object/object_spot02_objects.bin"
 

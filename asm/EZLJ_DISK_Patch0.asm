@@ -81,6 +81,7 @@ include "../patch/ovl_En_Ossan.0.patch"
 include "../patch/object_po_composer.patch"
 include "../patch/object_hidan_objects.patch"
 include "../patch/object_bdoor.patch"
+include "../patch/object_mizu_objects.patch"
 
 dw 0
 EZLJ_PATCH0_END:
