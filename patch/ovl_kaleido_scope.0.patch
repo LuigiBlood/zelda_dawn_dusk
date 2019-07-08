@@ -1,0 +1,5 @@
+//ovl_kaleido_scope (NTSC 1.0)
+
+//Item Usability / Highlight Tables
+dw (DDHOOK_OVL_KALEIDO_SCOPE + 0x165B4), EZLJ_ITEM_USABILITY_TABLE.size
+insert EZLJ_ITEM_USABILITY_TABLE,"../other/pause_item_usability.bin"

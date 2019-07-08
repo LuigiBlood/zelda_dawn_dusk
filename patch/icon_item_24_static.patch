@@ -1,0 +1,5 @@
+//icon_item_24_static
+
+//Patch out boss icon
+dw (DDHOOK_ICON_ITEM_24_STATIC + 0x6300), 0x10000900
+dw 0
