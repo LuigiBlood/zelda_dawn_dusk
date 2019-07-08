@@ -85,7 +85,7 @@ macro n64dd_CallRamFill() {
 	nop
 }
 
-global define ddhook_sceneentry_count(0)
+global define EZLJ_SCENELIST_COUNT(0)
 macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 	dw ({scenestart}), ({scenestart} + {scenestart}.size)
 	if {titlestart} != 0 {
@@ -102,7 +102,7 @@ macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 		dw 0,0
 	}
 
-	global evaluate ddhook_sceneentry_count({ddhook_sceneentry_count} + 1)
+	global evaluate EZLJ_SCENELIST_COUNT({EZLJ_SCENELIST_COUNT} + 1)
 }
 
 macro n64dd_RoomEntry(roomstart) {

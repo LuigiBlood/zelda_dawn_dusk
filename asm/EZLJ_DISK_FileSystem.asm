@@ -136,3 +136,6 @@ insert EZLJ_SCENE5B_MAP02,"../scene/Dawngrove Room 2.zmap"
 
 insert EZLJ_SCENE60,"../scene/Cutscene Map.zscene"
 insert EZLJ_SCENE60_MAP00,"../scene/Cutscene Map Room 0.zmap"
+
+//Scene Table
+include "EZLJ_DISK_SceneList.asm"

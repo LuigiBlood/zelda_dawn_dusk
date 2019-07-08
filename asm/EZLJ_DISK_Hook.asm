@@ -396,6 +396,8 @@ _ddhook_setup_finish:
 	n64dd_DiskLoad(DDHOOK_TEXTTABLE, EZLJ_NES_MESSAGE_TABLE, EZLJ_NES_MESSAGE_TABLE.size)
 	//Load text data into RAM (avoid music stop)
 	n64dd_DiskLoad(DDHOOK_TEXTDATA, EZLJ_NES_MESSAGE_DATA_STATIC, EZLJ_NES_MESSAGE_DATA_STATIC.size)
+	//Load Scene Table (temp)
+	n64dd_DiskLoad(DDHOOK_SCENELIST, EZLJ_SCENELIST, EZLJ_SCENELIST_SIZE)
 	
 	lw ra,0x10(sp)
 	addiu sp,sp,0x10
@@ -528,22 +530,6 @@ ddhook_text_table: {
 	nop	
 }
 
-//Scene Entries
-ddhook_sceneentry_data: {
-	n64dd_SceneEntry("Cave Passage",		EZLJ_SCENE07, 0x00000000, 0x00, 0x00, 0x07)
-	n64dd_SceneEntry("Red Ice Cavern",		EZLJ_SCENE09, EZLJ_SCENENAME09, 0x00, 0x00, 0x09)
-	n64dd_SceneEntry("Dusk Palace Chamber",	EZLJ_SCENE15, 0x00000000, 0x00, 0x1D, 0x15)
-	n64dd_SceneEntry("Dawngrove House 1",	EZLJ_SCENE2C, 0x00000000, 0x00, 0x00, 0x2C)
-	n64dd_SceneEntry("Dawngrove Shop",		EZLJ_SCENE2E, 0x00000000, 0x00, 0x00, 0x2E)
-	n64dd_SceneEntry("Dawngrove Inn",		EZLJ_SCENE34, 0x00000000, 0x00, 0x00, 0x34)
-	n64dd_SceneEntry("Dawngrove House 2",	EZLJ_SCENE35, 0x00000000, 0x00, 0x00, 0x35)
-	n64dd_SceneEntry("Great Dusk Chasm",	EZLJ_SCENE54, EZLJ_SCENENAME54, 0x00, 0x00, 0x54)
-	n64dd_SceneEntry("Dawngrove Village",	EZLJ_SCENE55, EZLJ_SCENENAME55, 0x00, 0x09, 0x55)
-	n64dd_SceneEntry("Dusk Palace Gardens",	EZLJ_SCENE59, EZLJ_SCENENAME59, 0x00, 0x2E, 0x59)
-	n64dd_SceneEntry("Dawngrove",			EZLJ_SCENE5B, EZLJ_SCENENAME5B, 0x00, 0x2E, 0x5B)
-	n64dd_SceneEntry("Cutscene Map",		EZLJ_SCENE60, 0x00000000, 0x00, 0x00, 0x60)
-}
-
 //Scene Entry Hook
 ddhook_sceneload: {
 	//Arguments:
@@ -560,9 +546,9 @@ ddhook_sceneload: {
 
 	//Check if Scene ID is part of the List
 	//Uses the Disk byte in the Scene Entry as Scene ID
-	addiu at,0,{ddhook_sceneentry_count}
+	addiu at,0,{EZLJ_SCENELIST_COUNT}
 	addiu a2,0,0
-	li v0, ddhook_sceneentry_data
+	li v0, DDHOOK_SCENELIST
 	-; lbu v1,0x12(v0)
 
 	beq a0,v1,_ddhook_sceneload_custom
