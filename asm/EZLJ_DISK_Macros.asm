@@ -85,7 +85,7 @@ macro n64dd_CallRamFill() {
 	nop
 }
 
-variable ddhook_sceneentry_count(0)
+global define ddhook_sceneentry_count(0)
 macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 	dw ({scenestart}), ({scenestart} + {scenestart}.size)
 	if {titlestart} != 0 {
@@ -102,7 +102,7 @@ macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 		dw 0,0
 	}
 
-	evaluate ddhook_sceneentry_count(ddhook_sceneentry_count + 1)
+	global evaluate ddhook_sceneentry_count({ddhook_sceneentry_count} + 1)
 }
 
 macro n64dd_RoomEntry(roomstart) {
