@@ -2,5 +2,3 @@
 
 dw (DDHOOK_OVL_BG_VB_SIMA + 0x674), 8
 dw 0xF4ABFFFF, 0x8400FFFF
-
-//TODO more
