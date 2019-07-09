@@ -1,0 +1,4 @@
+//ovl_En_Fz (NTSC 1.0)
+
+dw (DDHOOK_OVL_EN_FZ + 0x1DF8), 8
+dw 0xF0F0F4F2, 0xF2F2F424

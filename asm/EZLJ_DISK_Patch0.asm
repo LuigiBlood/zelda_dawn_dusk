@@ -89,5 +89,7 @@ include "../patch/object_fd2.patch"
 
 include "../patch/parameter_static.patch"
 
+include "../patch/ovl_En_Fz.0.patch"
+
 dw 0
 EZLJ_PATCH0_END:
