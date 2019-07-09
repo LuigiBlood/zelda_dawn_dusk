@@ -113,6 +113,9 @@ insert EZLJ_SCENE34_MAP05,"../scene/Dawngrove Inn Room 5.zmap"
 insert EZLJ_SCENE35,"../scene/Dawngrove House 2.zscene"
 insert EZLJ_SCENE35_MAP00,"../scene/Dawngrove House 2 Room 0.zmap"
 
+insert EZLJ_SCENE52,"../scene/Credits.zscene"
+insert EZLJ_SCENE52_MAP00,"../scene/Credits Room 0.zmap"
+
 insert EZLJ_SCENE54,"../scene/Great Dusk Chasm.zscene"
 insert EZLJ_SCENE54_MAP00,"../scene/Great Dusk Chasm Room 0.zmap"
 insert EZLJ_SCENE54_MAP01,"../scene/Great Dusk Chasm Room 1.zmap"
