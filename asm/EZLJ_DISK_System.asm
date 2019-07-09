@@ -7,8 +7,10 @@
 
 print "- Fill Disk Data...\n"
 
-seek(0x0)
-fill 0x3DEC800
+if !{defined NOFILL} {
+  seek(0x0)
+  fill 0x3DEC800
+}
 
 print "- Fill System Area...\n  - System Data\n"
 
