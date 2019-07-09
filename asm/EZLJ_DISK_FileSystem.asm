@@ -63,6 +63,8 @@ insert EZLJ_OBJECT_GI_CLOTHES,"../object/object_gi_clothes.bin"
 insert EZLJ_OBJECT_GI_SHIELD1,"../object/object_gi_shield_1.bin"
 insert EZLJ_OBJECT_GI_SHIELD2,"../object/object_gi_shield_2.bin"    //TODO: fix rendering
 
+insert EZLJ_OBJECT_FD,"../object/object_fd.ntsc.bin"
+
 EZLJ_DISK_FS_STATIC_END:
 constant EZLJ_DISK_FS_STATIC_SIZE(EZLJ_DISK_FS_STATIC_END-EZLJ_DISK_FS_STATIC_START)
 //Minimaps
@@ -70,8 +72,6 @@ constant EZLJ_DISK_FS_STATIC_SIZE(EZLJ_DISK_FS_STATIC_END-EZLJ_DISK_FS_STATIC_ST
 //Text
 insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
 insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
-
-insert EZLJ_OBJECT_FD2,"../object/object_fd2.bin"
 
 //Scene Title Cards
 insert EZLJ_SCENENAME09,"../images/g_pn/g_pn_0x09.bin"

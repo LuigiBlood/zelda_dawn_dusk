@@ -1,0 +1,28 @@
+//object_fd2
+
+dw (DDHOOK_OBJECT_FD2 + 0x2508), EZLJ_OBJECT_FD2_PAL.size
+insert EZLJ_OBJECT_FD2_PAL,"../object/object_fd2/object_fd2_pal_2508.bin"
+
+dw (DDHOOK_OBJECT_FD2 + 0x3308), EZLJ_OBJECT_FD2_TEX1.size
+insert EZLJ_OBJECT_FD2_TEX1,"../object/object_fd2/object_fd2_tex_3308.bin"
+
+dw (DDHOOK_OBJECT_FD2 + 0x4308), EZLJ_OBJECT_FD2_TEX2.size
+insert EZLJ_OBJECT_FD2_TEX2,"../object/object_fd2/object_fd2_tex_4308.bin"
+
+dw (DDHOOK_OBJECT_FD2 + 0x4508), EZLJ_OBJECT_FD2_TEX3.size
+insert EZLJ_OBJECT_FD2_TEX3,"../object/object_fd2/object_fd2_tex_4508.bin"
+
+dw (DDHOOK_OBJECT_FD2 + 0x4708), EZLJ_OBJECT_FD2_TEX4.size
+insert EZLJ_OBJECT_FD2_TEX4,"../object/object_fd2/object_fd2_tex_4708.bin"
+
+dw (DDHOOK_OBJECT_FD2 + 0x4908), EZLJ_OBJECT_FD2_TEX5.size
+insert EZLJ_OBJECT_FD2_TEX5,"../object/object_fd2/object_fd2_tex_4908.bin"
+
+dw (DDHOOK_OBJECT_FD2 + 0x4FA0), EZLJ_OBJECT_FD2_TEX6.size
+insert EZLJ_OBJECT_FD2_TEX6,"../object/object_fd2/object_fd2_tex_4FA0.bin"
+
+dw (DDHOOK_OBJECT_FD2 + 0x51A0), EZLJ_OBJECT_FD2_TEX7.size
+insert EZLJ_OBJECT_FD2_TEX7,"../object/object_fd2/object_fd2_tex_51A0.bin"
+
+dw (DDHOOK_OBJECT_FD2 + 0x53A0), EZLJ_OBJECT_FD2_TEX8.size
+insert EZLJ_OBJECT_FD2_TEX8,"../object/object_fd2/object_fd2_tex_53A0.bin"
