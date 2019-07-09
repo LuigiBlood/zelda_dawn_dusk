@@ -1,0 +1,4 @@
+//parameter_static
+
+//Remove dungeon minimap GFX
+dw (DDHOOK_PARAMETER_STATIC + 0x2500), 0x10000080, 0

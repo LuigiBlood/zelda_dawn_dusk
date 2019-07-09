@@ -85,5 +85,7 @@ include "../patch/object_mizu_objects.patch"
 include "../patch/object_ice_objects.patch"
 include "../patch/object_spot02_objects.patch"
 
+include "../patch/parameter_static.patch"
+
 dw 0
 EZLJ_PATCH0_END:
