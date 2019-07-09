@@ -1,0 +1,7 @@
+//ovl_Bg_Hidan_Curtain (NTSC 1.0)
+
+dw (DDHOOK_OVL_BG_HIDAN_CURTAIN + 0x830), 4
+lui t8,0xFAC2
+
+dw (DDHOOK_OVL_BG_HIDAN_CURTAIN + 0x848), 4
+ori at, t8, 0xFF00
