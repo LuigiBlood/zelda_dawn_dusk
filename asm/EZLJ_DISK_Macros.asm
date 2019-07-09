@@ -52,6 +52,13 @@ macro n64dd_RomLoad(dest, source, size) {
 	nop
 }
 
+macro n64dd_CallRomLoad() {
+	//801C7C1C - NTSC 1.0
+	n64dd_LoadAddress(v0, {CZLJ_DMARomToRam})
+	jalr v0
+	nop
+}
+
 macro n64dd_ForceRomEnable() {
 	addiu v0,0,1
 	li a0,DDHOOK_FORCEROM
@@ -109,9 +116,10 @@ macro n64dd_RoomEntry(roomstart) {
 	dw ({roomstart}), ({roomstart} + {roomstart}.size)
 }
 
-macro n64dd_FileEntry(vfile, vrom, size) {
+macro n64dd_FileEntry(vfile, vrom, size, load) {
 	dw ({vfile}), ({vfile}+{size})
-	dw ({vrom}), ({size})
+	dw ({vrom})
+	dw ({load})
 }
 
 global define n64dd_RamAddress(0x80400000)

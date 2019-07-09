@@ -58,8 +58,8 @@ ddhook_setup: {
 	//8011A5D0 (NTSC 1.0) - Save Context
 	//	+0x1409 = Language (8011B9D9)
 	
-	addiu sp,sp,-0x10
-	sw ra,0x10(sp)
+	addiu sp,sp,-0x20
+	sw ra,0x20(sp)
 	
 	//Save Zelda Disk Address Table Address for later usage
 	li a3,(DDHOOK_ADDRTABLE)
@@ -151,20 +151,20 @@ _ddhook_setup_savecontext_skip:
 	sw a1,4(a3)		//1.2
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable2, ezlj_vertable2_end - ezlj_vertable2)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE2, EZLJ_FILE_TABLE2.size)
-	b _ddhook_setup_entrancetable
+	b _ddhook_setup_loadrom
 	nop
 
  +;	sw 0,4(a3)		//1.0
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable0, ezlj_vertable0_end - ezlj_vertable0)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE0, EZLJ_FILE_TABLE0.size)
-	b _ddhook_setup_entrancetable
+	b _ddhook_setup_loadrom
 	nop
 
  +;	addiu a1,0,1	//1.1
 	sw a1,4(a3)
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable1, ezlj_vertable1_end - ezlj_vertable1)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE1, EZLJ_FILE_TABLE1.size)
-	b _ddhook_setup_entrancetable
+	b _ddhook_setup_loadrom
 	nop
 
 _ddhook_incompatibleversion:
@@ -215,36 +215,48 @@ _ddhook_setup_object_list:
 _ddhook_setup_ovl_kaleido_scope:
 	//Handle ovl_kaleido_scope
 
+_ddhook_setup_loadrom:
+	n64dd_ForceRomEnable()
+
+	//load all ROM files
+	li a0,DDHOOK_VFILETABLE
+	ori a1,0,EZLJ_FILE_COUNT
+	ori a3,0,0
+
+	-; lw v0,0xC(a0)
+	beqz v0,+
+	nop
+
+	sw a0,0x1C(sp)
+	sw a1,0x18(sp)
+	sw a3,0x14(sp)
+
+	lw a1,0(a0)		//A1=VROM start Source
+	lw a2,4(a0)		//VROM end
+	subu a2,a2,a1	//A2=Size
+	lw a0,8(a0)		//A0=RAM Destination
+
+	n64dd_CallRomLoad()
+
+	lw a0,0x1C(sp)
+	lw a1,0x18(sp)
+	lw a3,0x14(sp)
+
+	+; addiu a3,a3,1
+	addiu a0,a0,0x10
+	ble a3,a1,-
+	nop
+
+	n64dd_ForceRomDisable()
+
 _ddhook_setup_patch:
 	//assume 1.0 for now, load patch
-	n64dd_ForceRomEnable()
-	n64dd_RomLoad(DDHOOK_OVL_PLAYER_ACTOR,0xBCDB70,0x26560)
-	n64dd_RomLoad(DDHOOK_OVL_KALEIDO_SCOPE,0xBB11E0,0x1C990)
-	n64dd_RomLoad(DDHOOK_OVL_EFFECT_SS_STICK,0xEAD0F0,0x3A0)
-	n64dd_RomLoad(DDHOOK_OVL_ITEM_SHIELD,0xDB1F40,0xA10)
-
-	n64dd_RomLoad(DDHOOK_ICON_ITEM_STATIC,0x7BD000,0x888A0)
-
-	n64dd_RomLoad(DDHOOK_ICON_ITEM_24_STATIC,0x846000,0xB400)
-	n64dd_RomLoad(DDHOOK_OVL_EN_OSSAN,0xC6C5E0,0x65E0)
-
-	n64dd_RomLoad(DDHOOK_OBJECT_PO_COMPOSER,0x191C000,0x6FA0)
-	n64dd_RomLoad(DDHOOK_OBJECT_HIDAN_OBJECTS,0x1125000,0x17D20)
-	n64dd_RomLoad(DDHOOK_OBJECT_BDOOR,0x1484000,0x75C0)
-	n64dd_RomLoad(DDHOOK_OBJECT_MIZU_OBJECTS,0x122C000,0xB320)
-	n64dd_RomLoad(DDHOOK_OBJECT_ICE_OBJECTS,0x12A2000,0x8D50)
-	n64dd_RomLoad(DDHOOK_OBJECT_SPOT02_OBJECTS,0x13FD000,0x16620)
-	n64dd_RomLoad(DDHOOK_OBJECT_SD,0x1389000,0xC6E0)
-
-	n64dd_RomLoad(DDHOOK_PARAMETER_STATIC,0x1A3C000,0x3B00)
 
 	//Load all files contiguous to RAM
 	n64dd_DiskLoad(DDHOOK_STATIC_START, EZLJ_DISK_FS_STATIC_START, EZLJ_DISK_FS_STATIC_SIZE)
 
 	//Load Patch
 	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
-
-	n64dd_ForceRomDisable()
 
 	li at,DDHOOK_PATCH
     -; lw a0,0(at)		//Get Dest
@@ -401,8 +413,8 @@ _ddhook_setup_finish:
 	//Load Scene Table (temp)
 	n64dd_DiskLoad(DDHOOK_SCENELIST, EZLJ_SCENELIST, EZLJ_SCENELIST_SIZE)
 	
-	lw ra,0x10(sp)
-	addiu sp,sp,0x10
+	lw ra,0x20(sp)
+	addiu sp,sp,0x20
 	jr ra
 	nop
 }
