@@ -188,10 +188,6 @@ _ddhook_setup_entrancetable:
 	//NTSC 1.1 - 800F9E50 (-51E0)
 	//NTSC 1.2 - 800FA2E0 (-51D0)
 
-	//TODO
-	b _ddhook_setup_patch
-	nop
-
 _ddhook_setup_entrance_cutscene:
 	//Load Entrance Cutscene Table
 	//NTSC 1.0 - 800EFD04 (-F16C)
@@ -238,6 +234,7 @@ _ddhook_setup_patch:
 	n64dd_RomLoad(DDHOOK_OBJECT_MIZU_OBJECTS,0x122C000,0xB320)
 	n64dd_RomLoad(DDHOOK_OBJECT_ICE_OBJECTS,0x12A2000,0x8D50)
 	n64dd_RomLoad(DDHOOK_OBJECT_SPOT02_OBJECTS,0x13FD000,0x16620)
+	n64dd_RomLoad(DDHOOK_OBJECT_SD,0x1389000,0xC6E0)
 
 	n64dd_RomLoad(DDHOOK_PARAMETER_STATIC,0x1A3C000,0x3B00)
 

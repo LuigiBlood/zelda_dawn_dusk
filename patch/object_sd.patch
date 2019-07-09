@@ -1,0 +1,10 @@
+//object_sd
+
+dw (DDHOOK_OBJECT_SD + 0x5C40), EZLJ_OBJECT_SD_PAL.size
+insert EZLJ_OBJECT_SD_PAL,"../object/object_sd/object_sd_pal_5C40.bin"
+
+dw (DDHOOK_OBJECT_SD + 0x60C0), EZLJ_OBJECT_SD_TEX1.size
+insert EZLJ_OBJECT_SD_TEX1,"../object/object_sd/object_sd_tex_60C0.bin"
+
+dw (DDHOOK_OBJECT_SD + 0x62C0), EZLJ_OBJECT_SD_TEX2.size
+insert EZLJ_OBJECT_SD_TEX2,"../object/object_sd/object_sd_tex_62C0.bin"
