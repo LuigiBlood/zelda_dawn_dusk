@@ -91,5 +91,9 @@ include "../patch/parameter_static.patch"
 
 include "../patch/ovl_En_Fz.0.patch"
 
+include "../patch/ovl_Bg_Vb_Sima.0.patch"
+
+include "../patch/ovl_En_Wf.0.patch"
+
 dw 0
 EZLJ_PATCH0_END:

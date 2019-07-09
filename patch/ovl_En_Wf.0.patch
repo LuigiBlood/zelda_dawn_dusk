@@ -1,0 +1,5 @@
+//ovl_En_Wf (NTSC 1.0)
+
+//Damage Chart
+dw (DDHOOK_OVL_EN_WF + 0x3DB8), 0x10
+dw 0x10010000, 0x10000210, 0x01010101, 0x01010101
