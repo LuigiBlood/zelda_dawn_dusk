@@ -1,0 +1,5 @@
+//gameplay_keep
+
+//Link's hair
+dw (DDHOOK_GAMEPLAY_KEEP + 0x1A40), EZLJ_GAMEPLAY_KEEP_TEX1.size
+insert EZLJ_GAMEPLAY_KEEP_TEX1,"../object/gameplay_keep/gameplay_keep_linkhair_1A40.bin"

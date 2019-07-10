@@ -31,6 +31,10 @@ n64dd_RamDefine(DDHOOK_GPRAM, 0)
 	n64dd_RamDefine(DDHOOK_OVL_EFFECT_SS_STICK, 0x3A0)
 	n64dd_RamDefine(DDHOOK_OVL_ITEM_SHIELD, 0xA10)
 
+	n64dd_RamDefine(DDHOOK_GAMEPLAY_KEEP, 0x5BCE0)
+
+//805B5000-805FFFE0 = Frame Buffer something? Do not write there
+
 	//Static Files
 n64dd_RamSetAddress(0x80600000)
 n64dd_RamDefine(DDHOOK_STATIC_START, 0)
@@ -106,6 +110,3 @@ n64dd_RamDefine(DDHOOK_VFILETABLE, EZLJ_FILE_COUNT * 0x10)
 	n64dd_RamDefine(DDHOOK_SCENE_ROOM_DATA, 0x18700)					//ROOM DATA
 
 	n64dd_RamDefine(DDHOOK_PATCH, EZLJ_PATCH0_END - EZLJ_PATCH0)
-
-
-//805B5000-805FFFE0 = Frame Buffer something? Do not write there
