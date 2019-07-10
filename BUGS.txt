@@ -1,2 +1,1 @@
-- Metal Shield GI not rendering
 - Music not having the correct instruments
