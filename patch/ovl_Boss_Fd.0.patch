@@ -26,12 +26,13 @@ lui t3, 0xD594
 ori t3, t3, 0xFFFF
 addiu t8, s0, 0
 
+//Original color, kept for archiving purposes
 //dw (DDHOOK_OVL_BOSS_FD + 0x4EAC), 4
 //lui at, 0xFDAB
 //ori at, at, 0xFF00
 
 dw (DDHOOK_OVL_BOSS_FD + 0x4EA8), 8
-lui t2, 0xFAAB
+lui t2, 0xFAAB      //Uses 0xFA F3DZEX command
 ori at, t2, 0xFF00
 
 dw (DDHOOK_OVL_BOSS_FD + 0x63AC), 0x14
