@@ -12,37 +12,37 @@ base DDHOOK_RAM
 ddhook_start:
 	db "ZELDA_DD"
 ddhook_list_start:
-	dw (ddhook_setup | {KSEG1})	//00: Init 64DD Hook
-	dw 0x00000000				//04: Deinit 64DD Hook
-	dw 0x00000000				//08: Room Loading Replacement
-	dw 0x00000000				//0C: Post-Scene Loading
-	dw 0x00000000				//10: "game_play" game state entrypoint
-	dw 0x00000000				//14: Collision related
-	dw 0x00000000				//18: minimap related
-	dw 0x00000000				//1C: minimap related
-	dw 0x00000000				//20: minimap related
-	dw 0x00000000				//24: minimap related
-	dw 0x00000000				//28: map_i_static Replacement
-	dw 0x00000000				//2C: ovl_map_mark_data?
-	dw 0x00000000				//30: ovl_map_mark_data?
-	dw 0x00000000				//34:
-	dw 0x00000000				//38:
-	dw 0x00000000				//3C:
-	dw 0x00000000				//40: 
-	dw 0x00000000				//44: map_48x85_static Replacement
-	dw (ddhook_sceneload)		//48: Scene Entry Replacement
-	dw 0x00000000				//4C: [unused?]
-	dw 0x00000000				//50: [unused?]
+	dw (ddhook_setup | {KSEG1})		//00: Init 64DD Hook
+	dw 0x00000000					//04: Deinit 64DD Hook
+	dw 0x00000000					//08: Room Loading Replacement
+	dw 0x00000000					//0C: Post-Scene Loading
+	dw 0x00000000					//10: "game_play" game state entrypoint
+	dw 0x00000000					//14: Collision related
+	dw 0x00000000					//18: minimap related
+	dw 0x00000000					//1C: minimap related
+	dw 0x00000000					//20: minimap related
+	dw 0x00000000					//24: minimap related
+	dw 0x00000000					//28: map_i_static Replacement
+	dw 0x00000000					//2C: ovl_map_mark_data?
+	dw 0x00000000					//30: ovl_map_mark_data?
+	dw 0x00000000					//34:
+	dw 0x00000000					//38:
+	dw 0x00000000					//3C:
+	dw 0x00000000					//40: 
+	dw (ddhook_map_48x85_static)	//44: map_48x85_static Replacement
+	dw (ddhook_sceneload)			//48: Scene Entry Replacement
+	dw 0x00000000					//4C: [unused?]
+	dw 0x00000000					//50: [unused?]
 	dw 0 //(ddhook_removecutscene)	//54: Entrance Cutscene Replacement?
-	dw (ddhook_text_table)		//58: Message Table Replacement Setup
-	dw 0x00000000				//5C: [unused?]
-	dw 0x00000000				//60: staff_message_data_static Load
-	dw 0x00000000				//64: jpn_message_data_static Load
-	dw (ddhook_textUSload)		//68: nes_message_data_static Load
-	dw 0x00000000				//6C: Scene Animate?
-	dw (ddhook_romtoram)		//70: DMA ROM to RAM Hook
-	dw 0x00000000				//74: ??? (Every Frame?)
-	dw 0x00000000				//78: Set Cutscene Pointer (Intro Cutscenes)
+	dw (ddhook_text_table)			//58: Message Table Replacement Setup
+	dw 0x00000000					//5C: [unused?]
+	dw 0x00000000					//60: staff_message_data_static Load
+	dw 0x00000000					//64: jpn_message_data_static Load
+	dw (ddhook_textUSload)			//68: nes_message_data_static Load
+	dw 0x00000000					//6C: Scene Animate?
+	dw (ddhook_romtoram)			//70: DMA ROM to RAM Hook
+	dw 0x00000000					//74: ??? (Every Frame?)
+	dw 0x00000000					//78: Set Cutscene Pointer (Intro Cutscenes)
 ddhook_list_end:
 
 //64DD Hook Initialization Code
@@ -436,6 +436,63 @@ _ddhook_loadmusic_startdma:
 	nop
 
 	lw ra,0x18(sp)
+	addiu sp,sp,0x20
+	jr ra
+	nop
+}
+
+//minimap hook
+ddhook_minimap_data: {
+	addiu sp,sp,-0x10
+	sw ra,0x10(sp)
+	sw a0,0xC(sp)
+
+	//Add version agnostic minimap data code
+
+	lw ra,0x10(sp)
+	addiu sp,sp,0x10
+	jr ra
+	nop
+}
+
+//map_48x85_static Load Hook
+ddhook_map_48x85_static: {
+	//Arguments:
+	//A0=p->Global Context
+	//Return:
+	//V0=IsLoaded
+
+	addiu sp,sp,-0x20
+	sw ra,0x20(sp)
+	sw a0,0x1C(sp)
+
+	lui at,0x0001
+	addu a0,a0,at		//ovl_kaleido_scope Global Context
+	lw a0,0x062C(a0)	//A0=Destination
+
+	n64dd_LoadAddress(a1, {CZLJ_SaveContext})
+	lw a1,0x1430(a1)	//Load Static Context
+	lh v0,0xF2E(a1)		//get Floor Tex Index
+	sll	a1,v0,8
+	subu a1,a1,v0
+	sll	a1,a1,3
+	li v0,DDHOOK_MAP_48X85_STATIC
+	addu a1,a1,v0		//A1=RAM Source Offset
+	ori a2,0,0x7F8		//A2=Size
+
+	sw a0,0x18(sp)		//Keep for another copy
+	sw a1,0x14(sp)
+	n64dd_CallRamCopy()
+
+	lw a0,0x18(sp)
+	lw a1,0x14(sp)
+	ori a2,0,0x7F8		//A2=Size
+	addu a1,a1,a2		//A1=RAM Source Offset + 0x7F8
+	addiu a0,a0,0x800	//A0=Destination + 0x800
+	n64dd_CallRamCopy()
+
+	ori v0,0,1			//IsLoaded = true
+	lw ra,0x20(sp)
 	addiu sp,sp,0x20
 	jr ra
 	nop

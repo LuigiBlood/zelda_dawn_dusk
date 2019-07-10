@@ -65,6 +65,8 @@ insert EZLJ_OBJECT_GI_SHIELD2,"../object/object_gi_shield_2.bin"    //TODO: fix 
 
 insert EZLJ_OBJECT_FD,"../object/object_fd.ntsc.bin"
 
+insert EZLJ_MAP_48X85_STATIC,"../images/map_48x85_static.bin"
+
 EZLJ_DISK_FS_STATIC_END:
 constant EZLJ_DISK_FS_STATIC_SIZE(EZLJ_DISK_FS_STATIC_END-EZLJ_DISK_FS_STATIC_START)
 //Minimaps

@@ -17,7 +17,6 @@ macro seekDisk(n) {
 define KSEG1(0xA0000000)
 
 define CZLJ_DiskLoad(0x00)
-define CZLJ_StaticContext(0x08)
 define CZLJ_osSendMesg(0x50)
 define CZLJ_osWritebackDCache(0x70)
 define CZLJ_SaveContext(0x88)
