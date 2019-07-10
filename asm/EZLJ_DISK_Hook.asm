@@ -157,6 +157,7 @@ _ddhook_setup_savecontext_skip:
  +;	sw 0,4(a3)		//1.0
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable0, ezlj_vertable0_end - ezlj_vertable0)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE0, EZLJ_FILE_TABLE0.size)
+	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
 	b _ddhook_setup_loadrom
 	nop
 
@@ -164,6 +165,7 @@ _ddhook_setup_savecontext_skip:
 	sw a1,4(a3)
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable1, ezlj_vertable1_end - ezlj_vertable1)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE1, EZLJ_FILE_TABLE1.size)
+	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH1, EZLJ_PATCH1_END - EZLJ_PATCH1)
 	b _ddhook_setup_loadrom
 	nop
 
@@ -220,7 +222,8 @@ _ddhook_setup_loadrom:
 
 	//load all ROM files
 	li a0,DDHOOK_VFILETABLE
-	ori a1,0,EZLJ_FILE_COUNT
+	lw a1,0(a0)
+	addiu a0,a0,4
 	ori a3,0,0
 
 	-; lw v0,0xC(a0)
@@ -256,7 +259,6 @@ _ddhook_setup_patch:
 	n64dd_DiskLoad(DDHOOK_STATIC_START, EZLJ_DISK_FS_STATIC_START, EZLJ_DISK_FS_STATIC_SIZE)
 
 	//Load Patch
-	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
 	n64dd_CallApplyPatch()
 
 _ddhook_setup_music:
@@ -368,6 +370,7 @@ _ddhook_setup_music_seq:
 	nop
 
 _ddhook_setup_musicdma:
+	//To be copied
 	li t9,ddhook_loadmusic
 	jalr ra,t9
 	nop
@@ -396,14 +399,16 @@ _ddhook_setup_finish:
 
 //Handle custom music loading (Hack)
 ddhook_loadmusic: {	//804102E0
+	//A0 = osPiHandle
+	//A1 = OSIoMesg
+	//A2 = Direction
 	addiu sp,sp,-0x20
 	sw ra,0x18(sp)
 	sw a1,0x14(sp)
 
 	lui a3,0x8000
 	lw v0,0xC(a1)
-	sltu at,v0,a3	// 0 == >= 80000000 / 1 == < 80000000
-	bne at,0,_ddhook_loadmusic_startdma
+	bltu v0, a3, _ddhook_loadmusic_startdma
 	nop
 
 	lw a0,0x8(a1)	//RAM Dest
@@ -863,7 +868,8 @@ ddhook_romtoram_vrom:
 
 	//Check for File Replacements
 	li a0,DDHOOK_VFILETABLE
-	ori a1,0,EZLJ_FILE_COUNT
+	lw a1,0(a0)
+	addiu a0,a0,4
 	ori a3,0,0
 
 	//a2 < end

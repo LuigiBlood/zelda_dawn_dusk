@@ -50,9 +50,6 @@ include "../patch/misc-opti_link_child.0.patch"
 dw (DDHOOK_OVL_PLAYER_ACTOR + 0x184FC), 4
 dw 0x1000000B
 
-//---Object gameplay_keep
-//TODO Just take original file and change Link`s hair 0x1A40 (DBG and 1.0)
-
 include "../patch/ovl_kaleido_scope.0.patch"
 
 include "../patch/misc-getitem.0.patch"
