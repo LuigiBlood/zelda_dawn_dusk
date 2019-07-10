@@ -9,18 +9,18 @@ dw (0x800110A0 + 0x6A80C), 8, 0x3C0A0602, 0x254ABF30        //Deku Stick
 
 dw (0x800110A0 + 0xE671C + (0x10 * 0)), 4, 0x06017E90       //Right Fist
 dw (0x800110A0 + 0xE671C + (0x10 * 1)), 4, 0x0601F7B0       //Right Fist + Deku Shield
-dw (0x800110A0 + 0xE671C + (0x10 * 2)), 4, 0x06017E90       //Right Fist + Hylian Shield
+dw (0x800110A0 + 0xE671C + (0x10 * 2)), 4, 0x060210F8       //Right Fist + Hylian Shield
 dw (0x800110A0 + 0xE671C + (0x10 * 3)), 4, 0x06017E90       //Right Fist + Mirror Shield
 dw (0x800110A0 + 0xE671C + (0x10 * 4)), 4, 0x0601F6F0       //Sheathed Sword
 dw (0x800110A0 + 0xE671C + (0x10 * 5)), 4, 0x0601F758       //Deku Shield + Sheathed Sword
-dw (0x800110A0 + 0xE671C + (0x10 * 6)), 4, 0x0601F738       //Hylian Shield + Sheathed Sword
+dw (0x800110A0 + 0xE671C + (0x10 * 6)), 4, 0x060210D8       //Hylian Shield + Sheathed Sword
 dw (0x800110A0 + 0xE671C + (0x10 * 7)), 4, 0x0601F6F0       //Mirror Shield + Sheathed Sword
 dw (0x800110A0 + 0xE671C + (0x10 * 8)), 4, 0                //?
 dw (0x800110A0 + 0xE671C + (0x10 * 9)), 4, 0x0601F718       //Deku Shield without Sheath
 dw (0x800110A0 + 0xE671C + (0x10 * 9) + 8), 4, 0x0601F718   //Deku Shield without Sheath
 dw (0x800110A0 + 0xE671C + (0x10 * 10)), 4, 0x060180A0      //Sword Sheath
 dw (0x800110A0 + 0xE671C + (0x10 * 11)), 4, 0x0601F768      //Deku Shield + Sheath
-dw (0x800110A0 + 0xE671C + (0x10 * 12)), 4, 0x0601F748      //Hylian Shield + Sheath
+dw (0x800110A0 + 0xE671C + (0x10 * 12)), 4, 0x060210E8      //Hylian Shield + Sheath
 dw (0x800110A0 + 0xE671C + (0x10 * 13)), 4, 0x060180A0      //Mirror Shield + Sheath
 dw (0x800110A0 + 0xE671C + (0x10 * 14)), 4, 0               //?
 dw (0x800110A0 + 0xE671C + (0x10 * 15)), 4, 0x0601F718      //Deku Shield without Sheath
