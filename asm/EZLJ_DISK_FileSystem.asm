@@ -36,6 +36,14 @@ include "EZLJ_DISK_Patch0.asm"
 
 //For precaution with 64DD Disk loading on real hardware, all these files will be loaded contiguous to RAM in one go.
 EZLJ_DISK_FS_STATIC_START:
+insert EZLJ_MAP_MINIMAP_TABLE_LENGTH,"../other/code_overworld_minimap_table_length.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_OFFSET,"../other/code_overworld_minimap_table_offset.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_XPOS,"../other/code_overworld_minimap_table_xpos.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_YPOS,"../other/code_overworld_minimap_table_ypos.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_COMPASS,"../other/code_overworld_minimap_table_compass.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_WIDTH,"../other/code_overworld_minimap_table_width.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_HEIGHT,"../other/code_overworld_minimap_table_height.bin"
+
 insert EZLJ_GAMEPLAY_DANGEON_KEEP,"../object/gameplay_dangeon_keep.bin"
 insert EZLJ_OBJECT_LINK_CHILD,"../object/object_link_child.bin"
 

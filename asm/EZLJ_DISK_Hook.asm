@@ -18,7 +18,7 @@ ddhook_list_start:
 	dw 0x00000000					//0C: Post-Scene Loading
 	dw 0x00000000					//10: "game_play" game state entrypoint
 	dw 0x00000000					//14: Collision related
-	dw 0x00000000					//18: minimap related
+	dw (ddhook_minimap_data)		//18: minimap related
 	dw 0x00000000					//1C: minimap related
 	dw 0x00000000					//20: minimap related
 	dw 0x00000000					//24: minimap related
@@ -448,6 +448,21 @@ ddhook_minimap_data: {
 	sw a0,0xC(sp)
 
 	//Add version agnostic minimap data code
+	lw a0,0(a0)		//Get Map Data Ptr Table
+	li a1,DDHOOK_MAP_MINIMAP_TABLE_LENGTH
+	sw a1,0x24(a0)
+	li a1,DDHOOK_MAP_MINIMAP_TABLE_OFFSET
+	sw a1,0x28(a0)
+	li a1,DDHOOK_MAP_MINIMAP_TABLE_XPOS
+	sw a1,0x2C(a0)
+	li a1,DDHOOK_MAP_MINIMAP_TABLE_YPOS
+	sw a1,0x30(a0)
+	li a1,DDHOOK_MAP_MINIMAP_TABLE_COMPASS
+	sw a1,0x34(a0)
+	li a1,DDHOOK_MAP_MINIMAP_TABLE_WIDTH
+	sw a1,0x40(a0)
+	li a1,DDHOOK_MAP_MINIMAP_TABLE_HEIGHT
+	sw a1,0x44(a0)
 
 	lw ra,0x10(sp)
 	addiu sp,sp,0x10

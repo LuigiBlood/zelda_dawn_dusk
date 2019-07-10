@@ -23,22 +23,6 @@ insert EZLJ_ENTRANCE_TABLE,"../other/code_entrance_table.bin"
 dw 0x800EFD04, EZLJ_ENTRANCE_CUTSCENE_TABLE.size
 insert EZLJ_ENTRANCE_CUTSCENE_TABLE,"../other/code_entrance_cutscene_table.bin"
 
-//Minimap Tables
-dw 0x800F6854, EZLJ_MAP_MINIMAP_TABLE_LENGTH.size
-insert EZLJ_MAP_MINIMAP_TABLE_LENGTH,"../other/code_overworld_minimap_table_length.bin"
-dw 0x800F6884, EZLJ_MAP_MINIMAP_TABLE_OFFSET.size
-insert EZLJ_MAP_MINIMAP_TABLE_OFFSET,"../other/code_overworld_minimap_table_offset.bin"
-dw 0x800F68B4, EZLJ_MAP_MINIMAP_TABLE_XPOS.size
-insert EZLJ_MAP_MINIMAP_TABLE_XPOS,"../other/code_overworld_minimap_table_xpos.bin"
-dw 0x800F68E4, EZLJ_MAP_MINIMAP_TABLE_YPOS.size
-insert EZLJ_MAP_MINIMAP_TABLE_YPOS,"../other/code_overworld_minimap_table_ypos.bin"
-dw 0x800F6914, EZLJ_MAP_MINIMAP_TABLE_COMPASS.size
-insert EZLJ_MAP_MINIMAP_TABLE_COMPASS,"../other/code_overworld_minimap_table_compass.bin"
-dw 0x800F6A38, EZLJ_MAP_MINIMAP_TABLE_WIDTH.size
-insert EZLJ_MAP_MINIMAP_TABLE_WIDTH,"../other/code_overworld_minimap_table_width.bin"
-dw 0x800F6A68, EZLJ_MAP_MINIMAP_TABLE_HEIGHT.size
-insert EZLJ_MAP_MINIMAP_TABLE_HEIGHT,"../other/code_overworld_minimap_table_height.bin"
-
 //Tunic Colors
 dw 0x800F7AD8, 8
 dw 0x4C971446, 0x2640003C
