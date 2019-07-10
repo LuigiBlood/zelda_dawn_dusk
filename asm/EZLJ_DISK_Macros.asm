@@ -92,6 +92,12 @@ macro n64dd_CallRamFill() {
 	nop
 }
 
+macro n64dd_CallApplyPatch() {
+	li v0,ddhook_applypatch
+	jalr v0
+	nop
+}
+
 global define EZLJ_SCENELIST_COUNT(0)
 macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 	dw ({scenestart}), ({scenestart} + {scenestart}.size)

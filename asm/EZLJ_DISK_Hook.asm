@@ -12,34 +12,34 @@ base DDHOOK_RAM
 ddhook_start:
 	db "ZELDA_DD"
 ddhook_list_start:
-	dw (ddhook_setup | {KSEG1})	//00: 64DD Hook
-	dw 0x00000000				//04: 64DD Unhook
-	dw 0x00000000				//08: Room Loading Hook
+	dw (ddhook_setup | {KSEG1})	//00: Init 64DD Hook
+	dw 0x00000000				//04: Deinit 64DD Hook
+	dw 0x00000000				//08: Room Loading Replacement
 	dw 0x00000000				//0C: Post-Scene Loading
 	dw 0x00000000				//10: "game_play" game state entrypoint
 	dw 0x00000000				//14: Collision related
-	dw 0x00000000				//18: ???
-	dw 0x00000000				//1C: 
-	dw 0x00000000				//20: 
-	dw 0x00000000				//24: 
+	dw 0x00000000				//18: minimap related
+	dw 0x00000000				//1C: minimap related
+	dw 0x00000000				//20: minimap related
+	dw 0x00000000				//24: minimap related
 	dw 0x00000000				//28: map_i_static Replacement
-	dw 0x00000000				//2C: 
-	dw 0x00000000				//30: 
+	dw 0x00000000				//2C: ovl_map_mark_data?
+	dw 0x00000000				//30: ovl_map_mark_data?
 	dw 0x00000000				//34:
 	dw 0x00000000				//38:
 	dw 0x00000000				//3C:
 	dw 0x00000000				//40: 
 	dw 0x00000000				//44: map_48x85_static Replacement
 	dw (ddhook_sceneload)		//48: Scene Entry Replacement
-	dw 0x00000000				//4C:
-	dw 0x00000000				//50:
+	dw 0x00000000				//4C: [unused?]
+	dw 0x00000000				//50: [unused?]
 	dw 0 //(ddhook_removecutscene)	//54: Entrance Cutscene Replacement?
 	dw (ddhook_text_table)		//58: Message Table Replacement Setup
-	dw 0x00000000				//5C:
+	dw 0x00000000				//5C: [unused?]
 	dw 0x00000000				//60: staff_message_data_static Load
 	dw 0x00000000				//64: jpn_message_data_static Load
 	dw (ddhook_textUSload)		//68: nes_message_data_static Load
-	dw 0x00000000				//6C: ???
+	dw 0x00000000				//6C: Scene Animate?
 	dw (ddhook_romtoram)		//70: DMA ROM to RAM Hook
 	dw 0x00000000				//74: ??? (Every Frame?)
 	dw 0x00000000				//78: Set Cutscene Pointer (Intro Cutscenes)
@@ -52,7 +52,7 @@ ddhook_setup: {
 	//800FEE70 (NTSC 1.0) - Address Table
 	//800FF030 (NTSC 1.1)
 	//800FF4B0 (NTSC 1.2)
-	//	+0x0 = n64dd_Func_801C7C1C (USEFUL! Disk read function)
+	//	+0x0 = n64dd_Func_801C7C1C (IMPORTANT! Disk read function)
 	//	+0x50 = osSendMesg
 	//	+0x88 = Save Context
 	//8011A5D0 (NTSC 1.0) - Save Context
@@ -93,7 +93,7 @@ _ddhook_setup_savecontext:
 	//If it is not identical but also not zero, then it is a save of another disk mod, do not do anything.
 	bne a2,v0,_ddhook_setup_savecontext_wrongsave
 	nop
-	//Else it is all good, do not modify save.
+	//Else it is all good, do not modify save and skip to loading assets.
 	b _ddhook_setup_savecontext_skip
 	nop
 
@@ -257,32 +257,7 @@ _ddhook_setup_patch:
 
 	//Load Patch
 	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
-
-	li at,DDHOOK_PATCH
-    -; lw a0,0(at)		//Get Dest
-	beq a0,0,_ddhook_setup_music	//If 0 then done
-	nop
-	lw a2,4(at)			//Get Size
-	addiu a1,at,8		//Get Source
-	//Check type
-	sra v0,a2,28
-	bne v0,0,+
-	nop
-
-	//Type 0: Copy
-	addu at,a1,a2		//Prepare at for next patch
-	n64dd_CallRamCopy()	//Patch
-	b -					//Loop
-	nop
-
-	//Type 1: Fill
-	+; li a3,0x0FFFFFFF
-	and a2,a2,a3
-	addiu at,a1,4		//Prepare at for next patch
-	lw a1,0(a1)
-	n64dd_CallRamFill()	//Patch
-	b -
-	nop
+	n64dd_CallApplyPatch()
 
 _ddhook_setup_music:
 	n64dd_DiskLoad(DDHOOK_AUDIOBANK_TABLE, EZLJ_AUDIOBANK_TABLE, EZLJ_AUDIOBANK_TABLE.size)
@@ -975,6 +950,42 @@ ddhook_ramfill: {
 	bnez a2,-
 	nop
 
+	jr ra
+	nop
+}
+
+ddhook_applypatch: {
+	addiu sp,sp,-0x20
+	sw ra,0(sp)
+
+	li at,DDHOOK_PATCH
+    -; lw a0,0(at)		//Get Dest
+	beq a0,0,++			//If 0 then done
+	nop
+	lw a2,4(at)			//Get Size
+	addiu a1,at,8		//Get Source
+	//Check type
+	sra v0,a2,28
+	bne v0,0,+
+	nop
+
+	//Type 0: Copy
+	addu at,a1,a2		//Prepare at for next patch
+	n64dd_CallRamCopy()	//Patch
+	b -					//Loop
+	nop
+
+	//Type 1: Fill
+	+; li a3,0x0FFFFFFF
+	and a2,a2,a3
+	addiu at,a1,4		//Prepare at for next patch
+	lw a1,0(a1)
+	n64dd_CallRamFill()	//Patch
+	b -
+	nop
+
+	+; lw ra,0(sp)
+	addiu sp,sp,0x20
 	jr ra
 	nop
 }
