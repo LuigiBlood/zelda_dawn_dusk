@@ -28,6 +28,7 @@ include "../patch/object_ice_objects.patch"
 include "../patch/object_spot02_objects.patch"
 include "../patch/object_sd.patch"
 include "../patch/object_fd2.patch"
+include "../patch/object_box.patch"
 
 include "../patch/ovl_kaleido_scope.all.patch"
 include "../patch/ovl_En_Ossan.all.patch"
