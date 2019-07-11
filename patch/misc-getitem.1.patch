@@ -1,0 +1,27 @@
+//Get Item Changes (NTSC 1.1)
+
+//Requires ovl_player_actor
+
+//code
+//Wooden Shield GI
+dw (0x800F91B0 + 8 + (8 * 0xCB)), 8
+dw DDHOOK_OBJECT_GI_SHIELD1, (DDHOOK_OBJECT_GI_SHIELD1 + DDHOOK_OBJECT_GI_SHIELD1.size)
+
+dw (0x800110A0 + 0xDEF50 + (0x24*0x1C) + 4), 4
+dw 0x06000A88
+
+//Metal Shield GI
+dw (0x800F91B0 + 8 + (8 * 0xDC)), 8
+dw DDHOOK_OBJECT_GI_SHIELD2, (DDHOOK_OBJECT_GI_SHIELD2 + DDHOOK_OBJECT_GI_SHIELD2.size)
+
+dw (0x800110A0 + 0xDEF50 + (0x24*0x2B) + 4), 4
+dw 0x06001238
+
+//Ruto`s Letter GI hack (disables letter model)
+//dw (0x800110A0 + 0xDED90 + (0x24*0x44)), 0xC
+//dw 0x800582C0, 0x06000AE0, 0x00000000
+
+//ovl_player_actor
+//Ruto`s Letter GI to Empty Bottle GI
+dw (DDHOOK_OVL_PLAYER_ACTOR + 0x21334 + (0x14*6)), 0x8
+dw 0x14800142, 0x00C61080

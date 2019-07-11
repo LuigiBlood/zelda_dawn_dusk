@@ -44,15 +44,11 @@ dw 0x4C971446, 0x2640003C
 //dw (DDHOOK_OVL_EFFECT_SS_STICK), (DDHOOK_OVL_EFFECT_SS_STICK + 0x3A0)
 
 //---Setup Link (Child) Optimized (by CrookedPoe)
-//include "../patch/misc-opti_link_child.1.patch"
-
-//---Enable Megaton Hammer rendering for Child Link
-//dw (DDHOOK_OVL_PLAYER_ACTOR + 0x184FC), 4
-//dw 0x1000000B
+include "../patch/misc-opti_link_child.1.patch"
 
 //include "../patch/ovl_kaleido_scope.1.patch"
 
-//include "../patch/misc-getitem.1.patch"
+include "../patch/misc-getitem.1.patch"
 
 //include "../patch/icon_item_static.patch"
 //include "../patch/icon_item_24_static.patch"

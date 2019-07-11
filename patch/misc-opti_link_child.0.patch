@@ -59,6 +59,10 @@ dw (DDHOOK_OVL_PLAYER_ACTOR + 0x2253C), 0x20
 dw 0x0601D108, 0x0601C878, 0x0601CC68, 0x0601F290
 dw 0x0601D9F8, 0x0601DF48, 0x0601E990, 0x0601D538
 
+//---Enable Megaton Hammer rendering for Child Link
+dw (DDHOOK_OVL_PLAYER_ACTOR + 0x184FC), 4
+dw 0x1000000B
+
 //ovl_Effect_Ss_Stick
 dw (DDHOOK_OVL_EFFECT_SS_STICK + 0x334), 4, 0x0601BF30      //Deku Stick
 
