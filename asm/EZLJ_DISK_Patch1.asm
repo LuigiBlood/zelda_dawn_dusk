@@ -48,8 +48,6 @@ include "../patch/misc-opti_link_child.1.patch"
 
 include "../patch/misc-getitem.1.patch"
 
-//include "../patch/ovl_En_Wf.1.patch"
-
 //include "../patch/ovl_Boss_Fd.1.patch"
 //include "../patch/ovl_Boss_Fd2.1.patch"
 //include "../patch/ovl_Bg_Hidan_Curtain.1.patch"

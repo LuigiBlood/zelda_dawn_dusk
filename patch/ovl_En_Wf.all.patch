@@ -1,4 +1,4 @@
-//ovl_En_Wf (NTSC 1.0)
+//ovl_En_Wf (NTSC 1.0 / 1.1 / 1.2)
 
 //Damage Chart
 dw (DDHOOK_OVL_EN_WF + 0x3DB8), 0x10

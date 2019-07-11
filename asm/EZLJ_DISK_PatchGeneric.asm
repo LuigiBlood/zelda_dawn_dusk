@@ -33,6 +33,6 @@ include "../patch/ovl_kaleido_scope.all.patch"
 include "../patch/ovl_En_Ossan.all.patch"
 include "../patch/ovl_En_Fz.all.patch"
 include "../patch/ovl_Bg_Vb_Sima.all.patch"
-
+include "../patch/ovl_En_Wf.all.patch"
 //dw 0
 EZLJ_PATCH_ALL_END:
