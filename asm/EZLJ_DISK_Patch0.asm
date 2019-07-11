@@ -48,8 +48,6 @@ include "../patch/misc-opti_link_child.0.patch"
 
 include "../patch/misc-getitem.0.patch"
 
-include "../patch/ovl_Bg_Vb_Sima.0.patch"
-
 include "../patch/ovl_En_Wf.0.patch"
 
 include "../patch/ovl_Boss_Fd.0.patch"
