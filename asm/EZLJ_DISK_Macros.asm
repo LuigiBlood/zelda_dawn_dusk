@@ -18,6 +18,7 @@ define KSEG1(0xA0000000)
 
 define CZLJ_DiskLoad(0x00)
 define CZLJ_osSendMesg(0x50)
+define CZLJ_osJamMesg(0x54)
 define CZLJ_osWritebackDCache(0x70)
 define CZLJ_SaveContext(0x88)
 define CZLJ_DMARomToRamMesg(0x8C)
@@ -71,6 +72,12 @@ macro n64dd_ForceRomDisable() {
 
 macro n64dd_CallRamCopy() {
 	li v0,ddhook_ramcopy
+	jalr v0
+	nop
+}
+
+macro n64dd_CallRamCopyFast() {
+	li v0,ddhook_ramcopyfast
 	jalr v0
 	nop
 }

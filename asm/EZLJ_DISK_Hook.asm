@@ -136,6 +136,8 @@ _ddhook_setup_savecontext_skip:
 	li a3,(DDHOOK_ADDRTABLE)
 	lw a0,0(a3)
 
+	li a3,(DDHOOK_VERSION)
+
 	//1.0 test
 	li a1,0x800FEE70
 	beq a0,a1,+
@@ -148,14 +150,14 @@ _ddhook_setup_savecontext_skip:
 
 	//else it must be 1.2
 	addiu a1,0,2
-	sw a1,4(a3)		//1.2
+	sw a1,0(a3)		//1.2
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable2, ezlj_vertable2_end - ezlj_vertable2)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE2, EZLJ_FILE_TABLE2.size)
 	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH2, EZLJ_PATCH2_END - EZLJ_PATCH2)
 	b _ddhook_setup_loadrom
 	nop
 
- +;	sw 0,4(a3)		//1.0
+ +;	sw 0,0(a3)		//1.0
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable0, ezlj_vertable0_end - ezlj_vertable0)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE0, EZLJ_FILE_TABLE0.size)
 	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
@@ -163,7 +165,7 @@ _ddhook_setup_savecontext_skip:
 	nop
 
  +;	addiu a1,0,1	//1.1
-	sw a1,4(a3)
+	sw a1,0(a3)
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable1, ezlj_vertable1_end - ezlj_vertable1)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE1, EZLJ_FILE_TABLE1.size)
 	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH1, EZLJ_PATCH1_END - EZLJ_PATCH1)
@@ -400,7 +402,7 @@ _ddhook_setup_finish:
 }
 
 //Handle custom music loading (Hack)
-ddhook_loadmusic: {	//804102E0
+ddhook_loadmusic: {	//804007F8
 	//A0 = osPiHandle
 	//A1 = OSIoMesg
 	//A2 = Direction
@@ -421,7 +423,7 @@ ddhook_loadmusic: {	//804102E0
 
 	//Copy Text Data from RAM to where it wants
 	//Avoid hang from loading from disk directly and stop the music
-    n64dd_CallRamCopy()
+    n64dd_CallRamCopyFast()
 
 	lw a1,0x14(sp)	// Notify the game it is loaded
 	lw a0,4(a1)
@@ -1019,6 +1021,21 @@ ddhook_ramcopy: {
 	addiu a1,a1,1
 	subi a2,a2,1
 	bnez a2,-
+	nop
+
+	jr ra
+	nop
+}
+
+ddhook_ramcopyfast: {
+	//Copy Data from RAM to where it wants
+	//A0 = Dest, A1 = Offset, A2 = Size, A3 = Used for copy
+	 -; lw a3,0(a1)
+	sw a3,0(a0)
+	addiu a0,a0,4
+	addiu a1,a1,4
+	subi a2,a2,4
+	bgez a2,-
 	nop
 
 	jr ra
