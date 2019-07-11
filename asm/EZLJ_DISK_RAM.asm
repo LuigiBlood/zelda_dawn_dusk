@@ -34,6 +34,7 @@ n64dd_RamDefine(DDHOOK_GPRAM, 0)
 	n64dd_RamDefine(DDHOOK_GAMEPLAY_KEEP, 0x5BCE0)
 
 //805B5000-805FFFE0 = Frame Buffer something? Do not write there
+n64dd_RamAddressErrorCheck(0x805B5000)
 
 	//Static Files
 n64dd_RamSetAddress(0x80600000)

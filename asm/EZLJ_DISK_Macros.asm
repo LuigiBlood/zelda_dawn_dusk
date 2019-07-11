@@ -151,3 +151,9 @@ macro n64dd_RamDefine(label, size) {
 macro n64dd_RamAddressDefine(label, addr) {
 	global variable {label}({addr})
 }
+
+macro n64dd_RamAddressErrorCheck(addr) {
+	if ({n64dd_RamAddress} > {addr}) {
+		error "RamDefine goes over the RAM limit."
+	}
+}
