@@ -50,9 +50,6 @@ include "../patch/ovl_kaleido_scope.0.patch"
 
 include "../patch/misc-getitem.0.patch"
 
-include "../patch/icon_item_static.patch"
-include "../patch/icon_item_24_static.patch"
-
 include "../patch/ovl_En_Ossan.0.patch"
 
 include "../patch/object_po_composer.patch"
@@ -75,8 +72,6 @@ include "../patch/ovl_En_Wf.0.patch"
 include "../patch/ovl_Boss_Fd.0.patch"
 include "../patch/ovl_Boss_Fd2.0.patch"
 include "../patch/ovl_Bg_Hidan_Curtain.0.patch"
-
-include "../patch/gameplay_keep.patch"
 
 dw 0
 EZLJ_PATCH0_END:

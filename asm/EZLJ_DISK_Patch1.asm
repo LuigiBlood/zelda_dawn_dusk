@@ -3,7 +3,7 @@
 
 //Uses ARM9 bass
 
-//Memory Patch for NTSC 1.0
+//Memory Patch for NTSC 1.1
 //Load everything into memory first, then patch memory
 
 //Format:
@@ -50,9 +50,6 @@ include "../patch/misc-opti_link_child.1.patch"
 
 include "../patch/misc-getitem.1.patch"
 
-//include "../patch/icon_item_static.patch"
-//include "../patch/icon_item_24_static.patch"
-
 //include "../patch/ovl_En_Ossan.1.patch"
 
 //include "../patch/object_po_composer.patch"
@@ -75,8 +72,6 @@ include "../patch/misc-getitem.1.patch"
 //include "../patch/ovl_Boss_Fd.1.patch"
 //include "../patch/ovl_Boss_Fd2.1.patch"
 //include "../patch/ovl_Bg_Hidan_Curtain.1.patch"
-
-//include "../patch/gameplay_keep.patch"
 
 dw 0
 EZLJ_PATCH1_END:

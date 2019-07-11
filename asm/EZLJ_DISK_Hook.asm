@@ -157,7 +157,7 @@ _ddhook_setup_savecontext_skip:
  +;	sw 0,4(a3)		//1.0
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable0, ezlj_vertable0_end - ezlj_vertable0)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE0, EZLJ_FILE_TABLE0.size)
-	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
+	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
 	b _ddhook_setup_loadrom
 	nop
 
@@ -165,7 +165,7 @@ _ddhook_setup_savecontext_skip:
 	sw a1,4(a3)
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable1, ezlj_vertable1_end - ezlj_vertable1)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE1, EZLJ_FILE_TABLE1.size)
-	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH1, EZLJ_PATCH1_END - EZLJ_PATCH1)
+	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH1, EZLJ_PATCH1_END - EZLJ_PATCH1)
 	b _ddhook_setup_loadrom
 	nop
 
@@ -259,6 +259,7 @@ _ddhook_setup_patch:
 	n64dd_DiskLoad(DDHOOK_STATIC_START, EZLJ_DISK_FS_STATIC_START, EZLJ_DISK_FS_STATIC_SIZE)
 
 	//Load Patch
+	n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH_ALL, EZLJ_PATCH_ALL_END - EZLJ_PATCH_ALL)
 	n64dd_CallApplyPatch()
 
 _ddhook_setup_music:

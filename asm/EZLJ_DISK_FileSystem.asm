@@ -32,6 +32,7 @@ insert EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin"
 include "EZLJ_DISK_FileData.asm"
 
 //Patch
+include "EZLJ_DISK_PatchGeneric.asm"
 include "EZLJ_DISK_Patch0.asm"
 include "EZLJ_DISK_Patch1.asm"
 
