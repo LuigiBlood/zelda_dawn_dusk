@@ -18,5 +18,16 @@ include "../patch/gameplay_keep.patch"
 include "../patch/icon_item_static.patch"
 include "../patch/icon_item_24_static.patch"
 
+include "../patch/parameter_static.patch"
+
+include "../patch/object_po_composer.patch"
+include "../patch/object_hidan_objects.patch"
+include "../patch/object_bdoor.patch"
+include "../patch/object_mizu_objects.patch"
+include "../patch/object_ice_objects.patch"
+include "../patch/object_spot02_objects.patch"
+include "../patch/object_sd.patch"
+include "../patch/object_fd2.patch"
+
 //dw 0
 EZLJ_PATCH_ALL_END:

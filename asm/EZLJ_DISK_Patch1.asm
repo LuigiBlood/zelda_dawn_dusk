@@ -52,17 +52,6 @@ include "../patch/misc-getitem.1.patch"
 
 //include "../patch/ovl_En_Ossan.1.patch"
 
-//include "../patch/object_po_composer.patch"
-//include "../patch/object_hidan_objects.patch"
-//include "../patch/object_bdoor.patch"
-//include "../patch/object_mizu_objects.patch"
-//include "../patch/object_ice_objects.patch"
-//include "../patch/object_spot02_objects.patch"
-//include "../patch/object_sd.patch"
-//include "../patch/object_fd2.patch"
-
-//include "../patch/parameter_static.patch"
-
 //include "../patch/ovl_En_Fz.1.patch"
 
 //include "../patch/ovl_Bg_Vb_Sima.1.patch"
