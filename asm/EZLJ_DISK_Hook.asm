@@ -151,6 +151,7 @@ _ddhook_setup_savecontext_skip:
 	sw a1,4(a3)		//1.2
 	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable2, ezlj_vertable2_end - ezlj_vertable2)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE2, EZLJ_FILE_TABLE2.size)
+	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH2, EZLJ_PATCH2_END - EZLJ_PATCH2)
 	b _ddhook_setup_loadrom
 	nop
 

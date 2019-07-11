@@ -35,6 +35,7 @@ include "EZLJ_DISK_FileData.asm"
 include "EZLJ_DISK_PatchGeneric.asm"
 include "EZLJ_DISK_Patch0.asm"
 include "EZLJ_DISK_Patch1.asm"
+include "EZLJ_DISK_Patch2.asm"
 
 //For precaution with 64DD Disk loading on real hardware, all these files will be loaded contiguous to RAM in one go.
 EZLJ_DISK_FS_STATIC_START:
