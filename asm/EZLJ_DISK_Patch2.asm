@@ -48,9 +48,5 @@ include "../patch/misc-opti_link_child.2.patch"
 
 include "../patch/misc-getitem.2.patch"
 
-//include "../patch/ovl_Boss_Fd.2.patch"
-//include "../patch/ovl_Boss_Fd2.2.patch"
-//include "../patch/ovl_Bg_Hidan_Curtain.2.patch"
-
 dw 0
 EZLJ_PATCH2_END:

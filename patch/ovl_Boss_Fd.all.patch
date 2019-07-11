@@ -1,6 +1,5 @@
-//ovl_Boss_Fd
+//ovl_Boss_Fd (NTSC 1.0 / 1.1 / 1.2)
 
-//80948F60
 dw (DDHOOK_OVL_BOSS_FD + 0x1750), 4
 ori t9, t8, 0
 

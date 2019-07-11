@@ -1,4 +1,4 @@
-//ovl_Boss_Fd2
+//ovl_Boss_Fd2 (NTSC 1.0 / 1.1 / 1.2)
 
 dw (DDHOOK_OVL_BOSS_FD2 + 0x32D8), 0x14
 lui t5, 0xD594
