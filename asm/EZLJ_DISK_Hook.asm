@@ -405,12 +405,14 @@ ddhook_loadmusic: {	//804102E0
 	//A1 = OSIoMesg
 	//A2 = Direction
 	addiu sp,sp,-0x20
-	sw ra,0x18(sp)
+	sw ra,0x20(sp)
+	sw a0,0x1C(sp)
+	sw a2,0x18(sp)
 	sw a1,0x14(sp)
 
-	lui a3,0x8000
+	lui v1,0x8000
 	lw v0,0xC(a1)
-	bltu v0, a3, _ddhook_loadmusic_startdma
+	bltu v0, v1, _ddhook_loadmusic_startdma
 	nop
 
 	lw a0,0x8(a1)	//RAM Dest
@@ -421,18 +423,15 @@ ddhook_loadmusic: {	//804102E0
 	//Avoid hang from loading from disk directly and stop the music
     n64dd_CallRamCopy()
 
-	lw v0,0x14(sp)	// Notify the game it is loaded
-	ori a0,v0,0
-	lw a0,4(a0)
-	ori a1,v0,0
+	lw a1,0x14(sp)	// Notify the game it is loaded
+	lw a0,4(a1)
 	ori a2,0,0
 	n64dd_LoadAddress(a3,{CZLJ_osSendMesg})
 	jalr a3
 	nop
 
-	lw ra,0x18(sp)
-	addiu sp,sp,0x20
-	jr ra
+	ori v0,0,0
+	b _ddhook_loadmusic_return
 	nop
 
 _ddhook_loadmusic_startdma:
@@ -442,7 +441,12 @@ _ddhook_loadmusic_startdma:
 	jalr t9
 	nop
 
-	lw ra,0x18(sp)
+_ddhook_loadmusic_return:
+	lw a0,0x1C(sp)
+	lw a2,0x18(sp)
+	lw a1,0x14(sp)
+
+	lw ra,0x20(sp)
 	addiu sp,sp,0x20
 	jr ra
 	nop
