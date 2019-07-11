@@ -147,3 +147,7 @@ macro n64dd_RamDefine(label, size) {
 		error "RamDefine goes over the RAM limit."
 	}
 }
+
+macro n64dd_RamAddressDefine(label, addr) {
+	global variable {label}({addr})
+}
