@@ -46,11 +46,7 @@ dw 0x4C971446, 0x2640003C
 //---Setup Link (Child) Optimized (by CrookedPoe)
 include "../patch/misc-opti_link_child.2.patch"
 
-//include "../patch/ovl_kaleido_scope.2.patch"
-
 include "../patch/misc-getitem.2.patch"
-
-//include "../patch/ovl_En_Ossan.2.patch"
 
 //include "../patch/ovl_En_Fz.2.patch"
 
