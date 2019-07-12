@@ -341,7 +341,25 @@ _ddhook_setup_music_seq:
 	sw a1,4(a0)
 	// 8(a0) is AUDIOTABLE_TABLE
 	sw a3,0xC(a0)
-	
+
+	// Reinitialize Audiobank Table Function
+	// VER - ADDRESS
+	// 1.0 - 800B85F4
+	// 1.1 - 800B8614
+	// 1.2 - 800B8C74
+	lh v0,0(a1)		//Get amount to reinit
+	sw v0,0x1C(sp)
+	ori a0,0,0
+
+	-; li v0,DDHOOK_VERSIONTABLE
+	lw v0,8(v0)
+	jalr ra,v0
+	nop
+
+	lw v0,0x1C(sp)
+	addiu a0,a0,1
+	bne a0,v0,-
+	nop
 
 	// Patch osEPiStartDma
 	// VER - ADDRESS
@@ -412,9 +430,9 @@ ddhook_loadmusic: {	//804007F8
 	sw a2,0x18(sp)
 	sw a1,0x14(sp)
 
-	lui v1,0x8000
+	lui a3,0x8000
 	lw v0,0xC(a1)
-	bltu v0, v1, _ddhook_loadmusic_startdma
+	bltu v0, a3, _ddhook_loadmusic_startdma
 	nop
 
 	lw a0,0x8(a1)	//RAM Dest
@@ -423,7 +441,7 @@ ddhook_loadmusic: {	//804007F8
 
 	//Copy Text Data from RAM to where it wants
 	//Avoid hang from loading from disk directly and stop the music
-    n64dd_CallRamCopyFast()
+    n64dd_CallRamCopy()
 
 	lw a1,0x14(sp)	// Notify the game it is loaded
 	lw a0,4(a1)
@@ -1112,14 +1130,17 @@ seekDisk(0x1080)
 ezlj_vertable0:
 	dw 0x80127E60	// Address to Audio Tables Pointers
 	dw 0x800B8250	// Address to osEPiStartDma Patch
+	dw 0x800B85F4	// Address to AudioBank Init Table (whatever that is)
 ezlj_vertable0_end:
 
 ezlj_vertable1:
 	dw 0x80128020	// Address to Audio Tables Pointers
 	dw 0x800B8270	// Address to osEPiStartDma Patch
+	dw 0x800B8614	// Address to AudioBank Init Table (whatever that is)
 ezlj_vertable1_end:
 
 ezlj_vertable2:
 	dw 0x80128730	// Address to Audio Tables Pointers
 	dw 0x800B88D0	// Address to osEPiStartDma Patch
+	dw 0x800B8C74	// Address to AudioBank Init Table (whatever that is)
 ezlj_vertable2_end:
