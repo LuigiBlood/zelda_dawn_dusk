@@ -33,7 +33,7 @@ ddhook_list_start:
 	dw (ddhook_sceneload)			//48: Scene Entry Replacement
 	dw 0x00000000					//4C: [unused?]
 	dw 0x00000000					//50: [unused?]
-	dw 0 //(ddhook_removecutscene)	//54: Entrance Cutscene Replacement?
+	dw 0x00000000					//54: Entrance Cutscene Replacement?
 	dw (ddhook_text_table)			//58: Message Table Replacement Setup
 	dw 0x00000000					//5C: [unused?]
 	dw 0x00000000					//60: staff_message_data_static Load
@@ -189,39 +189,6 @@ _ddhook_incompatibleversion:
 _ddhook_incompatible_loop:
 	j _ddhook_incompatible_loop
 	nop
-
-_ddhook_setup_entrancetable:
-	//Load Entrance Table
-	//NTSC 1.0 - 800F9C90 (-51E0)
-	//NTSC 1.1 - 800F9E50 (-51E0)
-	//NTSC 1.2 - 800FA2E0 (-51D0)
-
-_ddhook_setup_entrance_cutscene:
-	//Load Entrance Cutscene Table
-	//NTSC 1.0 - 800EFD04 (-F16C)
-	//NTSC 1.1 - 800EFEC4 (-F16C)
-	//NTSC 1.2 - 800F0344 (-F16C)
-
-_ddhook_setup_minimap_table:
-	//Load Minimap Table
-	//NTSC 1.0 - 800F6914 (-855C)
-	//NTSC 1.1 - 800F6AD4 (-855C)
-	//NTSC 1.2 - 800F6F54 (-855C)
-
-_ddhook_setup_tunic_colors:
-	//Setup Tunic Colors
-	//NTSC 1.0 - 800F7AD8 (-7398)
-	//NTSC 1.1 - 800F7C98 (-7398)
-	//NTSC 1.2 - 800F8128 (-7388)
-
-_ddhook_setup_object_list:
-	//Patch Object List
-	//NTSC 1.0 - 800F8FF0 (-5E80)
-	//NTSC 1.1 - 800F91B0 (-5E80)
-	//NTSC 1.2 - 800F9640 (-5E70)
-
-_ddhook_setup_ovl_kaleido_scope:
-	//Handle ovl_kaleido_scope
 
 _ddhook_setup_loadrom:
 	n64dd_ForceRomEnable()
@@ -812,19 +779,6 @@ ddhook_roomload: {
 	nop
 }
 
-//Remove Intro Cutscene (avoid softlock)
-ddhook_removecutscene: {
-	//Arguments:
-	//A0=p->Global Context
-	//
-	//Return:
-	//V0=Is Loaded?
-	
-	//addiu v0,0,1
-	//jr ra
-	//nop
-}
-
 //ROM Loading Hook
 ddhook_romtoram: {
 	//Arguments:
@@ -1006,18 +960,6 @@ ddhook_romtoram_return:
 	addiu sp,sp,0x20
 	jr ra
 	nop
-}
-
-//ROM Loading Hook, for loading from ROM, to patch later
-ddhook_romtoram_restore: {
-	//li a3,ddhook_romtoram
-	//li v0,ddhook_list_start
-	//sw a3,0x70(v0)
-
-	//ori v0,0,0
-
-	//jr ra
-	//nop
 }
 
 ddhook_ramcopy: {
