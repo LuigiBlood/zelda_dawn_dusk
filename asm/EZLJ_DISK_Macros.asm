@@ -42,8 +42,15 @@ macro n64dd_DiskLoad(dest, source, size) {
 	nop
 }
 
+macro n64dd_osWritebackDCache(dest, size) {
+	li a0,{dest}
+	li a1,{size}
+	n64dd_LoadAddress(v0, {CZLJ_osWritebackDCache})
+	jalr v0
+	nop
+}
+
 macro n64dd_RomLoad(dest, source, size) {
-	//801C7C1C - NTSC 1.0
 	li a0,{dest}
 	li a1,{source}
 	li a2,{size}
@@ -53,7 +60,6 @@ macro n64dd_RomLoad(dest, source, size) {
 }
 
 macro n64dd_CallRomLoad() {
-	//801C7C1C - NTSC 1.0
 	n64dd_LoadAddress(v0, {CZLJ_DMARomToRam})
 	jalr v0
 	nop

@@ -65,6 +65,9 @@ ddhook_setup: {
 	li a3,(DDHOOK_ADDRTABLE)
 	sw a0,0(a3)
 
+	//osWritebackDCache all of the expanded memory
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
+
 _ddhook_setup_savecontext:
 	//Save Context Change
 	n64dd_LoadAddress(a1, {CZLJ_SaveContext})
@@ -266,9 +269,9 @@ _ddhook_setup_patch:
 	n64dd_CallApplyPatch()
 
 _ddhook_setup_music:
-	n64dd_DiskLoad(DDHOOK_AUDIOBANK_TABLE, EZLJ_AUDIOBANK_TABLE, EZLJ_AUDIOBANK_TABLE.size)
-	n64dd_DiskLoad(DDHOOK_AUDIOINST_TABLE, EZLJ_AUDIOINST_TABLE, EZLJ_AUDIOINST_TABLE.size)
-	n64dd_DiskLoad(DDHOOK_AUDIOSEQ_TABLE, EZLJ_AUDIOSEQ_TABLE, EZLJ_AUDIOSEQ_TABLE.size)
+	n64dd_DiskLoad(DDHOOK_STATICMAIN, EZLJ_DISK_FS_STATICMAIN_START, EZLJ_DISK_FS_STATICMAIN_SIZE)
+	//Load Scene Table
+	n64dd_DiskLoad(DDHOOK_SCENELIST, EZLJ_SCENELIST, EZLJ_SCENELIST_SIZE)
 
 	//Check version and load the appropriate audiobank
 	li a0,DDHOOK_VERSION
@@ -291,8 +294,6 @@ _ddhook_setup_music_bank2:
 	n64dd_DiskLoad(DDHOOK_AUDIOBANK, EZLJ_AUDIOBANK2, EZLJ_AUDIOBANK2.size)
 
 _ddhook_setup_music_seq:
-	n64dd_DiskLoad(DDHOOK_AUDIOSEQ, EZLJ_AUDIOSEQ, EZLJ_AUDIOSEQ.size)
-
 	//Update Pointers Audiobank Table
 	li a0,DDHOOK_AUDIOBANK
 	li a1,DDHOOK_AUDIOBANK_TABLE
@@ -400,18 +401,7 @@ _ddhook_setup_musicdma:
 
 _ddhook_setup_finish:
 	//osWritebackDCache all of the expanded memory
-	lui a0, 0x8040
-	lui a1, 0x0040
-	n64dd_LoadAddress(v0, {CZLJ_osWritebackDCache})
-	jalr v0
-	nop
-	
-	//Load Message Table to RAM
-	n64dd_DiskLoad(DDHOOK_TEXTTABLE, EZLJ_NES_MESSAGE_TABLE, EZLJ_NES_MESSAGE_TABLE.size)
-	//Load text data into RAM (avoid music stop)
-	n64dd_DiskLoad(DDHOOK_TEXTDATA, EZLJ_NES_MESSAGE_DATA_STATIC, EZLJ_NES_MESSAGE_DATA_STATIC.size)
-	//Load Scene Table (temp)
-	n64dd_DiskLoad(DDHOOK_SCENELIST, EZLJ_SCENELIST, EZLJ_SCENELIST_SIZE)
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
 	
 	lw ra,0x20(sp)
 	addiu sp,sp,0x20
@@ -449,6 +439,8 @@ ddhook_loadmusic: {	//804007F8
 	n64dd_LoadAddress(a3,{CZLJ_osSendMesg})
 	jalr a3
 	nop
+
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
 
 	ori v0,0,0
 	b _ddhook_loadmusic_return
@@ -495,6 +487,8 @@ ddhook_minimap_data: {
 	li a1,DDHOOK_MAP_MINIMAP_TABLE_HEIGHT
 	sw a1,0x44(a0)
 
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
+
 	lw ra,0x10(sp)
 	addiu sp,sp,0x10
 	jr ra
@@ -537,6 +531,8 @@ ddhook_map_48x85_static: {
 	addiu a0,a0,0x800	//A0=Destination + 0x800
 	n64dd_CallRamCopy()
 
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
+
 	ori v0,0,1			//IsLoaded = true
 	lw ra,0x20(sp)
 	addiu sp,sp,0x20
@@ -556,13 +552,6 @@ ddhook_textUSload: {
 	sw ra,8(sp)
 	sw a0,4(sp)
 	
-	//osWritebackDCache all of the expanded memory
-	lui a0, 0x8040
-	lui a1, 0x0040
-	n64dd_LoadAddress(at, {CZLJ_osWritebackDCache})
-	jalr at
-	nop
-	
 	lw a0,4(sp)
 	lw a2,4(a0) 		//A2 = Size
 	lw a1,0(a0)		//A1 = Offset
@@ -574,6 +563,8 @@ ddhook_textUSload: {
 	//Copy Text Data from RAM to where it wants
 	//Avoid hang from loading from disk directly and stop the music
 	n64dd_CallRamCopy()
+
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
 	
 	lw ra,8(sp)
 	addiu sp,sp,0x10
@@ -595,26 +586,11 @@ ddhook_text_table: {
 	sw a1,0x8(sp)
 	sw a2,0x4(sp)
 	
-	//osWritebackDCache all of the expanded memory
-	lui a0, 0x8040
-	lui a1, 0x0040
-	n64dd_LoadAddress(at, {CZLJ_osWritebackDCache})
-	jalr at
-	nop
-	
-	lw a0,0xC(sp)
-	lw a1,0x8(sp)
-	lw a2,0x4(sp)
-	
 	li a0,DDHOOK_TEXTTABLE
 	sw a0,0(a1)		//Change nes_message_data_static pointer
 	
 	//osWritebackDCache all of the expanded memory
-	lui a0, 0x8040
-	lui a1, 0x0040
-	n64dd_LoadAddress(v0, {CZLJ_osWritebackDCache})
-	jalr v0
-	nop
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
 	
 	lw ra,0x10(sp)
 	addiu sp,sp,0x20
@@ -771,6 +747,8 @@ ddhook_postscene: {
 	bne a3,a2,-		//if not equal then continue to load rooms
 	nop
 
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
+
 	lw ra,0x20(sp)
 	addiu sp,sp,0x20
 	jr ra
@@ -788,16 +766,7 @@ ddhook_roomload: {
 	sw ra,0x10(sp)
 	sw a1,0x14(sp)
 	sw a2,0x18(sp)
-	
-	//osWritebackDCache all of the expanded memory
-	lui a0, 0x8040
-	lui a1, 0x0040
-	n64dd_LoadAddress(at, {CZLJ_osWritebackDCache})
-	jalr at
-	nop
-	
-	lw a1,0x14(sp)
-	lw a2,0x18(sp)
+
 	lw a0,0x34(a1)		//A0=RAM Address Dest
 	li a1,DDHOOK_SCENE_ROOM_TABLE
 	sll a2,a2,3
@@ -817,6 +786,8 @@ ddhook_roomload: {
 	n64dd_LoadAddress(a3, {CZLJ_osSendMesg})
 	jalr a3			//osSendMesg, to let the engine know that the data is loaded and continue the game
 	nop
+
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
 	
 	lw ra,0x10(sp)
 	addiu sp,sp,0x20
@@ -1004,6 +975,8 @@ ddhook_romtoram_success:
 	n64dd_LoadAddress(a3, {CZLJ_osSendMesg})
 	jalr a3			//osSendMesg, to let the engine know that the data is loaded and continue the game
 	nop
+
+	n64dd_osWritebackDCache(0x80400000, 0x400000)
 
 	ori v0,0,1
 

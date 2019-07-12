@@ -23,10 +23,18 @@ insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Contex
 insert EZLJ_AUDIOBANK0,"../audio/audiobank.dawn.0.bin" // 1.0
 //insert EZLJ_AUDIOBANK1,"../audio/audiobank.dawn.1.bin" //1.1 TODO
 insert EZLJ_AUDIOBANK2,"../audio/audiobank.dawn.2.bin" // 1.2
+
+EZLJ_DISK_FS_STATICMAIN_START:
 insert EZLJ_AUDIOSEQ,"../audio/audioseq.dawn.bin"
 insert EZLJ_AUDIOBANK_TABLE,"../audio/audiobank.dawn.table.bin"
 insert EZLJ_AUDIOINST_TABLE,"../audio/audioinst.dawn.table.bin"
 insert EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin"
+
+//Text
+insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
+insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
+EZLJ_DISK_FS_STATICMAIN_END:
+constant EZLJ_DISK_FS_STATICMAIN_SIZE(EZLJ_DISK_FS_STATICMAIN_END-EZLJ_DISK_FS_STATICMAIN_START)
 
 //Virtual File Table Replacement
 include "EZLJ_DISK_FileData.asm"
@@ -72,7 +80,7 @@ insert EZLJ_ITEM_NAME_STATIC_BRACELET,"../images/item_name_static/item_name_stat
 insert EZLJ_OBJECT_GI_BRACELET,"../object/object_gi_bracelet.bin"
 insert EZLJ_OBJECT_GI_CLOTHES,"../object/object_gi_clothes.bin"
 insert EZLJ_OBJECT_GI_SHIELD1,"../object/object_gi_shield_1.bin"
-insert EZLJ_OBJECT_GI_SHIELD2,"../object/object_gi_shield_2.bin"    //TODO: fix rendering
+insert EZLJ_OBJECT_GI_SHIELD2,"../object/object_gi_shield_2.bin"
 
 insert EZLJ_OBJECT_FD,"../object/object_fd.ntsc.bin"
 
@@ -80,11 +88,6 @@ insert EZLJ_MAP_48X85_STATIC,"../images/map_48x85_static.bin"
 
 EZLJ_DISK_FS_STATIC_END:
 constant EZLJ_DISK_FS_STATIC_SIZE(EZLJ_DISK_FS_STATIC_END-EZLJ_DISK_FS_STATIC_START)
-//Minimaps
-
-//Text
-insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
-insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
 
 //Scene Title Cards
 insert EZLJ_SCENENAME09,"../images/g_pn/g_pn_0x09.bin"
