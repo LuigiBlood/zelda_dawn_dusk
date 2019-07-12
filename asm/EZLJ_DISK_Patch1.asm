@@ -48,5 +48,9 @@ include "../patch/misc-opti_link_child.1.patch"
 
 include "../patch/misc-getitem.1.patch"
 
+//Force use Hylian Shield like Adult Link
+dw (0x800110A0 + 0x68400), 4
+nop
+
 dw 0
 EZLJ_PATCH1_END:
