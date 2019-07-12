@@ -7,6 +7,12 @@ dw 0x839D839D, 0x8BDFA4A5, 0xB56BC5AD, 0xDE73FFFF
 dw (DDHOOK_OBJECT_HIDAN_OBJECTS + 0xA40), EZLJ_OBJECT_HIDAN_OBJECTS_A40.size
 insert EZLJ_OBJECT_HIDAN_OBJECTS_A40,"../object/object_hidan_objects/object_hidan_objects_tex_A40.bin"
 
+dw (DDHOOK_OBJECT_HIDAN_OBJECTS + 0x5240), EZLJ_OBJECT_HIDAN_OBJECTS_5240.size
+insert EZLJ_OBJECT_HIDAN_OBJECTS_5240,"../object/object_hidan_objects/object_hidan_objects_tex_5240.bin"
+
+dw (DDHOOK_OBJECT_HIDAN_OBJECTS + 0x5640), EZLJ_OBJECT_HIDAN_OBJECTS_5640.size
+insert EZLJ_OBJECT_HIDAN_OBJECTS_5640,"../object/object_hidan_objects/object_hidan_objects_tex_5640.bin"
+
 dw (DDHOOK_OBJECT_HIDAN_OBJECTS + 0x6A40), EZLJ_OBJECT_HIDAN_OBJECTS_6A40.size
 insert EZLJ_OBJECT_HIDAN_OBJECTS_6A40,"../object/object_hidan_objects/object_hidan_objects_tex_6A40.bin"
 
