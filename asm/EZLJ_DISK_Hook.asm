@@ -13,7 +13,7 @@ ddhook_start:
 	db "ZELDA_DD"
 ddhook_list_start:
 	dw (ddhook_setup | {KSEG1})		//00: Init 64DD Hook
-	dw 0x00000000					//04: Deinit 64DD Hook
+	dw (ddhook_disabledisk)			//04: Deinit 64DD Hook
 	dw 0x00000000					//08: Room Loading Replacement
 	dw 0x00000000					//0C: Post-Scene Loading
 	dw 0x00000000					//10: "game_play" game state entrypoint
@@ -406,6 +406,23 @@ _ddhook_setup_finish:
 	lw ra,0x20(sp)
 	addiu sp,sp,0x20
 	jr ra
+	nop
+}
+
+//Disable 64DD Disk Hook
+ddhook_disabledisk: {
+	//Cannot easily disable everything including language, therefore we add a lock screen.
+	lui a0,VI_BASE
+	lw a0,VI_ORIGIN(a0)
+	li a1,{KSEG1}
+	addu a0,a0,a1
+	li a1,EZLJ_RESET
+	li a2,EZLJ_RESET.size
+	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+_ddhook_disabledisk_loop:
+	b _ddhook_disabledisk_loop
 	nop
 }
 

@@ -15,6 +15,7 @@ seekDisk(0x4D08)
 insert EZLJ_ERROR_IPL,"../images/error_screens/EZLJ_error_IPL.bin"
 insert EZLJ_ERROR_VER,"../images/error_screens/EZLJ_error_version.bin"
 insert EZLJ_ERROR_SAV,"../images/error_screens/EZLJ_error_save.bin"
+insert EZLJ_RESET,"../images/error_screens/EZLJ_reset.bin"
 
 //Default Save Data
 insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Context offset 0x002E
@@ -23,6 +24,8 @@ insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Contex
 insert EZLJ_AUDIOBANK0,"../audio/audiobank.dawn.0.bin" // 1.0
 //insert EZLJ_AUDIOBANK1,"../audio/audiobank.dawn.1.bin" //1.1 TODO
 insert EZLJ_AUDIOBANK2,"../audio/audiobank.dawn.2.bin" // 1.2
+
+include "EZLJ_DISK_ovl_opening.asm"
 
 EZLJ_DISK_FS_STATICMAIN_START:
 insert EZLJ_AUDIOSEQ,"../audio/audioseq.dawn.bin"
