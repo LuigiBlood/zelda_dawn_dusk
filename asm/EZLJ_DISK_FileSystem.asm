@@ -147,5 +147,9 @@ insert EZLJ_SCENE5B_MAP02,"../scene/Dawngrove Room 2.zmap"
 insert EZLJ_SCENE60,"../scene/Cutscene Map.zscene"
 insert EZLJ_SCENE60_MAP00,"../scene/Cutscene Map Room 0.zmap"
 
+//Exception, to be loaded via DMA ROM to RAM hook instead
+insert EZLJ_SCENE3E,"../scene/Grottos.zscene"
+insert EZLJ_SCENE3E_MAP13,"../scene/Grottos Room 13.zmap"
+
 //Scene Table
 include "EZLJ_DISK_SceneList.asm"
