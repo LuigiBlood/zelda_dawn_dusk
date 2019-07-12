@@ -1045,21 +1045,6 @@ ddhook_ramcopy: {
 	nop
 }
 
-ddhook_ramcopyfast: {
-	//Copy Data from RAM to where it wants
-	//A0 = Dest, A1 = Offset, A2 = Size, A3 = Used for copy
-	 -; lw a3,0(a1)
-	sw a3,0(a0)
-	addiu a0,a0,4
-	addiu a1,a1,4
-	subi a2,a2,4
-	bgez a2,-
-	nop
-
-	jr ra
-	nop
-}
-
 ddhook_ramfill: {
 	//Copy Data from RAM to where it wants
 	//A0 = Dest, A1 = Fill Byte, A2 = Size

@@ -76,12 +76,6 @@ macro n64dd_CallRamCopy() {
 	nop
 }
 
-macro n64dd_CallRamCopyFast() {
-	li v0,ddhook_ramcopyfast
-	jalr v0
-	nop
-}
-
 macro n64dd_RamFill(dest, fillbyte, size) {
 	li a0,{dest}
 	ori a1,{fillbyte}
