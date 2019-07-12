@@ -70,6 +70,16 @@ macro n64dd_ForceRomDisable() {
 	sw 0,0(a0)
 }
 
+macro n64dd_RamCopy(dest, source, size) {
+	li a0,{dest}
+	li a1,{source}
+	li a2,{size}
+
+	li v0,ddhook_ramcopy
+	jalr v0
+	nop
+}
+
 macro n64dd_CallRamCopy() {
 	li v0,ddhook_ramcopy
 	jalr v0

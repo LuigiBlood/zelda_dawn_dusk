@@ -151,14 +151,14 @@ _ddhook_setup_savecontext_skip:
 	//else it must be 1.2
 	addiu a1,0,2
 	sw a1,0(a3)		//1.2
-	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable2, ezlj_vertable2_end - ezlj_vertable2)
+	n64dd_RamCopy(DDHOOK_VERSIONTABLE, ddhook_vertable2, ddhook_vertable2_end - ddhook_vertable2)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE2, EZLJ_FILE_TABLE2.size)
 	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH2, EZLJ_PATCH2_END - EZLJ_PATCH2)
 	b _ddhook_setup_loadrom
 	nop
 
  +;	sw 0,0(a3)		//1.0
-	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable0, ezlj_vertable0_end - ezlj_vertable0)
+	n64dd_RamCopy(DDHOOK_VERSIONTABLE, ddhook_vertable0, ddhook_vertable0_end - ddhook_vertable0)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE0, EZLJ_FILE_TABLE0.size)
 	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
 	b _ddhook_setup_loadrom
@@ -166,7 +166,7 @@ _ddhook_setup_savecontext_skip:
 
  +;	addiu a1,0,1	//1.1
 	sw a1,0(a3)
-	n64dd_DiskLoad(DDHOOK_VERSIONTABLE, ezlj_vertable1, ezlj_vertable1_end - ezlj_vertable1)
+	n64dd_RamCopy(DDHOOK_VERSIONTABLE, ddhook_vertable1, ddhook_vertable1_end - ddhook_vertable1)
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE1, EZLJ_FILE_TABLE1.size)
 	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH1, EZLJ_PATCH1_END - EZLJ_PATCH1)
 	b _ddhook_setup_loadrom
@@ -1092,6 +1092,26 @@ ddhook_applypatch: {
 	addiu sp,sp,0x20
 	jr ra
 	nop
+
+ddhook_data:
+ddhook_vertable0:
+	dw 0x80127E60	// Address to Audio Tables Pointers
+	dw 0x800B8250	// Address to osEPiStartDma Patch
+	dw 0x800B85F4	// Address to AudioBank Init Table (whatever that is)
+ddhook_vertable0_end:
+
+ddhook_vertable1:
+	dw 0x80128020	// Address to Audio Tables Pointers
+	dw 0x800B8270	// Address to osEPiStartDma Patch
+	dw 0x800B8614	// Address to AudioBank Init Table (whatever that is)
+ddhook_vertable1_end:
+
+ddhook_vertable2:
+	dw 0x80128730	// Address to Audio Tables Pointers
+	dw 0x800B88D0	// Address to osEPiStartDma Patch
+	dw 0x800B8C74	// Address to AudioBank Init Table (whatever that is)
+ddhook_vertable2_end:
+
 }
 
 ddhook_end:
@@ -1108,24 +1128,3 @@ dw (ddhook_end - ddhook_start)		//Source End
 dw (ddhook_start | {KSEG1})		//Dest Start
 dw (ddhook_end | {KSEG1})		//Dest End
 dw (ddhook_list_start | {KSEG1})	//Hook Table Address
-
-seekDisk(0)
-base 0
-seekDisk(0x1080)
-ezlj_vertable0:
-	dw 0x80127E60	// Address to Audio Tables Pointers
-	dw 0x800B8250	// Address to osEPiStartDma Patch
-	dw 0x800B85F4	// Address to AudioBank Init Table (whatever that is)
-ezlj_vertable0_end:
-
-ezlj_vertable1:
-	dw 0x80128020	// Address to Audio Tables Pointers
-	dw 0x800B8270	// Address to osEPiStartDma Patch
-	dw 0x800B8614	// Address to AudioBank Init Table (whatever that is)
-ezlj_vertable1_end:
-
-ezlj_vertable2:
-	dw 0x80128730	// Address to Audio Tables Pointers
-	dw 0x800B88D0	// Address to osEPiStartDma Patch
-	dw 0x800B8C74	// Address to AudioBank Init Table (whatever that is)
-ezlj_vertable2_end:
