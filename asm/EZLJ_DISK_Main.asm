@@ -22,7 +22,7 @@ if {defined USA} {
 }
 
 if !{defined DISKTYPE} {
-	define DISKTYPE(6)
+	define DISKTYPE(0)
 }
 
 if ({DISKTYPE} > 6) {
