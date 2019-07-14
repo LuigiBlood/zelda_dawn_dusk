@@ -17,8 +17,11 @@ macro seekDisk(n) {
 define KSEG1(0xA0000000)
 
 define CZLJ_DiskLoad(0x00)
+define CZLJ_StaticContext(0x08)
 define CZLJ_osSendMesg(0x50)
 define CZLJ_osJamMesg(0x54)
+define CZLJ_osInvalDCache(0x68)
+define CZLJ_osInvalICache(0x6C)
 define CZLJ_osWritebackDCache(0x70)
 define CZLJ_SaveContext(0x88)
 define CZLJ_DMARomToRamMesg(0x8C)
@@ -38,6 +41,22 @@ macro n64dd_DiskLoad(dest, source, size) {
 	li a1,{source}
 	li a2,{size}
 	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
+}
+
+macro n64dd_osInvalDCache(dest, size) {
+	li a0,{dest}
+	li a1,{size}
+	n64dd_LoadAddress(v0, {CZLJ_osInvalDCache})
+	jalr v0
+	nop
+}
+
+macro n64dd_osInvalICache(dest, size) {
+	li a0,{dest}
+	li a1,{size}
+	n64dd_LoadAddress(v0, {CZLJ_osInvalICache})
 	jalr v0
 	nop
 }
