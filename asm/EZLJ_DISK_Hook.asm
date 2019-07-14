@@ -494,8 +494,7 @@ ddhook_map_48x85_static: {
 	addu a0,a0,at		//ovl_kaleido_scope Global Context
 	lw a0,0x062C(a0)	//A0=Destination
 
-	n64dd_LoadAddress(a1, {CZLJ_SaveContext})
-	lw a1,0x1430(a1)	//Load Static Context
+	n64dd_LoadAddress(a1, {CZLJ_StaticContext})		//Load Static Context
 	lh v0,0xF2E(a1)		//get Floor Tex Index
 	sll	a1,v0,8
 	subu a1,a1,v0
