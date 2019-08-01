@@ -88,7 +88,7 @@ insert EZLJ_SCENE3E_MAP13,"../scene/Grottos Room 13.zmap"
 
 //Audio
 insert EZLJ_AUDIOBANK0,"../audio/audiobank.dawn.0.bin" // 1.0
-//insert EZLJ_AUDIOBANK1,"../audio/audiobank.dawn.1.bin" //1.1 TODO
+//insert EZLJ_AUDIOBANK1,"../audio/audiobank.dawn.1.bin" //1.1 NOT NEEDED
 insert EZLJ_AUDIOBANK2,"../audio/audiobank.dawn.2.bin" // 1.2
 
 include "EZLJ_DISK_ovl_opening.asm"
@@ -113,13 +113,20 @@ constant EZLJ_DISK_FS_STATICMAIN_SIZE(EZLJ_DISK_FS_STATICMAIN_END-EZLJ_DISK_FS_S
 
 //Virtual File Table Replacement
 //Patch
+
+dw 0
 include "EZLJ_DISK_FileData0.asm"
+dw 0,0,0
 include "EZLJ_DISK_Patch0.asm"
 
+dw 0,0,0
 include "EZLJ_DISK_FileData1.asm"
+dw 0,0,0
 include "EZLJ_DISK_Patch1.asm"
 
+dw 0,0,0
 include "EZLJ_DISK_FileData2.asm"
+dw 0,0,0
 include "EZLJ_DISK_Patch2.asm"
 
 //For precaution with 64DD Disk loading on real hardware, all these files will be loaded contiguous to RAM in one go.

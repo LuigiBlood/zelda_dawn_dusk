@@ -1056,26 +1056,26 @@ ddhook_applypatch:
 	//nop
 
 	//addiu s0,0,0
-	sw 0,0x18(sp)
+	//sw 0,0x18(sp)
 	or at,a0,0
 	//li at,DDHOOK_PATCH
 	sw at,0x1C(sp)
     -;
-	li v0,ddhook_printf_copy_out_set
-	li a3,ddhook_string_temp
-	sw a3,0(v0)
+	//li v0,ddhook_printf_copy_out_set
+	//li a3,ddhook_string_temp
+	//sw a3,0(v0)
 
-	addiu a3,sp,0x18
-	n64dd_dprintf_num(ddhook_string_text)
+	//addiu a3,sp,0x18
+	//n64dd_dprintf_num(ddhook_string_text)
 
-	li a1,ddhook_string_temp
-	li a2,(ddhook_end - ddhook_string_temp)
-	jal ddhook00_printf_out
-	nop
+	//li a1,ddhook_string_temp
+	//li a2,(ddhook_end - ddhook_string_temp)
+	//jal ddhook00_printf_out
+	//nop
 	
-	lw s0,0x18(sp)
-	addiu s0,s0,1
-	sw s0,0x18(sp)
+	//lw s0,0x18(sp)
+	//addiu s0,s0,1
+	//sw s0,0x18(sp)
 
 	lw at,0x1C(sp)
 	lw a0,0(at)		//Get Dest

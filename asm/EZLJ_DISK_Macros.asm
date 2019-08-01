@@ -242,3 +242,10 @@ macro n64dd_RamAddressErrorCheck(addr) {
 		error "RamDefine goes over the RAM limit."
 	}
 }
+
+macro n64dd_AlignCheck() {
+	if (((origin() - 0x785C8) & 0xF) != 0) {
+		print ((origin() - 0x785C8) & 0xF)
+		error "\n\nNOT ALIGNED\n"
+	}
+}
