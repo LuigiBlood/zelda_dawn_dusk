@@ -17,81 +17,6 @@ insert EZLJ_ERROR_VER,"../images/error_screens/EZLJ_error_version.bin"
 insert EZLJ_ERROR_SAV,"../images/error_screens/EZLJ_error_save.bin"
 insert EZLJ_RESET,"../images/error_screens/EZLJ_reset.bin"
 
-//Default Save Data
-insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Context offset 0x002E
-
-//Audio
-insert EZLJ_AUDIOBANK0,"../audio/audiobank.dawn.0.bin" // 1.0
-//insert EZLJ_AUDIOBANK1,"../audio/audiobank.dawn.1.bin" //1.1 TODO
-insert EZLJ_AUDIOBANK2,"../audio/audiobank.dawn.2.bin" // 1.2
-
-include "EZLJ_DISK_ovl_opening.asm"
-
-EZLJ_DISK_FS_STATICMAIN_START:
-insert EZLJ_AUDIOSEQ,"../audio/audioseq.dawn.bin"
-insert EZLJ_AUDIOBANK_TABLE,"../audio/audiobank.dawn.table.bin"
-insert EZLJ_AUDIOINST_TABLE,"../audio/audioinst.dawn.table.bin"
-insert EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin"
-
-//Text
-insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
-insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
-EZLJ_DISK_FS_STATICMAIN_END:
-constant EZLJ_DISK_FS_STATICMAIN_SIZE(EZLJ_DISK_FS_STATICMAIN_END-EZLJ_DISK_FS_STATICMAIN_START)
-
-//Virtual File Table Replacement
-include "EZLJ_DISK_FileData.asm"
-
-//Patch
-include "EZLJ_DISK_PatchGeneric.asm"
-include "EZLJ_DISK_Patch0.asm"
-include "EZLJ_DISK_Patch1.asm"
-include "EZLJ_DISK_Patch2.asm"
-
-//For precaution with 64DD Disk loading on real hardware, all these files will be loaded contiguous to RAM in one go.
-EZLJ_DISK_FS_STATIC_START:
-insert EZLJ_MAP_MINIMAP_TABLE_LENGTH,"../other/code_overworld_minimap_table_length.bin"
-insert EZLJ_MAP_MINIMAP_TABLE_OFFSET,"../other/code_overworld_minimap_table_offset.bin"
-insert EZLJ_MAP_MINIMAP_TABLE_XPOS,"../other/code_overworld_minimap_table_xpos.bin"
-insert EZLJ_MAP_MINIMAP_TABLE_YPOS,"../other/code_overworld_minimap_table_ypos.bin"
-insert EZLJ_MAP_MINIMAP_TABLE_COMPASS,"../other/code_overworld_minimap_table_compass.bin"
-insert EZLJ_MAP_MINIMAP_TABLE_WIDTH,"../other/code_overworld_minimap_table_width.bin"
-insert EZLJ_MAP_MINIMAP_TABLE_HEIGHT,"../other/code_overworld_minimap_table_height.bin"
-
-insert EZLJ_GAMEPLAY_DANGEON_KEEP,"../object/gameplay_dangeon_keep.bin"
-insert EZLJ_OBJECT_LINK_CHILD,"../object/object_link_child.bin"
-
-insert EZLJ_ICON_ITEM_FIELD_STATIC,"../images/icon_item_field_static.bin"
-insert EZLJ_ICON_ITEM_NES_STATIC,"../images/icon_item_nes_static.bin"
-
-insert EZLJ_MAP_NAME_STATIC_LAND,"../images/map_name_static/map_name_static_landdawndusk_5800.bin"
-insert EZLJ_MAP_NAME_STATIC_DAWN,"../images/map_name_static/map_name_static_dawnside.bin"
-insert EZLJ_MAP_NAME_STATIC_DUSK,"../images/map_name_static/map_name_static_duskside.bin"
-
-insert EZLJ_MAP_GRAND_STATIC,"../images/map_grand_static.bin"
-
-insert EZLJ_ITEM_NAME_STATIC_SLINGSHOT,"../images/item_name_static/item_name_static_slingshot_1800.bin"
-insert EZLJ_ITEM_NAME_STATIC_HAMMER,"../images/item_name_static/item_name_static_hammer_4400.bin"
-insert EZLJ_ITEM_NAME_STATIC_SWORD1,"../images/item_name_static/item_name_static_sword1_EC00.bin"
-insert EZLJ_ITEM_NAME_STATIC_SHIELD1,"../images/item_name_static/item_name_static_shield1_F800.bin"
-insert EZLJ_ITEM_NAME_STATIC_SHIELD2,"../images/item_name_static/item_name_static_shield2_FC00.bin"
-insert EZLJ_ITEM_NAME_STATIC_TUNIC1,"../images/item_name_static/item_name_static_tunic1_10400.bin"
-insert EZLJ_ITEM_NAME_STATIC_TUNIC2,"../images/item_name_static/item_name_static_tunic2_10800.bin"
-insert EZLJ_ITEM_NAME_STATIC_BOOTS1,"../images/item_name_static/item_name_static_boots1_11000.bin"
-insert EZLJ_ITEM_NAME_STATIC_BRACELET,"../images/item_name_static/item_name_static_bracelet_14000.bin"
-
-insert EZLJ_OBJECT_GI_BRACELET,"../object/object_gi_bracelet.bin"
-insert EZLJ_OBJECT_GI_CLOTHES,"../object/object_gi_clothes.bin"
-insert EZLJ_OBJECT_GI_SHIELD1,"../object/object_gi_shield_1.bin"
-insert EZLJ_OBJECT_GI_SHIELD2,"../object/object_gi_shield_2.bin"
-
-insert EZLJ_OBJECT_FD,"../object/object_fd.ntsc.bin"
-
-insert EZLJ_MAP_48X85_STATIC,"../images/map_48x85_static.bin"
-
-EZLJ_DISK_FS_STATIC_END:
-constant EZLJ_DISK_FS_STATIC_SIZE(EZLJ_DISK_FS_STATIC_END-EZLJ_DISK_FS_STATIC_START)
-
 //Scene Title Cards
 insert EZLJ_SCENENAME09,"../images/g_pn/g_pn_0x09.bin"
 insert EZLJ_SCENENAME54,"../images/g_pn/g_pn_0x54.bin"
@@ -157,5 +82,87 @@ insert EZLJ_SCENE60_MAP00,"../scene/Cutscene Map Room 0.zmap"
 insert EZLJ_SCENE3E,"../scene/Grottos.zscene"
 insert EZLJ_SCENE3E_MAP13,"../scene/Grottos Room 13.zmap"
 
+
+//Default Save Data
+//insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Context offset 0x002E
+
+//Audio
+insert EZLJ_AUDIOBANK0,"../audio/audiobank.dawn.0.bin" // 1.0
+//insert EZLJ_AUDIOBANK1,"../audio/audiobank.dawn.1.bin" //1.1 TODO
+insert EZLJ_AUDIOBANK2,"../audio/audiobank.dawn.2.bin" // 1.2
+
+include "EZLJ_DISK_ovl_opening.asm"
+
+EZLJ_DISK_FS_STATICMAIN_START:
+insert EZLJ_AUDIOSEQ,"../audio/audioseq.dawn.bin"
+insert EZLJ_AUDIOBANK_TABLE,"../audio/audiobank.dawn.table.bin"
+insert EZLJ_AUDIOINST_TABLE,"../audio/audioinst.dawn.table.bin"
+insert EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin"
+
+//Text
+insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
+insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
+
+include "EZLJ_DISK_PatchGeneric.asm"
+
 //Scene Table
 include "EZLJ_DISK_SceneList.asm"
+
+EZLJ_DISK_FS_STATICMAIN_END:
+constant EZLJ_DISK_FS_STATICMAIN_SIZE(EZLJ_DISK_FS_STATICMAIN_END-EZLJ_DISK_FS_STATICMAIN_START)
+
+//Virtual File Table Replacement
+//Patch
+include "EZLJ_DISK_FileData0.asm"
+include "EZLJ_DISK_Patch0.asm"
+
+include "EZLJ_DISK_FileData1.asm"
+include "EZLJ_DISK_Patch1.asm"
+
+include "EZLJ_DISK_FileData2.asm"
+include "EZLJ_DISK_Patch2.asm"
+
+//For precaution with 64DD Disk loading on real hardware, all these files will be loaded contiguous to RAM in one go.
+dw 0,0,0
+EZLJ_DISK_FS_STATIC_START:
+insert EZLJ_MAP_MINIMAP_TABLE_LENGTH,"../other/code_overworld_minimap_table_length.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_OFFSET,"../other/code_overworld_minimap_table_offset.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_XPOS,"../other/code_overworld_minimap_table_xpos.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_YPOS,"../other/code_overworld_minimap_table_ypos.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_COMPASS,"../other/code_overworld_minimap_table_compass.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_WIDTH,"../other/code_overworld_minimap_table_width.bin"
+insert EZLJ_MAP_MINIMAP_TABLE_HEIGHT,"../other/code_overworld_minimap_table_height.bin"
+
+insert EZLJ_GAMEPLAY_DANGEON_KEEP,"../object/gameplay_dangeon_keep.bin"
+insert EZLJ_OBJECT_LINK_CHILD,"../object/object_link_child.bin"
+
+insert EZLJ_ICON_ITEM_FIELD_STATIC,"../images/icon_item_field_static.bin"
+insert EZLJ_ICON_ITEM_NES_STATIC,"../images/icon_item_nes_static.bin"
+
+insert EZLJ_MAP_NAME_STATIC_LAND,"../images/map_name_static/map_name_static_landdawndusk_5800.bin"
+insert EZLJ_MAP_NAME_STATIC_DAWN,"../images/map_name_static/map_name_static_dawnside.bin"
+insert EZLJ_MAP_NAME_STATIC_DUSK,"../images/map_name_static/map_name_static_duskside.bin"
+
+insert EZLJ_MAP_GRAND_STATIC,"../images/map_grand_static.bin"
+
+insert EZLJ_ITEM_NAME_STATIC_SLINGSHOT,"../images/item_name_static/item_name_static_slingshot_1800.bin"
+insert EZLJ_ITEM_NAME_STATIC_HAMMER,"../images/item_name_static/item_name_static_hammer_4400.bin"
+insert EZLJ_ITEM_NAME_STATIC_SWORD1,"../images/item_name_static/item_name_static_sword1_EC00.bin"
+insert EZLJ_ITEM_NAME_STATIC_SHIELD1,"../images/item_name_static/item_name_static_shield1_F800.bin"
+insert EZLJ_ITEM_NAME_STATIC_SHIELD2,"../images/item_name_static/item_name_static_shield2_FC00.bin"
+insert EZLJ_ITEM_NAME_STATIC_TUNIC1,"../images/item_name_static/item_name_static_tunic1_10400.bin"
+insert EZLJ_ITEM_NAME_STATIC_TUNIC2,"../images/item_name_static/item_name_static_tunic2_10800.bin"
+insert EZLJ_ITEM_NAME_STATIC_BOOTS1,"../images/item_name_static/item_name_static_boots1_11000.bin"
+insert EZLJ_ITEM_NAME_STATIC_BRACELET,"../images/item_name_static/item_name_static_bracelet_14000.bin"
+
+insert EZLJ_OBJECT_GI_BRACELET,"../object/object_gi_bracelet.bin"
+insert EZLJ_OBJECT_GI_CLOTHES,"../object/object_gi_clothes.bin"
+insert EZLJ_OBJECT_GI_SHIELD1,"../object/object_gi_shield_1.bin"
+insert EZLJ_OBJECT_GI_SHIELD2,"../object/object_gi_shield_2.bin"
+
+insert EZLJ_OBJECT_FD,"../object/object_fd.ntsc.bin"
+
+insert EZLJ_MAP_48X85_STATIC,"../images/map_48x85_static.bin"
+
+EZLJ_DISK_FS_STATIC_END:
+constant EZLJ_DISK_FS_STATIC_SIZE(EZLJ_DISK_FS_STATIC_END-EZLJ_DISK_FS_STATIC_START)

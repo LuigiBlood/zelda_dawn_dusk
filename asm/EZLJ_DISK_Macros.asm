@@ -18,14 +18,21 @@ define KSEG1(0xA0000000)
 
 define CZLJ_DiskLoad(0x00)
 define CZLJ_StaticContext(0x08)
+define CZLJ_Printf(0x28)
+define CZLJ_osCreateMesgQueue(0x4C)
 define CZLJ_osSendMesg(0x50)
 define CZLJ_osJamMesg(0x54)
+define CZLJ_osRecvMesg(0x58)
+define CZLJ_osGetIntMask(0x60)
+define CZLJ_osSetIntMask(0x64)
 define CZLJ_osInvalDCache(0x68)
 define CZLJ_osInvalICache(0x6C)
 define CZLJ_osWritebackDCache(0x70)
+define CZLJ_osWritebackDCacheAll(0x74)
 define CZLJ_SaveContext(0x88)
 define CZLJ_DMARomToRamMesg(0x8C)
 define CZLJ_DMARomToRam(0x90)
+define CZLJ_DirectDMA(0x94)
 define CZLJ_SegmentList(0x9C)
 
 macro n64dd_LoadAddress(register, offset) {
@@ -69,6 +76,12 @@ macro n64dd_osWritebackDCache(dest, size) {
 	nop
 }
 
+macro n64dd_osWritebackDCacheAll() {
+	n64dd_LoadAddress(v0, {CZLJ_osWritebackDCacheAll})
+	jalr v0
+	nop
+}
+
 macro n64dd_RomLoad(dest, source, size) {
 	li a0,{dest}
 	li a1,{source}
@@ -95,19 +108,29 @@ macro n64dd_ForceRomDisable() {
 	sw 0,0(a0)
 }
 
+macro n64dd_RamCopySlow(dest, source, size) {
+	li a0,{dest}
+	li a1,{source}
+	li a2,{size}
+
+	n64dd_CallRamCopySlow()
+}
+
+macro n64dd_CallRamCopySlow() {
+	jal ddhook_ramcopy_slow
+	nop
+}
+
 macro n64dd_RamCopy(dest, source, size) {
 	li a0,{dest}
 	li a1,{source}
 	li a2,{size}
 
-	li v0,ddhook_ramcopy
-	jalr v0
-	nop
+	n64dd_CallRamCopy()
 }
 
 macro n64dd_CallRamCopy() {
-	li v0,ddhook_ramcopy
-	jalr v0
+	jal ddhook_ramcopy
 	nop
 }
 
@@ -116,19 +139,45 @@ macro n64dd_RamFill(dest, fillbyte, size) {
 	ori a1,{fillbyte}
 	li a2,{size}
 
-	li v0,ddhook_ramfill
-	jalr v0
-	nop
+	n64dd_CallRamFill()
+}
+
+macro n64dd_FrameBufferFill(fillbyte) {
+	lui a0,VI_BASE
+	lw a0,VI_ORIGIN(a0)
+	li a1,{KSEG1}
+	addu a0,a0,a1
+	ori a1,{fillbyte}
+	li a2,0x25800
+
+	n64dd_CallRamFill()
 }
 
 macro n64dd_CallRamFill() {
-	li v0,ddhook_ramfill
-	jalr v0
+	jal ddhook_ramfill
 	nop
 }
 
-macro n64dd_CallApplyPatch() {
-	li v0,ddhook_applypatch
+macro n64dd_CallApplyPatch(addr) {
+	li a0,{addr}
+	jal ddhook_applypatch
+	nop
+}
+
+macro n64dd_dprintf(addr) {
+	li a0,ddhook00_printf_out
+	li a2,{addr}
+	addiu a1,0,0
+	n64dd_LoadAddress(v0, {CZLJ_Printf})
+	jalr v0
+	addiu a3,0,0
+}
+
+macro n64dd_dprintf_num(addr) {
+	li a0,ddhook_printf_copy_out
+	li a1,ddhook_string_temp
+	li a2,{addr}
+	n64dd_LoadAddress(v0, {CZLJ_Printf})
 	jalr v0
 	nop
 }
@@ -179,7 +228,7 @@ macro n64dd_RamDefine(label, size) {
 		global variable elo( ({n64dd_RamAddress}+{size}) & 0xFFFF )
 	}
 	global evaluate n64dd_RamAddress({n64dd_RamAddress}+{size})
-	if ({n64dd_RamAddress} > 0x80800000) {
+	if (({n64dd_RamAddress} & 0xFFFFFF) > 0x800000) {
 		error "RamDefine goes over the RAM limit."
 	}
 }
@@ -189,7 +238,7 @@ macro n64dd_RamAddressDefine(label, addr) {
 }
 
 macro n64dd_RamAddressErrorCheck(addr) {
-	if ({n64dd_RamAddress} > {addr}) {
+	if (({n64dd_RamAddress} & 0xFFFFFF) > ({addr} & 0xFFFFFF)) {
 		error "RamDefine goes over the RAM limit."
 	}
 }
