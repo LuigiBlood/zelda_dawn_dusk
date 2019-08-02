@@ -82,17 +82,14 @@ insert EZLJ_SCENE60_MAP00,"../scene/Cutscene Map Room 0.zmap"
 insert EZLJ_SCENE3E,"../scene/Grottos.zscene"
 insert EZLJ_SCENE3E_MAP13,"../scene/Grottos Room 13.zmap"
 
-
-//Default Save Data
-//insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Context offset 0x002E
-
 //Audio
-insert EZLJ_AUDIOBANK0,"../audio/audiobank.dawn.0.bin" // 1.0
-//insert EZLJ_AUDIOBANK1,"../audio/audiobank.dawn.1.bin" //1.1 NOT NEEDED
+insert EZLJ_AUDIOBANK0,"../audio/audiobank.dawn.0.bin" // 1.0 & 1.1
 insert EZLJ_AUDIOBANK2,"../audio/audiobank.dawn.2.bin" // 1.2
 
+//ovl_opening Replacement
 include "EZLJ_DISK_ovl_opening.asm"
 
+//Main Static Files (follows RAM Allocation)
 EZLJ_DISK_FS_STATICMAIN_START:
 insert EZLJ_AUDIOSEQ,"../audio/audioseq.dawn.bin"
 insert EZLJ_AUDIOBANK_TABLE,"../audio/audiobank.dawn.table.bin"
@@ -111,9 +108,7 @@ include "EZLJ_DISK_SceneList.asm"
 EZLJ_DISK_FS_STATICMAIN_END:
 constant EZLJ_DISK_FS_STATICMAIN_SIZE(EZLJ_DISK_FS_STATICMAIN_END-EZLJ_DISK_FS_STATICMAIN_START)
 
-//Virtual File Table Replacement
-//Patch
-
+//Virtual File Table Replacement & Patch for each game version
 dw 0
 include "EZLJ_DISK_FileData0.asm"
 dw 0,0,0
@@ -130,6 +125,7 @@ dw 0,0,0
 include "EZLJ_DISK_Patch2.asm"
 
 //For precaution with 64DD Disk loading on real hardware, all these files will be loaded contiguous to RAM in one go.
+//(follows RAM Allocation)
 dw 0,0,0
 EZLJ_DISK_FS_STATIC_START:
 insert EZLJ_MAP_MINIMAP_TABLE_LENGTH,"../other/code_overworld_minimap_table_length.bin"

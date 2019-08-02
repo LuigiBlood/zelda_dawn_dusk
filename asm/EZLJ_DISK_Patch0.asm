@@ -36,9 +36,6 @@ include "../patch/misc-getitem.0.patch"
 dw (0x800110A0 + 0x68400), 4
 nop
 
-//dw (0x80000A54 + 0x78), 4
-//ori a2,0,1
-
 //Crash Debugger stuff
 //dw (0x8000134C + 0x8), 8
 //jal ddhook_copyfullram

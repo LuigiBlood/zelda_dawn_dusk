@@ -1066,6 +1066,4 @@ dw (ddhook_list_start | {KSEG1})	//Hook Table Address
 //Default Save Data
 insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Context offset 0x002E
 db 0,0 //align
-
-//include "./CZLJ_64drivePrintf.asm"
 ddhook_end2:

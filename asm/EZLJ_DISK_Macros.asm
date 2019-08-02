@@ -182,6 +182,7 @@ macro n64dd_dprintf_num(addr) {
 	nop
 }
 
+//Table Entry Macros
 global define EZLJ_SCENELIST_COUNT(0)
 macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 	dw ({scenestart}), ({scenestart} + {scenestart}.size)
@@ -212,6 +213,7 @@ macro n64dd_FileEntry(vfile, vrom, size, load) {
 	dw ({load})
 }
 
+//RAM Allocation Macros
 global define n64dd_RamAddress(0x80400000)
 macro n64dd_RamSetAddress(addr) {
 	global evaluate n64dd_RamAddress({addr})
@@ -243,6 +245,7 @@ macro n64dd_RamAddressErrorCheck(addr) {
 	}
 }
 
+//Alignment Check Macro
 macro n64dd_AlignCheck() {
 	if (((origin() - 0x785C8) & 0x7) != 0) {
 		print ((origin() - 0x785C8) & 0xF)

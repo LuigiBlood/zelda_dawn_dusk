@@ -3,7 +3,7 @@
 
 //Uses ARM9 bass
 
-//Generic Memory Patch
+//Generic Memory Patch for all versions
 
 //Format:
 //rrrrrrrr Tsssssss dddddddd ...
