@@ -97,8 +97,8 @@ insert EZLJ_AUDIOINST_TABLE,"../audio/audioinst.dawn.table.bin"
 insert EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin"
 
 //Text
-insert EZLJ_NES_MESSAGE_TABLE,"../text/ezlj_nes_message_table.bin"
-insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/ezlj_nes_message_data_static.bin"
+insert EZLJ_NES_MESSAGE_TABLE,"../text/MessageTable.tbl"
+insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/StringData.bin"
 
 include "EZLJ_DISK_PatchGeneric.asm"
 
