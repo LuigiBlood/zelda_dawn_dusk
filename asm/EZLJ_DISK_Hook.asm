@@ -67,20 +67,15 @@ ddhook_setup:
 
 	//osWritebackDCache all of the expanded memory
 	n64dd_osWritebackDCacheAll()
-
-	//li v0,_ddhook_setup_savecontext
-	//jr v0
-	//nop
-	//n64dd_osInvalDCache(0x80400000, 0x400000)
+	//osInvalICache to make sure
 	n64dd_osInvalICache(0x80400000, 0x400000)
 
 _ddhook_setup_savecontext:
 	//Save Context Change
 	n64dd_LoadAddress(a1, {CZLJ_SaveContext})
 	ori a2,0,1
-	sb a2,0x1409(a1)	//Set the game into English (1)
-	sw 0,0x135C(a1)		//Set Game Mode to Normal Gameplay
-	//(Map Select does not reset it when disk is present, seems to be a bug)
+	sb a2,0x1409(a1)	//Force the game to English language (1)
+	sw 0,0x135C(a1)		//Set Game Mode to Normal Gameplay, fix Map Select
 	
 	//Check if save is new (uses unused bytes of Save Context)
 	li a2,EZLJ_SAVE_ID
@@ -121,17 +116,14 @@ _ddhook_setup_savecontext_wrongsave_loop:
 	nop
 
 _ddhook_setup_savecontext_newsave:
+	//Put New Default Save Data
 	addiu a0,a1,0x2E
 	li a1,EZLJ_SAVE_DATA
 	addiu a2,0,EZLJ_SAVE_DATA.size
 
-	n64dd_CallRamCopySlow();
+	n64dd_CallRamCopySlow()
 
-	//n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
-	//jalr v0
-	//nop
-
-	//Put Save Disk ID
+	//Write Save Disk ID
 	n64dd_LoadAddress(a0, {CZLJ_SaveContext})
 	li a1,EZLJ_SAVE_ID
 	sb a1,0x65(a0)
@@ -170,7 +162,6 @@ _ddhook_setup_savecontext_skip:
 
  +;	sw 0,0(a3)		//1.0
 	n64dd_RamCopy(DDHOOK_VERSIONTABLE, ddhook_vertable0, ddhook_vertable0_end - ddhook_vertable0)
-	//n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE0, EZLJ_FILE_TABLE0.size + (EZLJ_PATCH0_END - EZLJ_PATCH0))
 	n64dd_DiskLoad(DDHOOK_VFILETABLE, EZLJ_FILE_TABLE0, EZLJ_FILE_TABLE0.size)
 	n64dd_DiskLoad(DDHOOK_PATCH_VER, EZLJ_PATCH0, EZLJ_PATCH0_END - EZLJ_PATCH0)
 	b _ddhook_setup_loadrom
@@ -202,7 +193,7 @@ _ddhook_incompatible_loop:
 _ddhook_setup_loadrom:
 	n64dd_ForceRomEnable()
 
-	//load all ROM files
+	//Load all ROM files to RAM for future patch
 	li a0,DDHOOK_VFILETABLE
 	lw a1,0(a0)
 	addiu a0,a0,4
@@ -234,20 +225,11 @@ _ddhook_setup_loadrom:
 
 	n64dd_ForceRomDisable()
 
-_ddhook_setup_patch:
 	//Load all files contiguous to RAM
 	n64dd_DiskLoad(DDHOOK_STATIC_START, EZLJ_DISK_FS_STATIC_START, EZLJ_DISK_FS_STATIC_SIZE)
-
-	//Load Patch
-	//n64dd_DiskLoad(DDHOOK_PATCH, EZLJ_PATCH_ALL, EZLJ_PATCH_ALL_END - EZLJ_PATCH_ALL)
-	//jal ddhook_copyfullram
-	//nop
-_ddhook_setup_music:
 	n64dd_DiskLoad(DDHOOK_STATICMAIN, EZLJ_DISK_FS_STATICMAIN_START, EZLJ_DISK_FS_STATICMAIN_SIZE)
-	//Load Scene Table
-	//n64dd_DiskLoad(DDHOOK_SCENELIST, EZLJ_SCENELIST, EZLJ_SCENELIST_SIZE)
-	//j _ddhook_setup_finish
-	//nop
+
+_ddhook_setup_music:
 	//Check version and load the appropriate audiobank
 	li a0,DDHOOK_VERSION
 	lw a0,0(a0)
@@ -261,11 +243,13 @@ _ddhook_setup_music:
 
 _ddhook_setup_music_bank0:
 _ddhook_setup_music_bank1:
+	// 1.0 & 1.1 Audiobank
 	n64dd_DiskLoad(DDHOOK_AUDIOBANK, EZLJ_AUDIOBANK0, EZLJ_AUDIOBANK0.size)
 	b _ddhook_setup_music_seq
 	nop
 
 _ddhook_setup_music_bank2:
+	// 1.2 Audiobank
 	n64dd_DiskLoad(DDHOOK_AUDIOBANK, EZLJ_AUDIOBANK2, EZLJ_AUDIOBANK2.size)
 
 _ddhook_setup_music_seq:
@@ -318,7 +302,7 @@ _ddhook_setup_music_seq:
 	// 8(a0) is AUDIOTABLE_TABLE
 	sw a3,0xC(a0)
 
-	// Reinitialize Audiobank Table Function
+	// Reinitialize Audiobank Table Function (fixes audio issues)
 	// VER - ADDRESS
 	// 1.0 - 800B85F4
 	// 1.1 - 800B8614
@@ -375,16 +359,9 @@ _ddhook_setup_musicdma:
 
 
 _ddhook_setup_finish:
-	//osWritebackDCache all of the expanded memory
-	//n64dd_osWritebackDCacheAll()
-	
-	//n64dd_dprintf(ddhook_string_hook)
+	//Apply all patches
 	n64dd_CallApplyPatch(DDHOOK_PATCH)
 	n64dd_CallApplyPatch(DDHOOK_PATCH_VER)
-
-	//jal ddhook_copyfullram
-	nop
-	nop
 	
 	lw ra,0x20(sp)
 	addiu sp,sp,0x20
@@ -393,16 +370,16 @@ _ddhook_setup_finish:
 
 //Disable 64DD Disk Hook
 ddhook_disabledisk:
-	//Cannot easily disable everything including language, therefore we add a lock screen.
-	//lui a0,VI_BASE
-	//lw a0,VI_ORIGIN(a0)
-	//li a1,{KSEG1}
-	//addu a0,a0,a1
-	//li a1,EZLJ_RESET
-	//li a2,EZLJ_RESET.size
-	//n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
-	//jalr v0
-	//nop
+	//Cannot easily disable everything including language, therefore we add a lock screen asking to reset.
+	lui a0,VI_BASE
+	lw a0,VI_ORIGIN(a0)
+	li a1,{KSEG1}
+	addu a0,a0,a1
+	li a1,EZLJ_RESET
+	li a2,EZLJ_RESET.size
+	n64dd_LoadAddress(v0, {CZLJ_DiskLoad})
+	jalr v0
+	nop
 _ddhook_disabledisk_loop:
 	b _ddhook_disabledisk_loop
 	nop
@@ -426,8 +403,6 @@ ddhook_loadmusic:	//804007F8
 	lw a0,0x8(a1)	//RAM Dest
 	lw a2,0x10(a1)	//Size
 	ori a1,v0,0		//RAM Source
-
-	//n64dd_osWritebackDCache(0x80400000, 0x400000)
 
 	//Copy Text Data from RAM to where it wants
 	//Avoid hang from loading from disk directly and stop the music
@@ -466,10 +441,6 @@ ddhook_minimap_data:
 	addiu sp,sp,-0x20
 	sw ra,0x20(sp)
 	sw a0,0x1C(sp)
-
-	//n64dd_dprintf(ddhook_string_minimap)
-
-	lw a0,0x1C(sp)
 
 	//Add version agnostic minimap data code
 	lw a0,0(a0)		//Get Map Data Ptr Table
@@ -547,12 +518,12 @@ ddhook_textUSload:
 	sw a0,4(sp)
 	
 	lw a0,4(sp)
-	lw a2,4(a0) 		//A2 = Size
-	lw a1,0(a0)		//A1 = Offset
+	lw a2,4(a0) 			//A2 = Size
+	lw a1,0(a0)				//A1 = Offset
 	li a3,DDHOOK_TEXTDATA	//A3 = DDHOOK_TEXTDATA
-	addu a1,a1,a3		//A1 = A3 + Offset
+	addu a1,a1,a3			//A1 = A3 + Offset
 	ori a3,0,0xDC88
-	addu a0,a0,a3		//A0 = RAM Dest
+	addu a0,a0,a3			//A0 = RAM Dest
 	
 	//Copy Text Data from RAM to where it wants
 	//Avoid hang from loading from disk directly and stop the music
@@ -576,12 +547,6 @@ ddhook_text_table:
 	sw a0,0x1C(sp)
 	sw a1,0x18(sp)
 	sw a2,0x14(sp)
-
-	//n64dd_dprintf(ddhook_string_text)
-
-	lw a0,0x1C(sp)
-	lw a1,0x18(sp)
-	lw a2,0x14(sp)
 	
 	li a0,DDHOOK_TEXTTABLE
 	sw a0,0(a1)		//Change nes_message_data_static pointer
@@ -603,11 +568,6 @@ ddhook_sceneload:
 	sw ra,0x20(sp)
 	sw a0,0x1C(sp)
 	sw a1,0x18(sp)
-
-	//n64dd_dprintf(ddhook_string_scene)
-
-	lw a0,0x1C(sp)
-	lw a1,0x18(sp)
 
 	//Check if Scene ID is part of the List
 	//Uses the Disk byte in the Scene Entry as Scene ID
@@ -686,11 +646,6 @@ ddhook_postscene:
 	addiu sp,sp,-0x20
 	sw ra,0x20(sp)
 	sw a0,0x1C(sp)
-
-	//n64dd_dprintf(ddhook_string_postscene)
-	//n64dd_osInvalDCache(0x80000000, 0x800000)
-
-	lw a0,0x1C(sp)
 	
 	//Find Scene Room Command (0x04)
 	lw a0,0x00B0(a0)
@@ -748,8 +703,6 @@ ddhook_postscene:
 	bne a3,a2,-		//if not equal then continue to load rooms
 	nop
 
-	//n64dd_FrameBufferFill(0xF0)
-
 	lw ra,0x20(sp)
 	addiu sp,sp,0x20
 	jr ra
@@ -766,11 +719,6 @@ ddhook_roomload:
 	sw ra,0x10(sp)
 	sw a1,0x14(sp)
 	sw a2,0x18(sp)
-
-	//n64dd_dprintf(ddhook_string_room)
-
-	lw a1,0x14(sp)
-	lw a2,0x18(sp)
 
 	lw a0,0x34(a1)		//A0=RAM Address Dest
 	li a1,DDHOOK_SCENE_ROOM_TABLE
@@ -817,8 +765,6 @@ ddhook_romtoram:
 	sw a3,0x20(sp)
 
 	n64dd_osWritebackDCacheAll()
-
-	//n64dd_dprintf(ddhook_string_romload)
 
 	lw a0,0x14(sp)
 	lw a1,0x18(sp)
@@ -954,12 +900,12 @@ ddhook_romtoram_disk:
 	nop
 
 ddhook_romtoram_success:
-	lw a0,0x14(sp)	//Update z64_getfile_t to notify object loading
-	lw a1,0x1C(sp)	//vrom_addr
+	lw a0,0x14(sp)		//Update z64_getfile_t to notify object loading
+	lw a1,0x1C(sp)		//vrom_addr
 	sw a1,0(a0)
-	lw a1,0x18(sp)	//ram_addr
+	lw a1,0x18(sp)		//ram_addr
 	sw a1,4(a0)
-	lw a1,0x20(sp)	//size
+	lw a1,0x20(sp)		//size
 	sw a1,8(a0)
 	lw a1,0x34+8(sp)	//notify_mq
 	sw a1,0x18(a0)
@@ -971,7 +917,7 @@ ddhook_romtoram_success:
 	ori a2,0,0
 
 	n64dd_LoadAddress(a3, {CZLJ_osSendMesg})
-	jalr a3			//osSendMesg, to let the engine know that the data is loaded and continue the game
+	jalr a3				//osSendMesg, to let the engine know that the data is loaded and continue the game
 	nop
 
 	ori v0,0,1
@@ -987,7 +933,7 @@ ddhook_romtoram_return:
 	nop
 
 ddhook_ramcopy_slow:
-	//Copy Data from RAM to where it wants
+	//Copy Data from RAM to where it wants (byte by byte)
 	//A0 = Dest, A1 = Offset, A2 = Size, A3 = Used for copy
 	 -; lb a3,0(a1)
 	sb a3,0(a0)
@@ -1001,7 +947,7 @@ ddhook_ramcopy_slow:
 	nop
 
 ddhook_ramcopy:
-	//Copy Data from RAM to where it wants
+	//Copy Data from RAM to where it wants (word by word)
 	//A0 = Dest, A1 = Offset, A2 = Size, A3 = Used for copy
 	 -; lw a3,0(a1)
 	subi a2,a2,4
@@ -1014,15 +960,21 @@ ddhook_ramcopy:
 	jr ra
 	nop
 
+ddhook_ramfill_slow:
+	//Copy Data from RAM to where it wants
+	//A0 = Dest, A1 = Fill Byte, A2 = Size
+	 -; sb a1,0(a0)
+	addiu a0,a0,1
+	subi a2,a2,1
+	bnez a2,-
+	nop
+
+	jr ra
+	nop
+
 ddhook_ramfill:
 	//Copy Data from RAM to where it wants
 	//A0 = Dest, A1 = Fill Byte, A2 = Size
-	// -; sb a1,0(a0)
-	//addiu a0,a0,1
-	//subi a2,a2,1
-	//bnez a2,-
-	//nop
-
 	 -; sw a1,0(a0)
 	addiu a0,a0,4
 	subi a2,a2,4
@@ -1037,46 +989,10 @@ ddhook_applypatch:
 	addiu sp,sp,-0x20
 	sw ra,0x20(sp)
 
-	//n64dd_osWritebackDCacheAll()
-
-	//mfc0 a0,16
-	//li a1,0xFFFFFFFC
-	//and a0,a0,a1
-	//ori a0,a0,2
-	//mtc0 a0,16
-
-	//n64dd_LoadAddress(v0, {CZLJ_osGetIntMask})
-	//jalr v0
-	//nop
-	//sw v0,0x14(sp)
-
-	//addiu a0,0,0
-	//n64dd_LoadAddress(v0, {CZLJ_osSetIntMask})
-	//jalr v0
-	//nop
-
-	//addiu s0,0,0
-	//sw 0,0x18(sp)
 	or at,a0,0
-	//li at,DDHOOK_PATCH
 	sw at,0x1C(sp)
+
     -;
-	//li v0,ddhook_printf_copy_out_set
-	//li a3,ddhook_string_temp
-	//sw a3,0(v0)
-
-	//addiu a3,sp,0x18
-	//n64dd_dprintf_num(ddhook_string_text)
-
-	//li a1,ddhook_string_temp
-	//li a2,(ddhook_end - ddhook_string_temp)
-	//jal ddhook00_printf_out
-	//nop
-	
-	//lw s0,0x18(sp)
-	//addiu s0,s0,1
-	//sw s0,0x18(sp)
-
 	lw at,0x1C(sp)
 	lw a0,0(at)		//Get Dest
 	nop
@@ -1107,17 +1023,6 @@ ddhook_applypatch:
 	nop
 
 	+;
-	//mfc0 a0,16
-	//li a1,0xFFFFFFFC
-	//and a0,a0,a1
-	//ori a0,a0,3
-	//mtc0 a0,16
-
-	//lw a0,0x14(sp)
-	//n64dd_LoadAddress(v0, {CZLJ_osSetIntMask})
-	//jalr v0
-	//nop
-
 	lw ra,0x20(sp)
 	addiu sp,sp,0x20
 	jr ra
@@ -1143,25 +1048,6 @@ ddhook_vertable2:
 	dw 0x800B8C74	// Address to AudioBank Init Table (whatever that is)
 ddhook_vertable2_end:
 
-ddhook_string_hook:
-db "Hook\n",0
-ddhook_string_scene:
-db "Scene\n",0
-ddhook_string_postscene:
-db "Post Scene\n",0
-ddhook_string_room:
-db "Room\n",0
-ddhook_string_minimap:
-db "Mmap\n",0
-ddhook_string_music:
-db "Music\n",0
-ddhook_string_romload:
-db "ROM\n",0
-ddhook_string_text:
-db "Patch %d\n",0
-db 0,0,0,0,0
-ddhook_string_temp:
-db 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 ddhook_end:
 
 if (origin() > (0x785C8 + 0x1060)) {
@@ -1181,5 +1067,5 @@ dw (ddhook_list_start | {KSEG1})	//Hook Table Address
 insert EZLJ_SAVE_DATA,"../other/default_save_data.bin"  //To load to Save Context offset 0x002E
 db 0,0 //align
 
-include "./CZLJ_64drivePrintf.asm"
+//include "./CZLJ_64drivePrintf.asm"
 ddhook_end2:

@@ -244,7 +244,7 @@ macro n64dd_RamAddressErrorCheck(addr) {
 }
 
 macro n64dd_AlignCheck() {
-	if (((origin() - 0x785C8) & 0xF) != 0) {
+	if (((origin() - 0x785C8) & 0x7) != 0) {
 		print ((origin() - 0x785C8) & 0xF)
 		error "\n\nNOT ALIGNED\n"
 	}
