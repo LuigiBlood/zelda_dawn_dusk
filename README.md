@@ -1,4 +1,5 @@
-# Zelda 64 - Dawn &amp; Dusk
+![Zelda 64 - Dawn &amp; Dusk](./images/64DD_Logo.png)
+
 Zelda 64 - Dawn &amp; Dusk is a brand new disk expansion for The Legend of Zelda - Ocarina of Time.
 
 It is **NOT** meant to be a recreation of Ura Zelda or Zelda Gaiden, it has been purposefully made to show off the capabilities of Zelda's 64DD support by **hackers** (this is an important distinction, explained later in this README).
@@ -11,7 +12,7 @@ It is **NOT** meant to be a recreation of Ura Zelda or Zelda Gaiden, it has been
  * **Special Thanks to**
    * PK-LOVE
    * BWXIX
-   * Hylian Modding
+   * Hylian Modding (http://hylianmodding.com/)
  * **Testers**
    * Captain Seedy-Eye
    * LuigiBlood
@@ -32,7 +33,8 @@ Put bass.exe in the root folder of this repository and use one of the batch file
 # The Making of the Disk
 
 ## The beginning
-This project has been underway since around the beginning of 2018, when a proof of concept was made (https://github.com/LuigiBlood/zeldadisk).
+This project has been underway since around the beginning of 2018, when a proof of concept was made (https://github.com/LuigiBlood/zeldadisk), based on the research that Zoinkity did for the disk implementation in the original game.
+
 I have been trying to get ways to show this off in a way that's enjoyable, so I have been teaming up with people who could handle the more creative side, which is why the lead developer is actually not me (LuigiBlood) but Captain Seedy-Eye. My only input on the creative side was basically conveying how much content I wanted for such a proof of concept... and tell the lead dev how much I liked it.
 
 I was more interested on the technical side of things and he has done a great job. This was developed first on a Master Quest Debug ROM, for the ease of hacking tools. My job would be then to port all the changes to a 64DD disk, **no matter the hacky tricks I would do.**
@@ -45,7 +47,8 @@ It just so happens that the default scene list have default information when it 
 However the smoking gun is the fact that the minimap loading routine, handles both overworld and dungeon minimaps (they are seperate files), yet **only the dungeon minimaps have an explicit 64DD trap that allows loading from another source.** This means that **Ura Zelda IS Master Quest**, and could be found out by looking at what the original devs intended this for.
 
 You could technically replace almost any game file, but the game had several revisions over its lifetime, making this feature useless as files were changing in addresses and sizes, **effectively rendering impossible most other changes unless you do specific version checks**, which, from a developer standpoint, is just too hacky to be worthwhile if you don't know when you'll stop making newer revisions of the game.
-That said, **Miyamoto did evoke making a special cartridge for this instead...** which was kind of what happened since, and effectively a better way of handling this.
+
+The main problem of this implementation, is that whatever they did, it was set in stone when the first version of the game was finished. It is not future proof. If plans changed, they had to fit in what they already implemented. That said, **Miyamoto did evoke making a special cartridge for this instead...** which was kind of what happened since, and effectively a better way of handling this.
 
 ## How WE are handling 64DD integration
 However, **we're hackers, and we don't have to care about what Nintendo wanted to do,** and because disk support gives us a free entrypoint to run our own code, this disk has been pulling all sorts of tricks to make this work as close as the original hacked Debug ROM as possible. **Version specific checks, code patching on the fly, loading all the necessary files from the disk AND ROM, patch them and repoint them before the gameplay starts.** That, in a nutshell, are essentially all of the changes made to accomodate to this hack.
@@ -63,7 +66,7 @@ I'll just say this for any other developer interested: **ALIGN YOUR FILES IN ROM
 ## Final thoughts
 It turns out that I enjoyed working on this _(...except that real hardware bug)_, from a technical perspective I'd like to think I came out as a more mature low level developer. But this would be my only project for Zelda on Nintendo 64, unless I find more dummy things to do.
 
-**I hope you'll enjoy this expansion.**
+**I hope you'll enjoy this expansion.** And check out Hylian Modding (http://hylianmodding.com/), they made this expansion possible.
 
 But I really gotta say though, the 64DD integration in Zelda kinda _sucks_. It really seems to be a thing that was done with little thought.
 
