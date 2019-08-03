@@ -17,7 +17,9 @@ It is **NOT** meant to be a recreation of Ura Zelda or Zelda Gaiden, it has been
    * Captain Seedy-Eye
    * LuigiBlood
    * Hard4Games
-   * ...
+   * ZFG
+   * Dry4Haz
+   * Fig
 
 # Building
 
