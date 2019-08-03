@@ -68,7 +68,7 @@ I'll just say this for any other developer interested: **ALIGN YOUR FILES IN ROM
 ## Final thoughts
 It turns out that I enjoyed working on this _(...except that real hardware bug)_, from a technical perspective I'd like to think I came out as a more mature low level developer. But this would be my only project for Zelda on Nintendo 64, unless I find more dummy things to do.
 
-**I hope you'll enjoy this expansion.** And check out Hylian Modding (http://hylianmodding.com/), they made this expansion possible.
+I want to give huge thanks to everyone involved in this project, and **I hope you'll enjoy this expansion.** And check out Hylian Modding (http://hylianmodding.com/), they made this expansion possible.
 
 But I really gotta say though, the 64DD integration in Zelda kinda _sucks_. It really seems to be a thing that was done with little thought.
 
