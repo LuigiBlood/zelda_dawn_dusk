@@ -1,7 +1,0 @@
-- Music fixed (has to be tested)
-- Too much Disk loading (to test)
-- Add Deinitialization Hook (to RESET screen)
-- Handle Cache better (can only be tested on real hardware)
-
-Bug that I got:
-- Great Dusk Chasm, a room didn't render right.
