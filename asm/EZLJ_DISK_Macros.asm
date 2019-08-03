@@ -9,9 +9,14 @@ macro seek(n) {
 	origin {n}
 }
 
+macro seekDisk0(n) {
+	//Seek from User LBA 0
+	origin ({n} + {LBA0_OFFSET})
+}
+
 macro seekDisk(n) {
-	//Seek from LBA 1
-	origin ({n} + 0x785C8)
+	//Seek from User LBA 1
+	origin ({n} + {LBA0_OFFSET} + 0x4D08)
 }
 
 define KSEG1(0xA0000000)
