@@ -1,12 +1,12 @@
 //icon_item_static
 
-dw (DDHOOK_ICON_ITEM_STATIC + 0x3E000), EZLJ_ICON_ITEM_STATIC_SHIELD1.size
+n64dd_PatchCopy((DDHOOK_ICON_ITEM_STATIC + 0x3E000), EZLJ_ICON_ITEM_STATIC_SHIELD1.size)
 insert EZLJ_ICON_ITEM_STATIC_SHIELD1,"../images/icon_item_static/icon_item_static_shield1_3E000.bin"
-dw (DDHOOK_ICON_ITEM_STATIC + 0x3F000), EZLJ_ICON_ITEM_STATIC_SHIELD2.size
+n64dd_PatchCopy((DDHOOK_ICON_ITEM_STATIC + 0x3F000), EZLJ_ICON_ITEM_STATIC_SHIELD2.size)
 insert EZLJ_ICON_ITEM_STATIC_SHIELD2,"../images/icon_item_static/icon_item_static_shield2_3F000.bin"
-dw (DDHOOK_ICON_ITEM_STATIC + 0x41000), EZLJ_ICON_ITEM_STATIC_TUNIC1.size
+n64dd_PatchCopy((DDHOOK_ICON_ITEM_STATIC + 0x41000), EZLJ_ICON_ITEM_STATIC_TUNIC1.size)
 insert EZLJ_ICON_ITEM_STATIC_TUNIC1,"../images/icon_item_static/icon_item_static_tunic1_41000.bin"
-dw (DDHOOK_ICON_ITEM_STATIC + 0x42000), EZLJ_ICON_ITEM_STATIC_TUNIC2.size
+n64dd_PatchCopy((DDHOOK_ICON_ITEM_STATIC + 0x42000), EZLJ_ICON_ITEM_STATIC_TUNIC2.size)
 insert EZLJ_ICON_ITEM_STATIC_TUNIC2,"../images/icon_item_static/icon_item_static_tunic2_42000.bin"
-dw (DDHOOK_ICON_ITEM_STATIC + 0x50000), EZLJ_ICON_ITEM_STATIC_BRACELET.size
+n64dd_PatchCopy((DDHOOK_ICON_ITEM_STATIC + 0x50000), EZLJ_ICON_ITEM_STATIC_BRACELET.size)
 insert EZLJ_ICON_ITEM_STATIC_BRACELET,"../images/icon_item_static/icon_item_static_bracelet_50000.bin"

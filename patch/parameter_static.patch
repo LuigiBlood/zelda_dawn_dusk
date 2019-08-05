@@ -1,7 +1,7 @@
 //parameter_static
 
 //Remove dungeon entrance minimap GFX
-dw (DDHOOK_PARAMETER_STATIC + 0x2500), 0x10000080, 0
+n64dd_PatchFill((DDHOOK_PARAMETER_STATIC + 0x2500), 0x80, 0)
 
 //Remove chest minimap GFX
-dw (DDHOOK_PARAMETER_STATIC + 0x2580), 0x10000080, 0
+n64dd_PatchFill((DDHOOK_PARAMETER_STATIC + 0x2580), 0x80, 0)

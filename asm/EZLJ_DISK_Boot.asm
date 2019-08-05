@@ -6,9 +6,13 @@
 //64DD Standalone Boot Code
 
 print "- Assemble Disk Boot Code...\n"
+
+define IPLLOADSIZE(10)
+define IPLLOADADDRESS(0x80000400)
+
 // Code taken from krom FrameBufferCPU16BPP320x240 demo
 // https://github.com/PeterLemon/N64/blob/master/FrameBuffer/16BPP/FrameBufferCPU320x240/
-seek(0x738C0)
+seekDisk0(0)
 base 0x80000400
 ipl_boot:
 	N64_INIT()

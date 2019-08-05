@@ -1,10 +1,9 @@
 //object_mizu_objects
 
-dw (DDHOOK_OBJECT_MIZU_OBJECTS + 0x7D20), 0x10000800
-dw 0
+n64dd_PatchFill((DDHOOK_OBJECT_MIZU_OBJECTS + 0x7D20), 0x800, 0)
 
-dw (DDHOOK_OBJECT_MIZU_OBJECTS + 0x8520), EZLJ_OBJECT_MIZU_OBJECTS_TEX1.size
+n64dd_PatchCopy((DDHOOK_OBJECT_MIZU_OBJECTS + 0x8520), EZLJ_OBJECT_MIZU_OBJECTS_TEX1.size)
 insert EZLJ_OBJECT_MIZU_OBJECTS_TEX1,"../object/object_mizu_objects/object_mizu_objects_tex_8520.bin"
 
-dw (DDHOOK_OBJECT_MIZU_OBJECTS + 0xAB20), EZLJ_OBJECT_MIZU_OBJECTS_TEX2.size
+n64dd_PatchCopy((DDHOOK_OBJECT_MIZU_OBJECTS + 0xAB20), EZLJ_OBJECT_MIZU_OBJECTS_TEX2.size)
 insert EZLJ_OBJECT_MIZU_OBJECTS_TEX2,"../object/object_mizu_objects/object_mizu_objects_tex_AB20.bin"

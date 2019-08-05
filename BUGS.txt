@@ -1,4 +1,0 @@
-- Music fixed (has to be tested)
-- Too much Disk loading (to test)
-- Add Deinitialization Hook
-- Handle Cache better (can only be tested on real hardware)

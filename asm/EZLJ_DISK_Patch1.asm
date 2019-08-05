@@ -16,15 +16,15 @@
 EZLJ_PATCH1:
 //---code (File)
 //Entrance Table
-dw 0x800F9E50, EZLJ_ENTRANCE_TABLE1.size
+n64dd_PatchCopy((DDHOOK_CODE1 + 0xE8DB0), EZLJ_ENTRANCE_TABLE1.size)
 insert EZLJ_ENTRANCE_TABLE1,"../other/code_entrance_table.bin"
 
 //Entrance Cutscene Table
-dw 0x800EFEC4, EZLJ_ENTRANCE_CUTSCENE_TABLE1.size
+n64dd_PatchCopy((DDHOOK_CODE1 + 0xDEE24), EZLJ_ENTRANCE_CUTSCENE_TABLE1.size)
 insert EZLJ_ENTRANCE_CUTSCENE_TABLE1,"../other/code_entrance_cutscene_table.bin"
 
 //Tunic Colors
-dw 0x800F7C98, 8
+n64dd_PatchCopy((DDHOOK_CODE1 + 0xE6BF8), 8)
 dw 0x4C971446, 0x2640003C
 
 //---Setup Link (Child) Optimized (by CrookedPoe)
@@ -33,8 +33,8 @@ include "../patch/misc-opti_link_child.1.patch"
 include "../patch/misc-getitem.1.patch"
 
 //Force use Hylian Shield like Adult Link
-dw (0x800110A0 + 0x68400), 4
+n64dd_PatchCopy((DDHOOK_CODE1 + 0x68400), 4)
 nop
 
-dw 0
+n64dd_PatchEnd()
 EZLJ_PATCH1_END:

@@ -1,0 +1,29 @@
+_ddhook_setup_entrancetable:
+	//Load Entrance Table
+	//NTSC 1.0 - 800F9C90 (-51E0)
+	//NTSC 1.1 - 800F9E50 (-51E0)
+	//NTSC 1.2 - 800FA2E0 (-51D0)
+
+_ddhook_setup_entrance_cutscene:
+	//Load Entrance Cutscene Table
+	//NTSC 1.0 - 800EFD04 (-F16C)
+	//NTSC 1.1 - 800EFEC4 (-F16C)
+	//NTSC 1.2 - 800F0344 (-F16C)
+
+_ddhook_setup_minimap_table:
+	//Load Minimap Table
+	//NTSC 1.0 - 800F6914 (-855C)
+	//NTSC 1.1 - 800F6AD4 (-855C)
+	//NTSC 1.2 - 800F6F54 (-855C)
+
+_ddhook_setup_tunic_colors:
+	//Setup Tunic Colors
+	//NTSC 1.0 - 800F7AD8 (-7398)
+	//NTSC 1.1 - 800F7C98 (-7398)
+	//NTSC 1.2 - 800F8128 (-7388)
+
+_ddhook_setup_object_list:
+	//Patch Object List
+	//NTSC 1.0 - 800F8FF0 (-5E80)
+	//NTSC 1.1 - 800F91B0 (-5E80)
+	//NTSC 1.2 - 800F9640 (-5E70)
