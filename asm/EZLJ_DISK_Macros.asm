@@ -257,3 +257,12 @@ macro n64dd_AlignCheck() {
 		error "\n\nNOT ALIGNED\n"
 	}
 }
+
+//Patch Macro
+macro n64dd_PatchCopy(addr, size) {
+	dw {addr}, {size}
+}
+
+macro n64dd_PatchFill(addr, size, fill) {
+	dw {addr}, ({size} | 0x10000000), {fill}
+}

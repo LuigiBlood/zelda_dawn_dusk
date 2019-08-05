@@ -1,7 +1,7 @@
 //ovl_Bg_Hidan_Curtain (NTSC 1.0 / 1.1 / 1.2)
 
-dw (DDHOOK_OVL_BG_HIDAN_CURTAIN + 0x830), 4
+n64dd_PatchCopy((DDHOOK_OVL_BG_HIDAN_CURTAIN + 0x830), 4)
 lui t8,0xFAC2       //Uses 0xFA F3DZEX command
 
-dw (DDHOOK_OVL_BG_HIDAN_CURTAIN + 0x848), 4
+n64dd_PatchCopy((DDHOOK_OVL_BG_HIDAN_CURTAIN + 0x848), 4)
 ori at, t8, 0xFF00

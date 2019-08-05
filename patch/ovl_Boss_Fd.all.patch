@@ -1,26 +1,26 @@
 //ovl_Boss_Fd (NTSC 1.0 / 1.1 / 1.2)
 
-dw (DDHOOK_OVL_BOSS_FD + 0x1750), 4
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x1750), 4)
 ori t9, t8, 0
 
-dw (DDHOOK_OVL_BOSS_FD + 0x2254), 4
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x2254), 4)
 addiu t3, t2, 0
 
-dw (DDHOOK_OVL_BOSS_FD + 0x3D3C), 4
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x3D3C), 4)
 addiu t0, t9, 0
 
-dw (DDHOOK_OVL_BOSS_FD + 0x4578), 4
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x4578), 4)
 addiu t6, t5, 0
 
-dw (DDHOOK_OVL_BOSS_FD + 0x4D04), 8
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x4D04), 8)
 li t0, 0x13005AFF
 
-dw (DDHOOK_OVL_BOSS_FD + 0x4D28), 4
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x4D28), 4)
 ori t3, t0, 0
 //lui t3, 0x1300
 //ori t3, t3, 0x5AFF
 
-dw (DDHOOK_OVL_BOSS_FD + 0x4E80), 0xC
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x4E80), 0xC)
 lui t3, 0xD594
 ori t3, t3, 0xFFFF
 addiu t8, s0, 0
@@ -30,30 +30,30 @@ addiu t8, s0, 0
 //lui at, 0xFDAB
 //ori at, at, 0xFF00
 
-dw (DDHOOK_OVL_BOSS_FD + 0x4EA8), 8
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x4EA8), 8)
 lui t2, 0xFAAB      //Uses 0xFA F3DZEX command
 ori at, t2, 0xFF00
 
-dw (DDHOOK_OVL_BOSS_FD + 0x63AC), 0x14
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x63AC), 0x14)
 lui t7, 0xD594
 ori t7, t7, 0xFFFF
 nop
 ctc1 t3, f31
 nop
 
-dw (DDHOOK_OVL_BOSS_FD + 0x6494), 0x14
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x6494), 0x14)
 lui t6, 0xD594
 ori t6, t6, 0xFFFF
 nop
 ctc1 t2, f31
 nop
 
-dw (DDHOOK_OVL_BOSS_FD + 0x6580), 0x14
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x6580), 0x14)
 lui t6, 0xD594
 ori t6, t6, 0xFFFF
 nop
 ctc1 t2, f31
 nop
 
-dw (DDHOOK_OVL_BOSS_FD + 0x6A58), 8
+n64dd_PatchCopy((DDHOOK_OVL_BOSS_FD + 0x6A58), 8)
 dw 0xF4ABFFFF, 0x8400FFFF
