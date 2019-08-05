@@ -266,3 +266,7 @@ macro n64dd_PatchCopy(addr, size) {
 macro n64dd_PatchFill(addr, size, fill) {
 	dw {addr}, ({size} | 0x10000000), {fill}
 }
+
+macro n64dd_PatchEnd() {
+	dw 0
+}

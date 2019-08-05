@@ -38,5 +38,5 @@ include "../patch/ovl_En_Wf.all.patch"
 include "../patch/ovl_Boss_Fd.all.patch"
 include "../patch/ovl_Boss_Fd2.all.patch"
 include "../patch/ovl_Bg_Hidan_Curtain.all.patch"
-dw 0
+n64dd_PatchEnd()
 EZLJ_PATCH_ALL_END:
