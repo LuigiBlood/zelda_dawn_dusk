@@ -4,17 +4,17 @@
 
 //code
 //Wooden Shield GI
-n64dd_PatchCopy((0x800116E0 + 0xE7F60 + 8 + (8 * 0xCB)), 8)
+n64dd_PatchCopy((DDHOOK_CODE2 + 0xE7F60 + 8 + (8 * 0xCB)), 8)
 dw DDHOOK_OBJECT_GI_SHIELD1, (DDHOOK_OBJECT_GI_SHIELD1 + DDHOOK_OBJECT_GI_SHIELD1.size)
 
-n64dd_PatchCopy((0x800116E0 + 0xDED90 + (0x24*0x1C) + 4), 4)
+n64dd_PatchCopy((DDHOOK_CODE2 + 0xDED90 + (0x24*0x1C) + 4), 4)
 dw 0x06000A88
 
 //Metal Shield GI
-n64dd_PatchCopy((0x800116E0 + 0xE7F60 + 8 + (8 * 0xDC)), 8)
+n64dd_PatchCopy((DDHOOK_CODE2 + 0xE7F60 + 8 + (8 * 0xDC)), 8)
 dw DDHOOK_OBJECT_GI_SHIELD2, (DDHOOK_OBJECT_GI_SHIELD2 + DDHOOK_OBJECT_GI_SHIELD2.size)
 
-n64dd_PatchCopy((0x800116E0 + 0xDED90 + (0x24*0x2B) + 4), 4)
+n64dd_PatchCopy((DDHOOK_CODE2 + 0xDED90 + (0x24*0x2B) + 4), 4)
 dw 0x06001238
 
 //ovl_player_actor

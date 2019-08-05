@@ -4,6 +4,10 @@
 //Uses ARM9 bass
 
 //RAM Usage
+constant DDHOOK_CODE0(0x800110A0)
+constant DDHOOK_CODE1(0x800110A0)
+constant DDHOOK_CODE2(0x800116E0)
+
 n64dd_RamSetAddress(0x80400000)
 n64dd_RamDefine(DDHOOK_RAM, 0x10000)		//MAIN DISK CODE
 n64dd_RamDefine(DDHOOK_GPRAM, 0)
