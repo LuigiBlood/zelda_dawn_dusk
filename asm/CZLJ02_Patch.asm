@@ -1,4 +1,4 @@
-//Zelda 64 Dawn & Dusk - NTSC 1.0 ROM Patch
+//Zelda 64 Dawn & Dusk - NTSC 1.2 ROM Patch
 //By LuigiBlood
 
 //Uses ARM9 bass
@@ -11,9 +11,9 @@ include "N64_GFX.INC"
 
 output "../CZLJ_DawnDusk.z64", create
 
-insert "../CZLJ00_D.z64"
+insert "../CZLJ02_D.z64"
 
-print "Patching Zelda ROM (NTSC 1.0)...\n"
+print "Patching Zelda ROM (NTSC 1.2)...\n"
 
 macro seek(n) {
 	origin {n}
@@ -61,18 +61,18 @@ macro n64dd_RoomEntry(roomstart) {
 constant FREE_SPACE(0x347E040)
 
 //Define constants for all patches
-constant DDHOOK_CODE0(0x00A87000)
-constant DDHOOK_N64DD(0x00B8AD30)
-constant DDHOOK_OVL_EN_MAG(0x00E6C0D0)
+constant DDHOOK_CODE2(0x00A87000)
+constant DDHOOK_N64DD(0x00B8ADA0)
+constant DDHOOK_OVL_EN_MAG(0x00E6C610)
 
-constant DDHOOK_OVL_PLAYER_ACTOR(0x00BCDB70)
-constant DDHOOK_OVL_KALEIDO_SCOPE(0x00BB11E0)
-constant DDHOOK_OVL_EFFECT_SS_STICK(0x00EAD0F0)
-constant DDHOOK_OVL_ITEM_SHIELD(0x00DB1F40)
+constant DDHOOK_OVL_PLAYER_ACTOR(0x00BCDBA0)
+constant DDHOOK_OVL_KALEIDO_SCOPE(0x00BB1210)
+constant DDHOOK_OVL_EFFECT_SS_STICK(0x00EAD640)
+constant DDHOOK_OVL_ITEM_SHIELD(0x00DB23A0)
 constant DDHOOK_GAMEPLAY_KEEP(0x00F03000)
 constant DDHOOK_ICON_ITEM_STATIC(0x007BD000)
 constant DDHOOK_ICON_ITEM_24_STATIC(0x00846000)
-constant DDHOOK_OVL_EN_OSSAN(0x00C6C5E0)
+constant DDHOOK_OVL_EN_OSSAN(0x00C6C780)
 constant DDHOOK_OBJECT_PO_COMPOSER(0x0191C000)
 constant DDHOOK_OBJECT_HIDAN_OBJECTS(0x01125000)
 constant DDHOOK_OBJECT_BDOOR(0x01484000)
@@ -82,12 +82,12 @@ constant DDHOOK_OBJECT_SPOT02_OBJECTS(0x013FD000)
 constant DDHOOK_PARAMETER_STATIC(0x01A3C000)
 constant DDHOOK_OBJECT_SD(0x01389000)
 constant DDHOOK_OBJECT_FD2(0x0142E000)
-constant DDHOOK_OVL_EN_FZ(0x00DFC970)
-constant DDHOOK_OVL_BG_VB_SIMA(0x00D16CC0)
-constant DDHOOK_OVL_EN_WF(0x00ED8060)
-constant DDHOOK_OVL_BOSS_FD(0x00CE65F0)
-constant DDHOOK_OVL_BOSS_FD2(0x00D04790)
-constant DDHOOK_OVL_BG_HIDAN_CURTAIN(0x00C81950)
+constant DDHOOK_OVL_EN_FZ(0x00DFCDD0)
+constant DDHOOK_OVL_BG_VB_SIMA(0x00D17080)
+constant DDHOOK_OVL_EN_WF(0x00ED8670)
+constant DDHOOK_OVL_BOSS_FD(0x00CE6980)
+constant DDHOOK_OVL_BOSS_FD2(0x00D04B20)
+constant DDHOOK_OVL_BG_HIDAN_CURTAIN(0x00C81B00)
 constant DDHOOK_OBJECT_BOX(0x00FEB000)
 
 //Disable 64DD detection
@@ -105,15 +105,15 @@ seek(DDHOOK_OVL_EN_MAG + 0x176B)
     db 4
 
 //All files to replace
-n64dd_ImportFile(DDHOOK_CODE0 + 0xEAE8A, EZLJ_SAVE_DATA,"../other/default_save_data.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0xEAE9A, EZLJ_SAVE_DATA,"../other/default_save_data.bin")
 
-n64dd_ImportFile(DDHOOK_CODE0 + 0xE57B4, EZLJ_MAP_MINIMAP_TABLE_LENGTH,"../other/code_overworld_minimap_table_length.bin")
-n64dd_ImportFile(DDHOOK_CODE0 + 0xE57E4, EZLJ_MAP_MINIMAP_TABLE_OFFSET,"../other/code_overworld_minimap_table_offset.bin")
-n64dd_ImportFile(DDHOOK_CODE0 + 0xE5814, EZLJ_MAP_MINIMAP_TABLE_XPOS,"../other/code_overworld_minimap_table_xpos.bin")
-n64dd_ImportFile(DDHOOK_CODE0 + 0xE5844, EZLJ_MAP_MINIMAP_TABLE_YPOS,"../other/code_overworld_minimap_table_ypos.bin")
-n64dd_ImportFile(DDHOOK_CODE0 + 0xE5874, EZLJ_MAP_MINIMAP_TABLE_COMPASS,"../other/code_overworld_minimap_table_compass.bin")
-n64dd_ImportFile(DDHOOK_CODE0 + 0xE5998, EZLJ_MAP_MINIMAP_TABLE_WIDTH,"../other/code_overworld_minimap_table_width.bin")
-n64dd_ImportFile(DDHOOK_CODE0 + 0xE59C8, EZLJ_MAP_MINIMAP_TABLE_HEIGHT,"../other/code_overworld_minimap_table_height.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0xE57B4, EZLJ_MAP_MINIMAP_TABLE_LENGTH,"../other/code_overworld_minimap_table_length.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0xE57E4, EZLJ_MAP_MINIMAP_TABLE_OFFSET,"../other/code_overworld_minimap_table_offset.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0xE5814, EZLJ_MAP_MINIMAP_TABLE_XPOS,"../other/code_overworld_minimap_table_xpos.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0xE5844, EZLJ_MAP_MINIMAP_TABLE_YPOS,"../other/code_overworld_minimap_table_ypos.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0xE5874, EZLJ_MAP_MINIMAP_TABLE_COMPASS,"../other/code_overworld_minimap_table_compass.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0xE5998, EZLJ_MAP_MINIMAP_TABLE_WIDTH,"../other/code_overworld_minimap_table_width.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0xE59C8, EZLJ_MAP_MINIMAP_TABLE_HEIGHT,"../other/code_overworld_minimap_table_height.bin")
 
 n64dd_ImportFile(0x00852000, DDHOOK_ICON_ITEM_FIELD_STATIC, "../images/icon_item_field_static.bin")
 n64dd_ImportFile(0x00872000, DDHOOK_ICON_ITEM_NES_STATIC, "../images/icon_item_nes_static.bin")
@@ -143,17 +143,17 @@ n64dd_ImportFile(0x008BE000 + 0x19600, DDHOOK_MAP_NAME_STATIC_DUSK, "../images/m
 n64dd_ImportFile(0x026B3000, EZLJ_SCENE3E, "../scene/Grottos.zscene")
 n64dd_ImportFile(0x02710000, EZLJ_SCENE3E_MAP13, "../scene/Grottos Room 13.zmap")
 
-n64dd_ImportFile(0x0000D390, EZLJ_AUDIOBANK0,"../audio/audiobank.dawn.0.bin") // 1.0 & 1.1
-n64dd_ImportFile(0x00029DE0, EZLJ_AUDIOSEQ,"../audio/audioseq.dawn.bin")
+n64dd_ImportFile(0x0000D8C0, EZLJ_AUDIOBANK2,"../audio/audiobank.dawn.2.bin") // 1.2
+n64dd_ImportFile(0x00039680, EZLJ_AUDIOSEQ,"../audio/audioseq.dawn.bin")
 
-n64dd_ImportFile(DDHOOK_CODE0 + 0x1026A0, EZLJ_AUDIOBANK_TABLE,"../audio/audiobank.dawn.table.bin")
-n64dd_ImportFile(DDHOOK_CODE0 + 0x102910, EZLJ_AUDIOINST_TABLE,"../audio/audioinst.dawn.table.bin")
-n64dd_ImportFile(DDHOOK_CODE0 + 0x102AD0, EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0x102710, EZLJ_AUDIOBANK_TABLE,"../audio/audiobank.dawn.table.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0x102980, EZLJ_AUDIOINST_TABLE,"../audio/audioinst.dawn.table.bin")
+n64dd_ImportFile(DDHOOK_CODE2 + 0x102B40, EZLJ_AUDIOSEQ_TABLE,"../audio/audioseq.dawn.table.bin")
 
-seek(DDHOOK_CODE0 + 0xFD9EC)
+seek(DDHOOK_CODE2 + 0xFDA5C)
 insert EZLJ_NES_MESSAGE_TABLE,"../text/MessageTable.tbl",0
 seek(0x0092D000)
-insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/StringData.bin",0,0x038130
+insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/StringData.bin",0,0x0380E0
 
 //All files to import
 seek(FREE_SPACE)
@@ -223,8 +223,8 @@ insert EZLJ_SCENE60_MAP00,"../scene/Cutscene Map Room 0.zmap"
 include "EZLJ_DISK_FileSystemPatch.asm"
 
 //Deal with Scene Table
-constant DDHOOK_SCENETABLE(DDHOOK_CODE0 + 0xEA440)
+constant DDHOOK_SCENETABLE(DDHOOK_CODE2 + 0xEA450)
 include "EZLJ_DISK_SceneList.asm"
 
 include "EZLJ_DISK_PatchGeneric.asm"
-include "EZLJ_DISK_Patch0.asm"
+include "EZLJ_DISK_Patch2.asm"
