@@ -23,14 +23,13 @@ It is **NOT** meant to be a recreation of Ura Zelda or Zelda Gaiden, it has been
 
 # Building
 
-To build the disk, ARM9's fork of bass is required (https://github.com/ARM9/bass).
-Put bass.exe in the root folder of this repository and use one of the batch files.
+See [BUILDING.md](./doc/BUILDING.md)
 
- * `_build_JPN.bat` - Makes a japanese region \*.ndd image file (Requires Japanese Retail 64DD IPL ROM)
- * `_build_USA.bat` - Makes an american region \*.ndd image file (Requires American Retail 64DD IPL ROM)
- * `_build_XXX_DEV.bat` - Makes a development \*.ndd image file (Requires Development 64DD IPL ROM)
-   * **Currently not working in emulators.** Works regardless of Zelda OoT ROM region.
- * `_build_XXX_D64.bat` - Makes a master disk \*.d64 image.
+# Playing
+
+(Regardless of disk & Zelda ROM region, the expansion will play fully in english. Don't worry about the language barrier.)
+
+See [PLAYING.md](./doc/PLAYING.md)
 
 # The Making of the Disk
 
