@@ -31,7 +31,8 @@ Regardless of disk region, **the disk will force the game to use English languag
 
 ### Play the Disk Expansion
 You can play the disk expansion by doing the following:
- * Right click on the game on the Game Browser, then select **Play Game with Disk**.
+ * Choose a ROM Directory for the Project64 game list via File then **Choose ROM Directory...** if that's not already done.
+ * Right click on Zelda Ocarina of Time on the game list, then select **Play Game with Disk**.
  * **Load the Disk Expansion Image file.**
  * **Load the Retail 64DD IPL ROM image file if it was not configured.**
    * The emulator will not ask you for it again unless it cannot find the file anymore.
@@ -39,7 +40,7 @@ You can play the disk expansion by doing the following:
 **The game should launch with "Disk" on the Title Screen.** Make a save file as normal and you can play the game.
 
 ### Fix Recompiler Crash
-**If you use the development version of Project64 v2.4.0-987-g5b4f225 and later, you do NOT need to do this. It should play out of the box.**
+**If you use the development version of Project64 v2.4.0-987-g5b4f225 (from August 8th, 2019) or later, you do NOT need to do this. It should play out of the box.**
 
 To play the game on Recompiler mode for maximal performance, the following should be setup for the Ocarina of Time ROM:
  * **Edit the original game ROM settings.** There are two ways to access the game settings:
