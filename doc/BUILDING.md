@@ -7,10 +7,8 @@ To build the disk, ARM9's fork of bass is required (https://github.com/ARM9/bass
 
  * `_build_JPN.bat` - Build a japanese region \*.ndd image file (Requires Japanese Retail 64DD IPL ROM)
  * `_build_USA.bat` - Build an american region \*.ndd image file (Requires American Retail 64DD IPL ROM)
- * `_build_XXX_DEV.bat` - Build a development \*.ndd image file (Requires Development 64DD IPL ROM)
-   * **Currently not working in emulators.**
+ * `_build_XXX_DEV.bat` - Build a development \*.ndd image file (Requires ANY 64DD IPL ROM)
  * `_build_XXX_D64.bat` - Build a master disk \*.d64 image.
-   * **Currently not working in emulators.**
 
 A development blue disk does not use disk region locking, therefore it works using any NTSC version of the game as the detection code does not make the difference between EZLJ and EZLE, regardless of in-game language. Therefore the region locking is solely done by the 64DD library itself.
  
