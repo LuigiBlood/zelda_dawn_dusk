@@ -38,7 +38,7 @@ if !{defined D64} {
 }
 
 if !{defined DISKTYPE} {
-	define DISKTYPE(0)
+	define DISKTYPE(6)
 }
 
 if ({DISKTYPE} > 6) {
