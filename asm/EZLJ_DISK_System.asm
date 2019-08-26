@@ -196,12 +196,7 @@ if !{defined D64} {
   //Because the mod is small in size, we can assume it will all go in Zone 0 of disk (block size 0x4D08).
   //If the size is more than 5 284 960 bytes then this will be wrong
   define LBAROMSize((ROMDATA.size / 0x4D08))
-  define PaddingMax({LBAROMSize} * 0x4D08)
-  
-  if {PaddingMax} < ROMDATA.size {
-    evaluate LBAROMSize({LBAROMSize} + 1)
-    define PaddingMax({LBAROMSize} * 0x4D08)
-  }
+  define PaddingMax(({LBAROMSize} + 1) * 0x4D08)
 
   while (origin() - {LBA0_OFFSET}) < {PaddingMax} {
     dw 0xFFFFFFFF
