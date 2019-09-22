@@ -58,6 +58,15 @@ macro n64dd_RoomEntry(roomstart) {
 	dw ({roomstart}), ({roomstart} + {roomstart}.size)
 }
 
+constant DDHOOK_DMADATA(0x00007960)
+macro n64dd_DMAEntry(id, file) {
+	pushvar origin
+	seek(DDHOOK_DMADATA + ({id} * 0x10))
+	dw ({file}), ({file} + {file}.size)
+	dw ({file}), 0
+	pullvar origin
+}
+
 constant FREE_SPACE(0x347E040)
 
 //Define constants for all patches
@@ -96,6 +105,10 @@ seek(DDHOOK_N64DD)
     jr ra
     nop
 
+//Change Header Name
+seek(0x20)
+	db "DAWN AND DUSK       "
+
 //Force English language
 seek(0x3E)
     db "E"
@@ -103,6 +116,12 @@ seek(0x3E)
 //Force Disk GFX on Title Screen
 seek(DDHOOK_OVL_EN_MAG + 0x176B)
     db 4
+
+//Subscreen Delay Fix
+seek(0x00B129F7)
+	db 0x03
+seek(0x00B15DE0)
+	dw 0x00000000
 
 //All files to replace
 n64dd_ImportFile(DDHOOK_CODE2 + 0xEAE9A, EZLJ_SAVE_DATA,"../other/default_save_data.bin")
@@ -159,6 +178,8 @@ insert EZLJ_NES_MESSAGE_DATA_STATIC,"../text/StringData.bin",0,0x0380E0
 seek(FREE_SPACE)
 insert DDHOOK_OBJECT_GI_SHIELD1,"../object/object_gi_shield_1.bin"
 insert DDHOOK_OBJECT_GI_SHIELD2,"../object/object_gi_shield_2.bin"
+n64dd_DMAEntry(0x5E4, DDHOOK_OBJECT_GI_SHIELD1)
+n64dd_DMAEntry(0x5E5, DDHOOK_OBJECT_GI_SHIELD2)
 
 //Scene Title Cards
 insert EZLJ_SCENENAME09,"../images/g_pn/g_pn_0x09.bin"
@@ -166,10 +187,17 @@ insert EZLJ_SCENENAME54,"../images/g_pn/g_pn_0x54.bin"
 insert EZLJ_SCENENAME55,"../images/g_pn/g_pn_0x55.bin"
 insert EZLJ_SCENENAME59,"../images/g_pn/g_pn_0x59.bin"
 insert EZLJ_SCENENAME5B,"../images/g_pn/g_pn_0x5B.bin"
+n64dd_DMAEntry(0x379, EZLJ_SCENENAME09)
+n64dd_DMAEntry(0x38D, EZLJ_SCENENAME54)
+n64dd_DMAEntry(0x38E, EZLJ_SCENENAME55)
+n64dd_DMAEntry(0x391, EZLJ_SCENENAME59)
+n64dd_DMAEntry(0x393, EZLJ_SCENENAME5B)
 
 //Scenes / Rooms
 insert EZLJ_SCENE07,"../scene/Cave Passage.zscene"
 insert EZLJ_SCENE07_MAP00,"../scene/Cave Passage Room 0.zmap"
+n64dd_DMAEntry(0x403, EZLJ_SCENE07)
+n64dd_DMAEntry(0x404, EZLJ_SCENE07_MAP00)
 
 insert EZLJ_SCENE09,"../scene/Red Ice Cavern.zscene"
 insert EZLJ_SCENE09_MAP00,"../scene/Red Ice Cavern Room 0.zmap"
@@ -178,15 +206,28 @@ insert EZLJ_SCENE09_MAP02,"../scene/Red Ice Cavern Room 2.zmap"
 insert EZLJ_SCENE09_MAP03,"../scene/Red Ice Cavern Room 3.zmap"
 insert EZLJ_SCENE09_MAP04,"../scene/Red Ice Cavern Room 4.zmap"
 insert EZLJ_SCENE09_MAP05,"../scene/Red Ice Cavern Room 5.zmap"
+n64dd_DMAEntry(0x405, EZLJ_SCENE09)
+n64dd_DMAEntry(0x406, EZLJ_SCENE09_MAP00)
+n64dd_DMAEntry(0x407, EZLJ_SCENE09_MAP01)
+n64dd_DMAEntry(0x408, EZLJ_SCENE09_MAP02)
+n64dd_DMAEntry(0x409, EZLJ_SCENE09_MAP03)
+n64dd_DMAEntry(0x40A, EZLJ_SCENE09_MAP04)
+n64dd_DMAEntry(0x40B, EZLJ_SCENE09_MAP05)
 
 insert EZLJ_SCENE15,"../scene/Dusk Palace Chamber.zscene"
 insert EZLJ_SCENE15_MAP00,"../scene/Dusk Palace Chamber Room 0.zmap"
+n64dd_DMAEntry(0x40C, EZLJ_SCENE15)
+n64dd_DMAEntry(0x40D, EZLJ_SCENE15_MAP00)
 
 insert EZLJ_SCENE2C,"../scene/Dawngrove House 1.zscene"
 insert EZLJ_SCENE2C_MAP00,"../scene/Dawngrove House 1 Room 0.zmap"
+n64dd_DMAEntry(0x40E, EZLJ_SCENE2C)
+n64dd_DMAEntry(0x40F, EZLJ_SCENE2C_MAP00)
 
 insert EZLJ_SCENE2E,"../scene/Dawngrove Shop.zscene"
 insert EZLJ_SCENE2E_MAP00,"../scene/Dawngrove Shop Room 0.zmap"
+n64dd_DMAEntry(0x410, EZLJ_SCENE2E)
+n64dd_DMAEntry(0x411, EZLJ_SCENE2E_MAP00)
 
 insert EZLJ_SCENE34,"../scene/Dawngrove Inn.zscene"
 insert EZLJ_SCENE34_MAP00,"../scene/Dawngrove Inn Room 0.zmap"
@@ -195,31 +236,56 @@ insert EZLJ_SCENE34_MAP02,"../scene/Dawngrove Inn Room 2.zmap"
 insert EZLJ_SCENE34_MAP03,"../scene/Dawngrove Inn Room 3.zmap"
 insert EZLJ_SCENE34_MAP04,"../scene/Dawngrove Inn Room 4.zmap"
 insert EZLJ_SCENE34_MAP05,"../scene/Dawngrove Inn Room 5.zmap"
+n64dd_DMAEntry(0x412, EZLJ_SCENE34)
+n64dd_DMAEntry(0x413, EZLJ_SCENE34_MAP00)
+n64dd_DMAEntry(0x414, EZLJ_SCENE34_MAP01)
+n64dd_DMAEntry(0x415, EZLJ_SCENE34_MAP02)
+n64dd_DMAEntry(0x416, EZLJ_SCENE34_MAP03)
+n64dd_DMAEntry(0x417, EZLJ_SCENE34_MAP04)
+n64dd_DMAEntry(0x418, EZLJ_SCENE34_MAP05)
 
 insert EZLJ_SCENE35,"../scene/Dawngrove House 2.zscene"
 insert EZLJ_SCENE35_MAP00,"../scene/Dawngrove House 2 Room 0.zmap"
+n64dd_DMAEntry(0x419, EZLJ_SCENE35)
+n64dd_DMAEntry(0x41A, EZLJ_SCENE35_MAP00)
 
 insert EZLJ_SCENE52,"../scene/Credits.zscene"
 insert EZLJ_SCENE52_MAP00,"../scene/Credits Room 0.zmap"
+n64dd_DMAEntry(0x41B, EZLJ_SCENE52)
+n64dd_DMAEntry(0x41C, EZLJ_SCENE52_MAP00)
 
 insert EZLJ_SCENE54,"../scene/Great Dusk Chasm.zscene"
 insert EZLJ_SCENE54_MAP00,"../scene/Great Dusk Chasm Room 0.zmap"
 insert EZLJ_SCENE54_MAP01,"../scene/Great Dusk Chasm Room 1.zmap"
 insert EZLJ_SCENE54_MAP02,"../scene/Great Dusk Chasm Room 2.zmap"
+n64dd_DMAEntry(0x41D, EZLJ_SCENE54)
+n64dd_DMAEntry(0x41E, EZLJ_SCENE54_MAP00)
+n64dd_DMAEntry(0x41F, EZLJ_SCENE54_MAP01)
+n64dd_DMAEntry(0x420, EZLJ_SCENE54_MAP02)
 
 insert EZLJ_SCENE55,"../scene/Dawngrove Village.zscene"
 insert EZLJ_SCENE55_MAP00,"../scene/Dawngrove Village Room 0.zmap"
+n64dd_DMAEntry(0x421, EZLJ_SCENE55)
+n64dd_DMAEntry(0x422, EZLJ_SCENE55_MAP00)
 
 insert EZLJ_SCENE59,"../scene/Dusk Palace Gardens.zscene"
 insert EZLJ_SCENE59_MAP00,"../scene/Dusk Palace Gardens Room 0.zmap"
+n64dd_DMAEntry(0x423, EZLJ_SCENE59)
+n64dd_DMAEntry(0x424, EZLJ_SCENE59_MAP00)
 
 insert EZLJ_SCENE5B,"../scene/Dawngrove.zscene"
 insert EZLJ_SCENE5B_MAP00,"../scene/Dawngrove Room 0.zmap"
 insert EZLJ_SCENE5B_MAP01,"../scene/Dawngrove Room 1.zmap"
 insert EZLJ_SCENE5B_MAP02,"../scene/Dawngrove Room 2.zmap"
+n64dd_DMAEntry(0x425, EZLJ_SCENE5B)
+n64dd_DMAEntry(0x426, EZLJ_SCENE5B_MAP00)
+n64dd_DMAEntry(0x427, EZLJ_SCENE5B_MAP01)
+n64dd_DMAEntry(0x428, EZLJ_SCENE5B_MAP02)
 
 insert EZLJ_SCENE60,"../scene/Cutscene Map.zscene"
 insert EZLJ_SCENE60_MAP00,"../scene/Cutscene Map Room 0.zmap"
+n64dd_DMAEntry(0x429, EZLJ_SCENE60)
+n64dd_DMAEntry(0x42A, EZLJ_SCENE60_MAP00)
 include "EZLJ_DISK_FileSystemPatch.asm"
 
 //Deal with Scene Table
