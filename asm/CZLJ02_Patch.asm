@@ -120,7 +120,7 @@ seek(DDHOOK_OVL_EN_MAG + 0x176B)
 //Subscreen Delay Fix
 seek(0x00B129F7)
 	db 0x03
-seek(0x00B15DE0)
+seek(0x00B15E80)
 	dw 0x00000000
 
 //All files to replace
