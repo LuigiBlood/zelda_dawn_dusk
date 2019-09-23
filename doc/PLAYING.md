@@ -4,7 +4,13 @@
 
 The ROM version is intended to work on most emulators and flashcarts in the simplest way possible.
 
-**Therefore the instructions are just: Load the ROM on your emulator or flashcart of choice.**
+There are different patches depending on the ROM you own from the **The Legend of Zelda - Ocarina of Time NTSC cartridge**. It could be either US or Japanese version, and either version 1.0, 1.1 or 1.2. Choose the patch that fits the combination.
+
+Use software like FLoating IPS (https://www.romhacking.net/utilities/1040/) to patch your ROM.
+
+If it is not working, then your ROM might not be in the right format, for that use Tool64 and change the ROM format to .z64 (Big Endian) format and try again.
+
+**Once patching is done, then load the ROM on your emulator or flashcart of choice like a regular N64 game.**
 
 The save data is not compatible with the Disk version.
 
@@ -18,6 +24,11 @@ An original **The Legend of Zelda - Ocarina of Time NTSC ROM**, regardless of la
 
 Regardless of disk region, **the disk will force the game to use English language instead,** so don't be scared of language barrier.
 
+Any 64DD content (such as IPL) and emulator can be found at https://64dd.org.
+
+ * **Using the Development disk image file _requires_ the following:**
+   * ***ANY*** 64DD IPL ROM Image File.
+   * ***ANY NTSC cartridge*** Legend of Zelda - Ocarina of Time ROM image.
  * **Using the Japanese disk image file _requires_ the following:**
    * **Japanese Retail** 64DD IPL ROM Image File.
    * **Japanese** Legend of Zelda - Ocarina of Time ROM image (any version).
@@ -26,9 +37,6 @@ Regardless of disk region, **the disk will force the game to use English languag
    * **American Retail** 64DD IPL ROM Image File. (It does exist.)
    * **American** Legend of Zelda - Ocarina of Time ROM image (any version).
      * If you have a Japanese ROM, use a hex editor, and change the game ID to `CZLE`. You do not need to update the checksum.
- * **Using the Development disk image file _requires_ the following:**
-   * ***ANY*** 64DD IPL ROM Image File.
-   * ***ANY NTSC cartridge*** Legend of Zelda - Ocarina of Time ROM image.
 
 ## Project64
 
