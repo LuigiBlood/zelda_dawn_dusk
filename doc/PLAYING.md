@@ -6,13 +6,30 @@ The ROM version is intended to work on most emulators and flashcarts in the simp
 
 There are different patches depending on the ROM you own from the **The Legend of Zelda - Ocarina of Time NTSC cartridge**. It could be either US or Japanese version, and either version 1.0, 1.1 or 1.2. Choose the patch that fits the combination.
 
-Use software like FLoating IPS (https://www.romhacking.net/utilities/1040/) to patch your ROM.
+Use software like [Floating IPS](https://www.romhacking.net/utilities/1040/) to patch your ROM.
 
-If it is not working, then your ROM might not be in the right format, for that use Tool64 and change the ROM format to .z64 (Big Endian) format and try again.
+If it is not working, then your ROM might not be in the right format, for that use [Tool64](https://www.zophar.net/utilities/n64aud/tool-n64.html) and change the ROM format to _Big Endian (z64)_ and try again.
 
 **Once patching is done, then load the ROM on your emulator or flashcart of choice like a regular N64 game.**
 
 The save data is not compatible with the Disk version.
+
+## Step-by-step example instructions (US version 1.2, CRC: 32120C23)
+
+1. Obtain a ROM, for demonstration purposes we will use `Legend of Zelda, The - Ocarina of Time (USA) (Rev 2).z64`.
+2. Download and open [Floating IPS](https://www.romhacking.net/utilities/1040/).
+3. Click **Apply Patch** and select the appropriate patch (in this case `DawnDusk_v2_U_1.2.bps`).
+4. Now select the ROM to patch (`Legend of Zelda, The - Ocarina of Time (USA) (Rev 2).z64`).
+5. Save the patched rom (`DawnDusk_v2_U_1.2.z64`) anywhere you like.
+6. Open the patched rom (`DawnDusk_v2_U_1.2.z64`) in your emulator.
+
+### Dealing with errors
+
+If you get an error similar to this while patching your ROM it means you are using the wrong patch for your ROM, or the wrong ROM for your patch. 
+
+![crc error](./flips_crc_error.png)
+
+It is also possible that you have the right ROM, but in _Little Endian_ format. You can use [Tool64](https://www.zophar.net/utilities/n64aud/tool-n64.html) to convert your ROM to _Big Endian (z64)_ and try patching again, or obtain a different ROM.
 
 # Disk Expansion
 
@@ -40,17 +57,24 @@ Any 64DD content (such as IPL) and emulator can be found at https://64dd.org.
 
 ## Project64
 
+**You need a nightly version of Project64 (2.4.0.1042-ga771022 or newer) for this to work**. You can compile it from [source code](https://github.com/project64/project64).
+
 ### Play the Disk Expansion
+
 You can play the disk expansion by doing the following:
- * **Load the Retail 64DD IPL ROM image file if it was not configured.**
- * Either do **Load Combo...**, then load the Zelda Ocarina of Time ROM, then the Expansion Disk.
- * Or choose a ROM Directory for the Project64 game list via File then **Choose ROM Directory...** if that's not already done.
-   * Right click on Zelda Ocarina of Time on the game list, then select **Play Game with Disk**.
-   * **Load the Disk Expansion Image file.**
+ 1. Configure the Retail 64DD IPL ROM Path**.
+    * Either do it in `Options -> Settings... -> 64DD`.
+    * Or load the Retail 64DD IPL ROM image directly in the emulator to configure it automatically.
+ 2. Load the game.
+    * Either do **Load Combo...**, then load the Zelda Ocarina of Time ROM, then the Expansion Disk.
+    * Or choose a ROM Directory for the Project64 game list via _File_ then **Choose ROM Directory...** if that's not already done.
+      * Right click on Zelda Ocarina of Time on the game list, then select **Play Game with Disk**.
+      * **Load the Disk Expansion Image file.**
 
 **The game should launch with "Disk" on the Title Screen.** Make a save file as normal and you can play the game.
 
 ### Fix Recompiler Crash
+
 **If the game crashes upon loading a disk save file, please do the following:**
 
 To play the game on Recompiler mode for maximal performance, the following should be setup for the Ocarina of Time ROM:
