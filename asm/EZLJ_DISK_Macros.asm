@@ -188,8 +188,8 @@ macro n64dd_dprintf_num(addr) {
 }
 
 //Table Entry Macros
-global define EZLJ_SCENELIST_COUNT = 0
-macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
+variable EZLJ_SCENELIST_COUNT = 0
+inline n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 	dw ({scenestart}), ({scenestart} + {scenestart}.size)
 	if {titlestart} != 0 {
 		dw (DDHOOK_SCENETITLECARD), (DDHOOK_SCENETITLECARD + {titlestart}.size)
@@ -205,47 +205,47 @@ macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 		dw 0,0
 	}
 
-	global evaluate EZLJ_SCENELIST_COUNT = ({EZLJ_SCENELIST_COUNT} + 1)
+	EZLJ_SCENELIST_COUNT = EZLJ_SCENELIST_COUNT + 1
 }
 
-macro n64dd_RoomEntry(roomstart) {
+inline n64dd_RoomEntry(roomstart) {
 	dw ({roomstart}), ({roomstart} + {roomstart}.size)
 }
 
-macro n64dd_FileEntry(vfile, vrom, size, load) {
+inline n64dd_FileEntry(vfile, vrom, size, load) {
 	dw ({vfile}), ({vfile}+{size})
 	dw ({vrom})
 	dw ({load})
 }
 
 //RAM Allocation Macros
-global define n64dd_RamAddress = 0x80400000
-macro n64dd_RamSetAddress(addr) {
-	global evaluate n64dd_RamAddress = ({addr})
+variable n64dd_RamAddress
+inline n64dd_RamSetAddress(addr) {
+	n64dd_RamAddress = {addr}
 }
 
 inline n64dd_RamDefine(label, size) {
-	constant {label} = {n64dd_RamAddress}
+	constant {label} = n64dd_RamAddress
 	namespace {label} {
-		variable size = {size}
-		variable end = {n64dd_RamAddress}+{size}
-		variable shi = ({n64dd_RamAddress} + (({n64dd_RamAddress} & 0x8000) * 2) >> 16)
-		variable slo = {n64dd_RamAddress} & 0xFFFF
-		variable ehi = (({n64dd_RamAddress}+{size}) + ((({n64dd_RamAddress}+{size}) & 0x8000) * 2) >> 16)
-		variable elo = ({n64dd_RamAddress}+{size}) & 0xFFFF
+		constant size = {size}
+		constant end = n64dd_RamAddress + {size}
+		constant shi = (n64dd_RamAddress + ((n64dd_RamAddress & 0x8000) * 2) >> 16)
+		constant slo = n64dd_RamAddress & 0xFFFF
+		constant ehi = ((n64dd_RamAddress + {size}) + (((n64dd_RamAddress + {size}) & 0x8000) * 2) >> 16)
+		constant elo = (n64dd_RamAddress + {size}) & 0xFFFF
 	}
-	evaluate n64dd_RamAddress = {n64dd_RamAddress}+{size}
-	if (({n64dd_RamAddress} & 0xFFFFFF) > 0x800000) {
+	n64dd_RamAddress = n64dd_RamAddress + {size}
+	if ((n64dd_RamAddress & 0xFFFFFF) > 0x800000) {
 		error "RamDefine goes over the RAM limit."
 	}
 }
 
 macro n64dd_RamAddressDefine(label, addr) {
-	global variable {label} = ({addr})
+	variable {label} = {addr}
 }
 
 macro n64dd_RamAddressErrorCheck(addr) {
-	if (({n64dd_RamAddress} & 0xFFFFFF) > ({addr} & 0xFFFFFF)) {
+	if ((n64dd_RamAddress & 0xFFFFFF) > ({addr} & 0xFFFFFF)) {
 		error "RamDefine goes over the RAM limit."
 	}
 }

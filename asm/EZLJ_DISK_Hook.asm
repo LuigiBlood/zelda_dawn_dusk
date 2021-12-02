@@ -571,7 +571,7 @@ ddhook_sceneload:
 
 	//Check if Scene ID is part of the List
 	//Uses the Disk byte in the Scene Entry as Scene ID
-	addiu at,0,{EZLJ_SCENELIST_COUNT}
+	addiu at,0,EZLJ_SCENELIST_COUNT
 	addiu a2,0,0
 	li v0, DDHOOK_SCENELIST
 	-; lbu v1,0x12(v0)
