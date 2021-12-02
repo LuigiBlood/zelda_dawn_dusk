@@ -89,7 +89,7 @@ To play the game on Recompiler mode for maximal performance, the following shoul
 While mupen64plus does provide official support for 64DD emulation, **due to the use of uncached memory code execution to fix severe initial cache loading issues on real hardware,** the emulator will crash with the regular Disk image.
 
 The easy way to fix it would be changing this line of code on ./asm/EZLJ_DISK_Macros.asm, on line 22:
- * `define KSEG1(0xA0000000)` to `define KSEG1(0x00000000)`
+ * `define KSEG1 = (0xA0000000)` to `define KSEG1 = (0x00000000)`
 
 Then rebuild the disk, and then use the following command line:
  * `mupen64plus-ui-console.exe --dd-ipl-rom <Retail 64DD IPL ROM Filepath> --dd-disk <Dawn & Dusk Disk Image Filepath> <Zelda Ocarina of Time NTSC ROM Filepath>`

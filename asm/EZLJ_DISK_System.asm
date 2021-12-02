@@ -131,9 +131,9 @@ if !{defined D64} {
   //NDD disk image
   seek(0x0)
   //System Data
-  define x(0)
+  define x = (0)
   while {x} < 14 {	//14 Blocks
-    define y(0)
+    define y = (0)
     while {y} < 85 {	//232 * 85 (85 sectors)
       //Write System Data Sector
       n64dd_WriteSystemData()
@@ -150,9 +150,9 @@ if !{defined D64} {
   //Disk ID
   print "  - Disk ID\n"
 
-  define x(14)
+  define x = (14)
   while {x} < 24 {
-    define y(0)
+    define y = (0)
     while {y} < 85 { //232 * 85
       //Game ID Code
       n64dd_WriteDiskID(1)
@@ -195,8 +195,8 @@ if !{defined D64} {
   //Padding
   //Because the mod is small in size, we can assume it will all go in Zone 0 of disk (block size 0x4D08).
   //If the size is more than 5 284 960 bytes then this will be wrong
-  define LBAROMSize((ROMDATA.size / 0x4D08))
-  define PaddingMax(({LBAROMSize} + 1) * 0x4D08)
+  define LBAROMSize = ((ROMDATA.size / 0x4D08))
+  define PaddingMax = (({LBAROMSize} + 1) * 0x4D08)
 
   while (origin() - {LBA0_OFFSET}) < {PaddingMax} {
     dw 0xFFFFFFFF

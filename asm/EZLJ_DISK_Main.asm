@@ -9,14 +9,14 @@ print "Assembling Custom Zelda Disk Expansion...\n"
 
 if {defined DEV} {
 	print "Development Version - "
-	define LBA0_OFFSET(0x738C0)
+	define LBA0_OFFSET = 0x738C0
 } else if {defined D64} {
 	print "Master Disk Image - "
-	define NOFILL()
-	define LBA0_OFFSET(0)
+	define NOFILL
+	define LBA0_OFFSET = 0
 } else {
 	print "Retail Version - "
-	define LBA0_OFFSET(0x738C0)
+	define LBA0_OFFSET = 0x738C0
 }
 
 if !{defined D64} {
@@ -38,7 +38,7 @@ if !{defined D64} {
 }
 
 if !{defined DISKTYPE} {
-	define DISKTYPE(6)
+	define DISKTYPE = 6
 }
 
 if ({DISKTYPE} > 6) {
@@ -47,7 +47,7 @@ if ({DISKTYPE} > 6) {
 
 print "Disk Type - {DISKTYPE}\n"
 
-arch n64.cpu
+architecture n64.cpu
 endian msb
 
 include "N64.INC"
@@ -55,7 +55,7 @@ include "N64_GFX.INC"
 include "EZLJ_DISK_Macros.asm"
 
 //CHANGE THIS WHEN YOU ARE MAKING ANOTHER DISK (must NOT be 0)
-constant EZLJ_SAVE_ID(0x4441574E)		//"DAWN"
+constant EZLJ_SAVE_ID = (0x4441574E)		//"DAWN"
 
 if !{defined NOFILL} {
   print "- Fill Disk Data...\n"
