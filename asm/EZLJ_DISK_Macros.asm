@@ -205,7 +205,7 @@ macro n64dd_SceneEntry(name, scenestart, titlestart, unk0, renderinit, dd) {
 		dw 0,0
 	}
 
-	global evaluate EZLJ_SCENELIST_COUNT({EZLJ_SCENELIST_COUNT} + 1)
+	global evaluate EZLJ_SCENELIST_COUNT = ({EZLJ_SCENELIST_COUNT} + 1)
 }
 
 macro n64dd_RoomEntry(roomstart) {
@@ -221,12 +221,12 @@ macro n64dd_FileEntry(vfile, vrom, size, load) {
 //RAM Allocation Macros
 global define n64dd_RamAddress = (0x80400000)
 macro n64dd_RamSetAddress(addr) {
-	global evaluate n64dd_RamAddress({addr})
+	global evaluate n64dd_RamAddress = ({addr})
 }
 
 macro n64dd_RamDefine(label, size) {
 	global variable {label} = ({n64dd_RamAddress})
-	scope {label} {
+	namespace {label} {
 		global variable size = ({size})
 		global variable end = ({n64dd_RamAddress}+{size})
 		global variable shi = ( ({n64dd_RamAddress} + (({n64dd_RamAddress} & 0x8000) * 2) >> 16) )
@@ -234,7 +234,7 @@ macro n64dd_RamDefine(label, size) {
 		global variable ehi = ( (({n64dd_RamAddress}+{size}) + ((({n64dd_RamAddress}+{size}) & 0x8000) * 2) >> 16) )
 		global variable elo = ( ({n64dd_RamAddress}+{size}) & 0xFFFF )
 	}
-	global evaluate n64dd_RamAddress({n64dd_RamAddress}+{size})
+	global evaluate n64dd_RamAddress = ({n64dd_RamAddress}+{size})
 	if (({n64dd_RamAddress} & 0xFFFFFF) > 0x800000) {
 		error "RamDefine goes over the RAM limit."
 	}

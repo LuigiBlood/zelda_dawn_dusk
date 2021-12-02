@@ -137,14 +137,14 @@ if !{defined D64} {
     while {y} < 85 {	//232 * 85 (85 sectors)
       //Write System Data Sector
       n64dd_WriteSystemData()
-      evaluate y({y} + 1)
+      evaluate y = ({y} + 1)
     }
     
     if {defined DEV} {
       fill 3400
     }
     
-    evaluate x({x} + 1)
+    evaluate x = ({x} + 1)
   }
 
   //Disk ID
@@ -156,9 +156,9 @@ if !{defined D64} {
     while {y} < 85 { //232 * 85
       //Game ID Code
       n64dd_WriteDiskID(1)
-      evaluate y({y} + 1)
+      evaluate y = ({y} + 1)
     }
-    evaluate x({x} + 1)
+    evaluate x = ({x} + 1)
   }
 } else {
   if {defined USA} {
